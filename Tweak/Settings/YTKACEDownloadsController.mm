@@ -558,6 +558,8 @@ static void YTKACEStoreMode(NSString *field, NSInteger segment, NSInteger mode) 
     self.view.accessibilityIdentifier = @"YTKACEDownloadsRoot";
     self.title = YTKACELocalized(@"Downloads");
     self.metadataCache = [NSCache new];
+    self.metadataCache.countLimit = 64;
+    self.metadataCache.totalCostLimit = 32 * 1024 * 1024;
     self.metadataQueue = [NSOperationQueue new];
     self.metadataQueue.maxConcurrentOperationCount = 3;
     self.metadataQueue.qualityOfService = NSQualityOfServiceUserInitiated;
@@ -743,6 +745,7 @@ referenceSizeForHeaderInSection:(NSInteger)section {
 
 - (void)dealloc {
     [NSNotificationCenter.defaultCenter removeObserver:self];
+    [_metadataQueue cancelAllOperations];
 }
 
 - (void)closeDownloads {
@@ -1320,7 +1323,10 @@ static UIImage *YTKACEDecodedThumbnail(CGImageSourceRef source) {
                 }
                 return;
             }
-            [strongSelf.metadataCache setObject:metadata forKey:path];
+            CGImageRef pixels = thumbnail.CGImage;
+            NSUInteger cost = pixels != NULL
+                ? CGImageGetBytesPerRow(pixels) * CGImageGetHeight(pixels) : 0;
+            [strongSelf.metadataCache setObject:metadata forKey:path cost:cost];
             for (YTKACEDownloadCell *visible in strongSelf.collectionView.visibleCells) {
                 if ([visible isKindOfClass:YTKACEDownloadCell.class] &&
                     [visible.representedPath isEqualToString:path]) {

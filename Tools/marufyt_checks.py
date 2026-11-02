@@ -210,6 +210,12 @@ check("DeArrow cache has count and memory cost limits", "countLimit = 160" in de
       and "totalCostLimit = 24 * 1024 * 1024" in dearrow and "forKey:videoID cost:cost" in dearrow)
 check("download positioning timer reused and tolerant", "if (self.positionTimer == nil)" in progress
       and "self.positionTimer.tolerance = 0.5" in progress)
+library = read("Tweak/Settings/YTKACEDownloadsController.mm")
+check("download metadata cache bounded and pending work cancelled", "metadataCache.countLimit = 64" in library
+      and "metadataCache.totalCostLimit = 32 * 1024 * 1024" in library and "forKey:path cost:cost" in library
+      and "[_metadataQueue cancelAllOperations]" in library)
+check("glass width uses host safe area", "UIEdgeInsetsInsetRect(receiver.bounds, receiver.safeAreaInsets)" in tabs
+      and "shortSide - margin" not in tabs)
 for surface in ["Tweak/Features/Navigation/GlassChrome.mm", "Tweak/Features/Navigation/GlassSheets.mm",
                 "Tweak/Features/Playback/PlayerGlass.mm", "Tweak/UI/Notice.mm"]:
     check(f"Reduce Transparency respected in {pathlib.Path(surface).name}", "!UIAccessibilityIsReduceTransparencyEnabled()" in read(surface))

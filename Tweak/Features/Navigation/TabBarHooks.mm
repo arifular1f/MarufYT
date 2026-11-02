@@ -1935,7 +1935,7 @@ static void YTKACESetBarScale(UIView *bar, CGFloat scale, NSTimeInterval respons
     [CATransaction setDisableActions:YES];
     layer.sublayerTransform = transform;
     [CATransaction commit];
-    if (response <= 0.0) {
+    if (response <= 0.0 || UIAccessibilityIsReduceMotionEnabled()) {
         [layer removeAnimationForKey:@"ytkace.scale"];
         return;
     }
@@ -1955,6 +1955,10 @@ static NSTimeInterval YTKACEMiniMaskResponse;
 static CGFloat YTKACEMiniMaskDamping;
 
 static void YTKACESpringLayer(CALayer *layer, NSString *key, id from, id to, NSTimeInterval response, CGFloat damping) {
+    if (response <= 0.0 || UIAccessibilityIsReduceMotionEnabled()) {
+        [layer removeAnimationForKey:[@"ytkace." stringByAppendingString:key]];
+        return;
+    }
     CASpringAnimation *animation = [CASpringAnimation animationWithKeyPath:key];
     animation.mass = 1.0;
     animation.stiffness = pow(2.0 * M_PI / response, 2.0);
@@ -3459,15 +3463,19 @@ static BOOL YTKACEApplyPivotBarGlass(UIView *receiver, UIView *blur) {
         if (!item.hidden && CGRectGetWidth(item.bounds) > 0.0) tabs += 1;
     }
     CGFloat barWidth = CGRectGetWidth(receiver.bounds);
+    CGRect available = UIEdgeInsetsInsetRect(receiver.bounds, receiver.safeAreaInsets);
     CGFloat margin = expanded ? 14.0 : 21.0;
     CGFloat glassWidth = barWidth - margin * 2.0;
-    CGRect screen = (receiver.window.screen ?: UIScreen.mainScreen).bounds;
-    CGFloat shortSide = MIN(CGRectGetWidth(screen), CGRectGetHeight(screen));
-    if (shortSide > 0.0) glassWidth = MIN(glassWidth, shortSide - margin * 2.0);
+    // The host bar's safe area is authoritative in landscape and windowed layouts.
+    // A screen's short side is unrelated to the actual host container width.
+    if (CGRectGetWidth(available) > margin * 2.0) {
+        glassWidth = MIN(glassWidth, CGRectGetWidth(available) - margin * 2.0);
+    }
     if (tabs > 0 && tabs <= 4) {
         glassWidth = MIN(glassWidth, 86.0 * (CGFloat)tabs + 16.0);
     }
-    CGRect frame = CGRectMake((barWidth - glassWidth) * 0.5, glassTop, glassWidth, glassHeight);
+    CGFloat centerX = CGRectGetWidth(available) > 0.0 ? CGRectGetMidX(available) : CGRectGetMidX(receiver.bounds);
+    CGRect frame = CGRectMake(centerX - glassWidth * 0.5, glassTop, glassWidth, glassHeight);
     UIView *current = YTKACESelectedPivotItem(receiver);
     BOOL darkBar = current != nil && [YTKACEPivotItemIdentifier(current) isEqualToString:@"FEshorts"];
     YTKACEMinimizeEnabled = YTKACEFeatureEnabled(YTKACEMinimizeKey);
