@@ -198,8 +198,10 @@ design = read("Tweak/MarufYT/Design/MarufYTDesign.mm")
 dearrow = read("Tweak/Features/SponsorBlock/DeArrow.mm")
 progress = read("Tweak/Features/Downloads/DownloadProgressView.mm")
 check("no delayed held-button tab correction", "weakNearest" not in tabs and "cancelTrackingWithEvent:nil" in tabs)
-check("replacement tabs follow host anchors", tabs.count("YTKACELayoutReplacementTab(view,") == 2
-      and "convertRect:nativeIcon.bounds toView:view" in tabs and "convertRect:nativeLabel.bounds toView:view" in tabs)
+check("replacement tabs are laid out from their bounds and a native sibling (pure layout)",
+      tabs.count("YTKACELayoutReplacementTab(view,") == 2 and "MarufYTReplacementTabLayout(input)" in tabs
+      and "convertRect:nativeIcon.bounds toView:view" not in tabs
+      and "convertRect:nativeLabel.bounds toView:view" not in tabs)
 check("replacement labels have no fixed bottom-16 offset", "CGRectGetHeight(view.bounds) - 16.0" not in tabs)
 check("lightweight appearance preserves stored preferences", "YTKACE.Preference.Glass.Lightweight" in design
       and "@\"Lightweight Glass\"" in read("Tweak/Settings/YTKACESettingsPages.mm"))
@@ -219,6 +221,30 @@ check("glass width uses host safe area", "UIEdgeInsetsInsetRect(receiver.bounds,
 for surface in ["Tweak/Features/Navigation/GlassChrome.mm", "Tweak/Features/Navigation/GlassSheets.mm",
                 "Tweak/Features/Playback/PlayerGlass.mm", "Tweak/UI/Notice.mm"]:
     check(f"Reduce Transparency respected in {pathlib.Path(surface).name}", "!UIAccessibilityIsReduceTransparencyEnabled()" in read(surface))
+
+# 12. Phase 3: simple default look, stable layout, tests wired into CI.
+math_h = read("Tweak/MarufYT/Design/MarufYTLayoutMath.h")
+check("layout math is pure C (no UIKit or Foundation)",
+      not re.search(r"#\s*(import|include)\s*[<\"](UIKit|Foundation|objc)", math_h) and "#pragma" not in math_h)
+check("default tab bar mode is Simple (3)", "return MarufYTTabModeSimple;" in design)
+check("tab mode resolved by the tested function", "MarufYTResolveTabMode(hasStored" in tabs)
+defaults_body = design.split("MarufYTPreferenceDefaults")[1].split("BOOL MarufYTGlassPreferenceEnabled")[0]
+check("glass presets are not defaulted on", "Glass.TopBar" not in defaults_body and "Glass.Menus" not in defaults_body)
+check("Normal Home Layout defaults on (a stored value still wins)",
+      '@"YTKACE.Preference.Feed.HomeTabsHidden": @YES' in read("Tweak/Runtime/Preferences.mm")
+      and '@"YTKACE.Preference.Feed.HomeTabsHidden": @YES' in design)
+capsule_body = tabs.split("static BOOL YTKACEApplyPivotBarGlass")[1].split("static IMP OriginalSearchOptOutFrostedPivot")[0]
+check("capsule geometry has no safe-area height term",
+      "receiver.safeAreaInsets.bottom" not in capsule_body and "MarufYTCapsuleFrame(" in capsule_body)
+check("tab slots are index-based", "MarufYTTabItemFrame(glass, geometry, (int)index" in tabs)
+check("MarufYT tab label follows the host",
+      "YTKACEReplacementLabelHidden(view" in tabs and "MarufYTShouldHideReplacementLabel(" in tabs)
+check("native layout tests exist and run in CI",
+      (ROOT / "Tests/native/test_layout_math.c").exists() and (ROOT / "Tests/test_native_layout_math.py").exists()
+      and "MARUFYT_REQUIRE_NATIVE" in workflows)
+for key in ["Simple", "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars."]:
+    missing = [lang for lang, entries in tables.items() if key not in entries]
+    check(f"Phase 3 string translated in all 16 tables: {key[:28]}", not missing, ", ".join(missing))
 
 print(f"\n{'FAILED' if failures else 'OK'}: {len(failures)} failure(s)")
 sys.exit(1 if failures else 0)

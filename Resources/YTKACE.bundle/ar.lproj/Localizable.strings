@@ -1054,3 +1054,6 @@ Licensed under CC BY-NC-SA 4.0." = "يستخدم YTKACE بيانات SponsorBloc
 "YTKACE Sleep Timer" = "مؤقت النوم YTKACE";
 "YTKACE SponsorBlock" = "SponsorBlock في YTKACE";
 "YTKACE Transcript" = "نص الفيديو YTKACE";
+/* MarufYT Phase 3 */
+"Simple" = "بسيط";
+"Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "الوضع البسيط يستخدم شريط التبويب الكلاسيكي المثبّت في YouTube. وضعا YouTube وMarufYT شريطان اختياريان بتأثير Liquid Glass.";

@@ -1009,3 +1009,6 @@
 "YTKACE Sleep Timer" = "Timer de suspensão do YTKACE";
 "YTKACE SponsorBlock" = "SponsorBlock do YTKACE";
 "YTKACE Transcript" = "Transcrição do YTKACE";
+/* MarufYT Phase 3 */
+"Simple" = "Simples";
+"Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "“Simples” usa a barra de abas clássica e ancorada do YouTube. YouTube e MarufYT são barras Liquid Glass opcionais.";

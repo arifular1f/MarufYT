@@ -1054,3 +1054,6 @@ CC BY-NC-SA 4.0 でライセンスされています。";
 "YTKACE Sleep Timer" = "YTKACE スリープタイマー";
 "YTKACE SponsorBlock" = "YTKACE SponsorBlock";
 "YTKACE Transcript" = "YTKACE 文字起こし";
+/* MarufYT Phase 3 */
+"Simple" = "シンプル";
+"Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "「シンプル」はYouTubeの従来の固定タブバーを使用します。YouTubeとMarufYTは任意のLiquid Glassバーです。";

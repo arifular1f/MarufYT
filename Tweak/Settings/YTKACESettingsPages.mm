@@ -1820,12 +1820,17 @@ static NSDictionary *YTKACETopBarDefinition(void) {
 }
 
 static NSDictionary *YTKACEGlassOptionsDefinition(void) {
+    // MarufYT: Simple (the classic docked bar) first. The stored values are unchanged:
+    // 0 Default, 1 MarufYT capsule, 2 YouTube glass, 3 Simple (was "Off").
+    NSArray *tabModeValues = @[@3, @0, @2, @1];
+    NSUInteger tabModeDefault = [tabModeValues indexOfObject:@(YTKACETabBarGlassMode())];
+    if (tabModeDefault == NSNotFound) tabModeDefault = 0;
     return YTKACEPageDefinition(@"glass", @"Liquid Glass", @[
         @[
-            YTKACEPickerDetail(@"Tab Bar", @"Default leaves YouTube's own tab bar as is.",
+            YTKACEPickerDetail(@"Tab Bar", @"Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars.",
                                @"YTKACE.Preference.Tabs.GlassMode",
-                               @[@"Default", MarufYTProductName, @"YouTube", @"Off"], @[@0, @1, @2, @3],
-                               YTKACETabBarOwnGlass() ? 1 : 0),
+                               @[@"Simple", @"Default", @"YouTube", MarufYTProductName], tabModeValues,
+                               tabModeDefault),
             YTKACEToggle(@"Top Bar Buttons", @"YTKACE.Preference.Glass.TopBar", @"", @""),
             YTKACEToggle(@"Menus and Sheets", @"YTKACE.Preference.Glass.Menus", @"", @""),
             YTKACEToggle(@"YTKACE Toasts and Popups", @"YTKACE.Preference.Glass.Notices", @"", @""),

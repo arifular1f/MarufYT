@@ -1065,3 +1065,6 @@ Licensed under CC BY-NC-SA 4.0." = "YTKACE 使用 SponsorBlock 数据。
 "YTKACE Sleep Timer" = "YTKACE 睡眠定时器";
 "YTKACE SponsorBlock" = "YTKACE SponsorBlock";
 "YTKACE Transcript" = "YTKACE 文字记录";
+/* MarufYT Phase 3 */
+"Simple" = "简洁";
+"Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "“简洁”使用 YouTube 经典的固定标签栏。YouTube 和 MarufYT 为可选的 Liquid Glass 标签栏。";

@@ -1036,3 +1036,6 @@ Licensed under CC BY-NC-SA 4.0." = "YTKACE korzysta z danych SponsorBlock.\nLice
 "YTKACE Sleep Timer" = "YTKACE: wyłącznik czasowy";
 "YTKACE SponsorBlock" = "YTKACE: SponsorBlock";
 "YTKACE Transcript" = "YTKACE: transkrypcja";
+/* MarufYT Phase 3 */
+"Simple" = "Prosty";
+"Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "„Prosty” używa klasycznego, zadokowanego paska kart YouTube. YouTube i MarufYT to opcjonalne paski Liquid Glass.";
