@@ -1,5 +1,7 @@
 # MarufYT Phase 2 follow-up audit
 
+Subsequent remaining-item closure: [FINDING_DISPOSITION.md](FINDING_DISPOSITION.md), with concrete toolchain, automation, FFmpeg and static runtime evidence. Earlier limitations below are retained as the dc7c458 checkpoint rather than rewritten history.
+
 Date: 2026-11-02 (Asia/Kuala_Lumpur). Starting point: clean `phase2` at `34a19471e404e40b33e0c6ef9f2185b441bc5329`.
 
 The earlier security pass and the `1.1.4+marufyt.3` release were already completed. The latest successful native build is [41408429223](https://github.com/arifular1f/MarufYT/actions/runs/41408429223). The older `.2` Phase 2 release is retained as well. This follow-up changes security tooling, tests and documentation only; native sources, resources, vendored libraries, package metadata and release binaries are preserved. No rebuild or promotion is needed for those changes.

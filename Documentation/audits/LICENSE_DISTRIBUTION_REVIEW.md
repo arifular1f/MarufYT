@@ -2,6 +2,8 @@
 
 Reviewed 2026-11-02, branch `phase2`. This records evidence and open obligations; it is not a blanket certification of distribution compliance.
 
+Update: [FFMPEG_SOURCE_AND_RELINK.md](FFMPEG_SOURCE_AND_RELINK.md) records the signed-source/fingerprint verification, normalized header correspondence, distribution materials and isolated modified-object relink demonstration added after this baseline review. Historical bit-identical library reproduction and full-application/device execution are not asserted.
+
 | Component | Ownership/licence evidence | Result |
 | --- | --- | --- |
 | YTKACE source | Pinned upstream `11249eef76801b2f6323ab094d37893a4098b4f7`, retained history and MIT notice | Attribution retained. MarufYT does not claim authorship of upstream work |

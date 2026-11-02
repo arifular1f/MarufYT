@@ -47,6 +47,8 @@ Everything else remains upstream unless listed above or in the follow-up excepti
 
 ## Internal identifiers kept on purpose
 
+The remaining-item pass adds independent bootstrap/relink/static-review tools, integrity lockfiles, bootstrap regression tests and audit documentation. It updates the Phase 2 workflow and FFmpeg source-verification recipe. Native Tweak sources, resources, vendored binary libraries and original release artifacts are unchanged. The new isolated probe is an audit fixture, not a replacement application or release module.
+
 These keep their upstream names:
 
 - `YTKACE.Preference.*` keys

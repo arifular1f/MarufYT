@@ -40,7 +40,7 @@ See [Documentation/BUILD_INSTRUCTIONS.md](Documentation/BUILD_INSTRUCTIONS.md).
 
 - **Reporting vulnerabilities:** privately, see [SECURITY.md](SECURITY.md).
 - **Data:** what MarufYT sends and stores is in [PRIVACY.md](PRIVACY.md).
-- **Audit reports:** [completion review](Documentation/audits/COMPLETION_AUDIT.md), [distribution/licence evidence](Documentation/audits/LICENSE_DISTRIBUTION_REVIEW.md), and [earlier reports](Documentation/audits/).
+- **Audit reports:** [current finding dispositions](Documentation/audits/FINDING_DISPOSITION.md), [pinned toolchain](Documentation/audits/TRANSITIVE_TOOLCHAIN_LOCK.md), [FFmpeg source/relink evidence](Documentation/audits/FFMPEG_SOURCE_AND_RELINK.md), [static runtime review](Documentation/audits/RUNTIME_SECURITY_STATIC_REVIEW.md), and [earlier reports](Documentation/audits/).
 
 ## Credits
 

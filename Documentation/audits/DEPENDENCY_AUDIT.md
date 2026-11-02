@@ -1,5 +1,7 @@
 # Dependency audit: MarufYT (branch `phase2`)
 
+Current update: [TRANSITIVE_TOOLCHAIN_LOCK.md](TRANSITIVE_TOOLCHAIN_LOCK.md) supersedes the historical installer/latest-download description below. [FFMPEG_SOURCE_AND_RELINK.md](FFMPEG_SOURCE_AND_RELINK.md) records the newly authenticated source and actual isolated link demonstration. Existing vendored/release bytes remain unchanged.
+
 Date: 2026-11-02.
 
 ## Build-time

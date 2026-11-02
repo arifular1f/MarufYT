@@ -39,7 +39,7 @@ You will get an acknowledgement as soon as possible.
   - the workflow token is read-only, and credentials are not persisted on the runner;
   - no repository secrets are used;
   - untrusted event data is never interpolated into shell commands.
-- **Theos:** the installer is downloaded from a pinned commit and verified by SHA-256 before it runs, and Theos is checked out at that commit. The SDK and toolchain versions used are recorded in each build's `provenance.txt`.
+- **Theos (`phase2`):** a fresh detached checkout and reviewed submodule gitlinks are installed directly. Versioned compiler/SDK archives are size/hash checked before extraction or execution. The moving installer is not run. See `Tools/toolchain.lock.json` and the toolchain audit; hosted image and apt packages remain explicitly recorded residuals.
 - **Dependabot:** repository alerts/security updates are enabled. Weekly action-update configuration is prepared on `phase2`, but is not active while it is absent from the default branch. `main` is intentionally unchanged; no default-branch change or promotion is implied.
 - **Artifact checksums:** every CI artifact ships with `SHA256SUMS.txt`. Verify downloaded files against it.
 
@@ -57,3 +57,5 @@ You will get an acknowledgement as soon as possible.
 ## Known limitations
 
 See `Documentation/audits/COMPLETION_AUDIT.md` for the follow-up findings and `Documentation/audits/SECURITY_AUDIT.md` for the earlier audit. Neither static checks nor a clean credential scan certify that all runtime logging formats are redacted. JSON token fields, cookie headers, log identifiers and redirects need separate runtime coverage. The frozen `main` workflow retains its older configuration; its action tags may conflict with the repository's SHA-pinning policy. No branch was promoted to address this.
+
+Current disposition: `Documentation/audits/FINDING_DISPOSITION.md`. Audit-only branch dispatch validates tooling and isolated relinking without a release rebuild. Exact signed FFmpeg source and corresponding-source/relink documentation are recorded separately; a source signature is not a claim of vulnerability-free code or historical bit reproducibility.

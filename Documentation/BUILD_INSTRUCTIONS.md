@@ -7,14 +7,13 @@
 Push to `phase2` or `main` (or run **Actions → Build → Run workflow**). The workflow:
 
 1. **Tests:** runs the upstream unit tests, `Tools/marufyt_checks.py` (static and CI-hardening checks) and `Tools/marufyt_secret_scan.py` (full history).
-2. **Theos:** installs the roothide fork, which upstream also uses.
-   - The installer is downloaded from the commit in `THEOS_COMMIT` and must match `THEOS_INSTALLER_SHA256`.
-   - Theos is then checked out at that commit.
-   - The SDK and toolchain versions are written to `provenance.txt`.
+2. **Theos:** `Tools/bootstrap_pinned.py` installs a fresh detached source checkout and pinned submodules, then verifies the versioned compiler/SDK archives against `Tools/toolchain.lock.json` before extracting them. Only archives are cached and every cache hit is rechecked. Provenance includes source pins, archive hashes, compiler and host-package versions.
 3. **Build:** runs `make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless MARUFYT_BUILD=<run number>`. Any compiler error fails the step.
 4. **Artifact:** uploads `MarufYT-rootless` with `com.arifular1f.marufyt_<version>_rootless.deb`, `MarufYT.dylib`, `build.log`, `provenance.txt` and `SHA256SUMS.txt`.
 
-**Updating pins:** Dependabot proposes action updates. To move Theos, update both `THEOS_COMMIT` and `THEOS_INSTALLER_SHA256` (the hash of `bin/install-theos` at that commit), then review the CI log.
+**Updating pins:** review action SHA changes manually while default-branch Dependabot configuration remains inactive. Update `Tools/toolchain.lock.json` deliberately, including Theos gitlinks, compiler/SDK versioned URLs, sizes and measured hashes; validate using an audit-only run. This is not a fully immutable hosted-runner image.
+
+**Audit without rebuilding releases:** `gh workflow run build.yml --repo arifular1f/MarufYT --ref phase2 -f audit_only=true`. The existing registered dispatch workflow permits selecting Phase 2; this runs tooling/relink checks and skips release compilation/packaging. See `Documentation/audits/DEFAULT_BRANCH_AUTOMATION.md` for the no-main-change limitation.
 
 **Verifying an artifact:** run `sha256sum -c SHA256SUMS.txt` inside the extracted artifact.
 
@@ -53,7 +52,7 @@ Afterwards, sign the IPA with your own certificate.
 
 `Vendor/FFmpeg/lib/*.a` are prebuilt LGPL static libraries from upstream (FFmpeg 8.1.2, built without `--enable-gpl` or `--enable-nonfree`). CI does not rebuild them. Their SHA-256 values are recorded in `Documentation/audits/DEPENDENCY_AUDIT.md`.
 
-To rebuild them, `Scripts/build-ffmpeg.sh` requires a verified source archive:
+To rebuild them in a separate checkout, `Scripts/build-ffmpeg.sh` requires a verified source archive. The default 8.1.2 digest is recorded in `Tools/ffmpeg-source.lock.json` and was authenticated using the publisher's release-key fingerprint. Other versions require an explicit verified digest. Existing source directories are refused to avoid stale/modified-source reuse:
 
 ```sh
 curl -LO https://ffmpeg.org/releases/ffmpeg-8.1.2.tar.xz
