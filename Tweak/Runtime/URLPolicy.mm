@@ -3,7 +3,8 @@
 #import "NetworkRules.h"
 
 BOOL MarufYTIsTrustedMediaURL(NSURL *url) {
-    return MarufYTIsSecureURL(url) && MarufYTMediaHostAllowed(url.host.UTF8String);
+    const char *host = url.host.UTF8String;
+    return MarufYTIsSecureURL(url) && host != NULL && url.host.length == strlen(host) && MarufYTMediaHostAllowed(host);
 }
 
 NSURLRequest *MarufYTRedirectRequest(NSURLRequest *previous, NSURLRequest *next, BOOL media) {

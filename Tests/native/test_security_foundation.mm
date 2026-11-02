@@ -36,7 +36,8 @@ static NSMutableURLRequest *Request(NSString *url) {
 }
 int main(void) { @autoreleasepool {
     for (NSString *url in @[@"https://example.invalid/a", @"HTTPS://example.invalid:443/a"]) CHECK(MarufYTIsSecureURL([NSURL URLWithString:url]));
-    for (NSString *url in @[@"http://example.invalid", @"file:///tmp/test", @"https://u:p@example.invalid", @"https://example.invalid:444"]) CHECK(!MarufYTIsSecureURL([NSURL URLWithString:url]));
+    for (NSString *url in @[@"http://example.invalid", @"//example.invalid/path", @"https:example.invalid", @"file:///tmp/test", @"https://u:p@example.invalid", @"https://example.invalid:444"]) CHECK(!MarufYTIsSecureURL([NSURL URLWithString:url]));
+    CHECK(!MarufYTIsTrustedMediaURL([NSURL URLWithString:@"https://googlevideo.com%00.attacker.invalid"]));
     CHECK(!MarufYTIsSecureURL(nil));
     CHECK(MarufYTIsTrustedMediaURL([NSURL URLWithString:@"https://rr1.googlevideo.com/videoplayback"]));
     for (const char *host : {"evilgooglevideo.com", "googlevideo.com.attacker.invalid", "googlevideo.com.", "localhost", "127.0.0.1"}) CHECK(!MarufYTMediaHostAllowed(host));

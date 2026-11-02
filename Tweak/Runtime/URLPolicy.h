@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 
 static inline BOOL MarufYTIsSecureURL(NSURL *url) {
-    return url != nil && [url.scheme caseInsensitiveCompare:@"https"] == NSOrderedSame &&
+    return url != nil && [url.scheme.lowercaseString isEqualToString:@"https"] &&
         url.host.length != 0 && url.user == nil && url.password == nil &&
         (url.port == nil || url.port.integerValue == 443);
 }
