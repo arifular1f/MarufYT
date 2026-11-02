@@ -50,6 +50,7 @@ void YTKACESABRClearRequestState(void) {
 }
 
 NSString *YTKACESABRCurrentVideoIDValue(void) {
+    MarufYTExpireRequestStateIfNeeded();
     @synchronized (YTKACESABRDownloader.class) {
         return [YTKACESABRCurrentVideoID copy];
     }
@@ -121,6 +122,7 @@ void YTKACESABRSetNativeRequest(NSURLRequest *request) {
 }
 
 static BOOL YTKACESABRHasExactNativeBody(NSString *videoID, NSData *config) {
+    MarufYTExpireRequestStateIfNeeded();
     @synchronized (YTKACESABRDownloader.class) {
         if (config.length != 0 && YTKACESABRBodiesByConfig[config].length != 0) {
             return YES;
@@ -133,6 +135,7 @@ static BOOL YTKACESABRHasExactNativeBody(NSString *videoID, NSData *config) {
 }
 
 static NSData *YTKACESABRCurrentNativeBody(NSString *videoID, NSData *config) {
+    MarufYTExpireRequestStateIfNeeded();
     @synchronized (YTKACESABRDownloader.class) {
         NSData *matched = config.length != 0 ? YTKACESABRBodiesByConfig[config] : nil;
         if (matched.length != 0) return [matched copy];
@@ -190,6 +193,7 @@ NSUInteger YTKACESABRPoTokenLength(void) {
 }
 
 NSString *YTKACESABRPoTokenString(void) {
+    MarufYTExpireRequestStateIfNeeded();
     NSData *token = nil;
     @synchronized (YTKACESABRDownloader.class) {
         token = [YTKACESABRPoToken copy];
@@ -207,6 +211,7 @@ NSString *YTKACESABRPoTokenString(void) {
 }
 
 static NSData *YTKACESABRCurrentPoToken(void) {
+    MarufYTExpireRequestStateIfNeeded();
     @synchronized (YTKACESABRDownloader.class) {
         return [YTKACESABRPoToken copy];
     }
@@ -957,6 +962,7 @@ NSUInteger YTKACEPurgeDownloadScratch(BOOL includeActive) {
         [self fail:[self error:@"Account/session state changed; retry the download." code:2]];
         return;
     }
+    MarufYTNoteRequestActivity();
     NSInteger logicalRequestNumber = self.requestNumber;
     NSInteger wireRequestNumber = logicalRequestNumber;
     NSURL *baseURL = [NSURL URLWithString:self.serverURL];
@@ -1836,6 +1842,6 @@ NSUInteger YTKACEPurgeDownloadScratch(BOOL includeActive) {
 
 static void YTKACECancelSessionsForSecurity(void) {
     NSArray *sessions;
-    @synchronized (YTKACESABRDownloader.class) { sessions = YTKACESecuritySessions.allObjects; }
+    @synchronized (YTKACESABRDownloader.class) { sessions = YTKACESecuritySessions.allObjects; YTKACESABRStandalone = nil; }
     for (YTKACESABRSession *session in sessions) [session.session invalidateAndCancel];
 }

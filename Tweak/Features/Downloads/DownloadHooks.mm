@@ -840,6 +840,7 @@ void YTKACEPreparePlayer(NSString *videoID,
 }
 
 NSString *YTKACEPlayerOnBehalfOfUser(void) {
+    MarufYTExpireRequestStateIfNeeded();
     id request = nil;
     @synchronized (YTKACESABRDownloader.class) {
         request = YTKACELastPlayerRequest;
