@@ -19,6 +19,11 @@ OUTPUT="$ROOT/Vendor/FFmpeg"
 JOBS="${JOBS:-$(getconf _NPROCESSORS_ONLN 2>/dev/null || sysctl -n hw.ncpu)}"
 
 mkdir -p "$BUILD" "$OUTPUT/lib"
+# The default source digest was authenticated against FFmpeg's published
+# release-signing fingerprint. Other versions still require an explicit digest.
+if [[ "$VERSION" == "8.1.2" && -z "${FFMPEG_SHA256:-}" ]]; then
+    FFMPEG_SHA256="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["sourceSHA256"])' "$ROOT/Tools/ffmpeg-source.lock.json")"
+fi
 if [[ ! -f "$BUILD/ffmpeg-$VERSION.tar.xz" ]]; then
     curl -L --fail --proto '=https' --tlsv1.2 "https://ffmpeg.org/releases/ffmpeg-$VERSION.tar.xz" \
         -o "$BUILD/ffmpeg-$VERSION.tar.xz"
@@ -35,9 +40,11 @@ if [[ "$ACTUAL_SHA256" != "$FFMPEG_SHA256" ]]; then
     echo "error: ffmpeg-$VERSION.tar.xz SHA-256 $ACTUAL_SHA256 does not match FFMPEG_SHA256" >&2
     exit 1
 fi
-if [[ ! -d "$SOURCE" ]]; then
-    tar -xf "$BUILD/ffmpeg-$VERSION.tar.xz" -C "$BUILD"
+if [[ -e "$SOURCE" ]]; then
+    echo "error: refusing an existing FFmpeg source tree; use a clean build directory to avoid stale or modified source" >&2
+    exit 1
 fi
+tar -xf "$BUILD/ffmpeg-$VERSION.tar.xz" -C "$BUILD"
 
 build_arch() {
     local arch="$1"

@@ -1,0 +1,9 @@
+{
+  "version": "8.1.2",
+  "sourceURL": "https://www.ffmpeg.org/releases/ffmpeg-8.1.2.tar.xz",
+  "sourceSHA256": "464beb5e7bf0c311e68b45ae2f04e9cc2af88851abb4082231742a74d97b524c",
+  "signatureURL": "https://www.ffmpeg.org/releases/ffmpeg-8.1.2.tar.xz.asc",
+  "signingFingerprint": "FCF986EA15E6E293A5644F10B4322F04D67658D8",
+  "validSignature": true,
+  "publisherFingerprintReference": "https://github.com/FFmpeg/web/blob/master/src/download"
+}

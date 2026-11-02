@@ -173,8 +173,9 @@ check("every action pinned to a full commit SHA", bool(uses) and not unpinned, "
 check("checkout never persists credentials",
       workflows.count("persist-credentials: false") == workflows.count("actions/checkout@"))
 check("workflow token read-only", "permissions:\n  contents: read" in workflows and "write" not in workflows)
-check("Theos installer pinned and hash-verified",
-      "THEOS_INSTALLER_SHA256" in workflows and "sha256sum -c" in workflows and "theos/master" not in workflows)
+check("Theos bootstrap uses source/compiler/SDK integrity lock",
+      "Tools/bootstrap_pinned.py" in workflows and "Tools/toolchain.lock.json" in workflows
+      and "install-theos" not in workflows and "releases/latest" not in workflows)
 check("no untrusted event data in run steps",
       not re.search(r"\$\{\{\s*github\.(event|head_ref)", workflows))
 check("job timeouts set", workflows.count("timeout-minutes:") >= 2)
