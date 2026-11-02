@@ -1,54 +1,86 @@
 # MarufYT
 
-**A YouTube enhancement for iOS, maintained by [arifular1f](https://github.com/arifular1f).**
+**A lightweight YouTube enhancement for iOS, maintained by [arifular1f](https://github.com/arifular1f).**
 
-[![Build](https://github.com/arifular1f/MarufYT/actions/workflows/build.yml/badge.svg?branch=phase2)](https://github.com/arifular1f/MarufYT/actions/workflows/build.yml)
+[![Build](https://github.com/arifular1f/MarufYT/actions/workflows/build.yml/badge.svg)](https://github.com/arifular1f/MarufYT/actions/workflows/build.yml)
 ![Package](https://img.shields.io/badge/package-ROOTLESS%20arm64-blue)
-![Licence](https://img.shields.io/badge/licence-MIT-green)
+![YouTube](https://img.shields.io/badge/YouTube-21.43.5%20%7C%2021.39.4-red)
+[![Licence](https://img.shields.io/badge/licence-MIT-green)](LICENSE)
 
-MarufYT runs inside the original YouTube app. Google sign-in, account switching and YouTube's own interface are kept. It needs no extra account, has no activation service, and sends no analytics ([PRIVACY.md](PRIVACY.md)).
-
-MarufYT is built on [YTKACE](https://github.com/itzzace/ytkace) by itzzace (MIT). See [Credits](#credits).
+MarufYT runs inside the original YouTube app. Google sign-in, account switching and YouTube's own interface are kept. It has no account, no activation service and no updater of its own. It is built on [YTKACE](https://github.com/itzzace/ytkace) by itzzace (MIT); see [Credits](#credits).
 
 ## Features
 
-- **Ad blocking:** home-feed ads, sponsored app cards, video and Shorts ads, upsell prompts
-- **SponsorBlock and DeArrow:** per-category skipping, alerts and segment colours
-- **Downloads:** video, audio, Shorts, playlists and subtitles, with a download library
-- **Playback:** background audio, Picture-in-Picture, speed and custom speed, loop, sleep timer, gestures, quality presets, captions
-- **Customization:** Shorts, home feed, watch page, top bar and tabs
-- **Liquid Glass (iOS 26+):** a floating glass tab bar with depth, plus glass top-bar buttons, menus, toasts and player buttons
-- **MarufYT settings:** native iOS design (inset-grouped cards, Dynamic Type, restrained accent, Settings-style icons) in 16 languages, with an About section (developer, repository, version, YouTube version, package)
+- **Ad blocking:** home-feed ads, sponsored cards, video and Shorts ads, upsell prompts.
+- **SponsorBlock and DeArrow:** per-category skipping and alerts; cleaner titles and thumbnails. Both are off until you turn them on.
+- **Downloads:** video, audio, Shorts, playlists and subtitles, with an in-app library.
+- **Playback:** background audio, Picture-in-Picture, speed, loop, sleep timer, gestures, quality presets, captions.
+- **Customization:** Shorts, home feed, watch page, top bar and tabs.
+- **Simple by default:** YouTube's own docked tab bar and normal Home layout. Optional Liquid Glass tab bars (iOS 26+) are one setting away.
+- **Settings:** native inset-grouped iOS design in 16 languages.
 
-## Versions
+## Supported versions
 
-| Branch | MarufYT | YouTube | Status |
+| Build | YouTube | iOS | Status |
 | --- | --- | --- | --- |
-| `phase2` | 1.1.4+marufyt.3 | 21.43.5 (latest) and 21.39.4 (stable fallback) | Development; awaiting device testing before promotion |
-| `main`, `stable-21.39.4` | 1.1.1+marufyt.1 | 21.39.4 | Previous release |
+| Latest | 21.43.5 | 17+ (Liquid Glass options need 26+) | Built and statically verified; on-device checks are listed in [DEVICE_TEST_RESULTS](Documentation/PHASE3/DEVICE_TEST_RESULTS.md) |
+| Stable | 21.39.4 | 17+ | Same |
 
-The tweak needs iOS 15+. The YouTube 21.39.4 and 21.43.5 IPAs need iOS 17+, and Liquid Glass needs iOS 26+.
+The tweak itself targets iOS 15+, ROOTLESS, arm64. Branch `main` and `stable-21.39.4` hold earlier releases; development happens on feature branches (`phase4-security-privacy` is the latest).
 
-## Building
+## Install
 
-See [Documentation/BUILD_INSTRUCTIONS.md](Documentation/BUILD_INSTRUCTIONS.md).
+You supply the YouTube app; this repository never contains or downloads it.
 
-- **CI:** GitHub Actions builds the ROOTLESS `.deb` and `MarufYT.dylib` with pinned, verified tooling.
-- **IPA:** assembled locally from a decrypted YouTube that you supply. This repository never stores or downloads YouTube binaries.
+1. Get a **decrypted** YouTube IPA of a supported version (21.43.5 or 21.39.4).
+2. Take the `.deb` from the latest [CI run](https://github.com/arifular1f/MarufYT/actions/workflows/build.yml) artifact (`MarufYT-rootless`).
+3. Assemble the IPA locally:
 
-## Security and privacy
+   ```sh
+   python Tools/marufyt_package.py --youtube YouTube.ipa --deb com.arifular1f.marufyt_<version>_rootless.deb --output MarufYT.ipa
+   ```
 
-- **Reporting vulnerabilities:** privately, see [SECURITY.md](SECURITY.md).
-- **Data:** what MarufYT sends and stores is in [PRIVACY.md](PRIVACY.md).
-- **Audit reports:** [current finding dispositions](Documentation/audits/FINDING_DISPOSITION.md), [pinned toolchain](Documentation/audits/TRANSITIVE_TOOLCHAIN_LOCK.md), [FFmpeg source/relink evidence](Documentation/audits/FFMPEG_SOURCE_AND_RELINK.md), [static runtime review](Documentation/audits/RUNTIME_SECURITY_STATIC_REVIEW.md), and [earlier reports](Documentation/audits/).
+   The script injects `MarufYT.dylib`, removes other bundled tweaks and the app extensions that block sideloading (listed in the script), and never changes your input file.
+4. **Sign** `MarufYT.ipa` with your own Apple ID or certificate using the sideloading tool you prefer, then install it. The IPA is unsigned by design.
+
+Details, including the build environment: [Documentation/BUILD_INSTRUCTIONS.md](Documentation/BUILD_INSTRUCTIONS.md).
+
+## Privacy and security
+
+- MarufYT contains no analytics, advertising, crash-reporting or telemetry SDK (verified in source and in the compiled library; see the [data-flow audit](Documentation/PHASE4/PRIVACY_DATA_FLOW_AUDIT.md)).
+- Its own network requests go only to the services listed in [PRIVACY.md](PRIVACY.md). SponsorBlock, DeArrow and AiSList are off by default.
+- Network behaviour has been reviewed statically. It has **not** yet been captured on a device, so the project does not claim "zero data".
+- Report vulnerabilities privately: [SECURITY.md](SECURITY.md). Audit reports: [Documentation/PHASE4/](Documentation/PHASE4/) and [Documentation/audits/](Documentation/audits/).
+
+## Build from source
+
+CI (GitHub Actions, pinned toolchain, read-only token) builds the ROOTLESS `.deb` and `MarufYT.dylib`. Local checks:
+
+```sh
+python Tools/marufyt_checks.py
+python -m unittest discover -s Tests
+```
+
+## Project layout
+
+| Path | Contents |
+| --- | --- |
+| `Tweak/` | Objective-C++ source: `Features/` (ads, downloads, playback, navigation …), `Settings/`, `UI/`, `Runtime/`, `MarufYT/` (branding, design) |
+| `Resources/` | Settings bundle and the 16 localizations |
+| `Tools/` | IPA packaging, static checks, host audit, secret scan |
+| `Tests/` | Python and native layout tests |
+| `Scripts/`, `Vendor/` | FFmpeg build and its pinned source |
+| `Documentation/` | Build, modules, provenance, audits, per-phase reports (`PHASE3/`, `PHASE4/`, `history/`) |
+| `docs/`, `screenshots/`, `web/` | Upstream YTKACE assets kept for attribution; see [UPSTREAM_README.md](UPSTREAM_README.md) |
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
 
 ## Credits
 
-MarufYT is a modified version of **YTKACE** by **itzzace** (MIT). Most features come from that project. The upstream history is preserved in this repository, and its README is kept as [UPSTREAM_README.md](UPSTREAM_README.md).
-
-- **Code split:** what MarufYT changed or added is listed in [Documentation/SOURCE_PROVENANCE.md](Documentation/SOURCE_PROVENANCE.md).
-- **Third-party components:** FFmpeg (LGPL), SponsorBlock/DeArrow data (CC BY-NC-SA 4.0), the yt-dlp EJS solver (Unlicense), YTPlaybackFix (MIT), and others are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+MarufYT is a modified version of **YTKACE** by **itzzace** (MIT). Most features come from that project and its history is preserved here. What MarufYT changed is listed in [Documentation/SOURCE_PROVENANCE.md](Documentation/SOURCE_PROVENANCE.md). Third-party components (FFmpeg LGPL, SponsorBlock/DeArrow data CC BY-NC-SA 4.0, the yt-dlp EJS solver, YTPlaybackFix and others) are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Licence
 
-MIT. See [LICENSE](LICENSE). It keeps the upstream copyright and adds the MarufYT copyright.
+MIT. See [LICENSE](LICENSE); it keeps the upstream copyright and adds the MarufYT copyright.
