@@ -8,8 +8,9 @@ static NSURL *YTKACEDownloadLogURL(void) {
     static NSURL *cached = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSArray<NSNumber *> *candidates = @[@(NSDocumentDirectory),
-                                            @(NSApplicationSupportDirectory),
+        // MarufYT security: Application Support first. Documents is exposed in
+        // the Files app (UIFileSharingEnabled) and is included in backups.
+        NSArray<NSNumber *> *candidates = @[@(NSApplicationSupportDirectory),
                                             @(NSCachesDirectory)];
         for (NSNumber *candidate in candidates) {
             NSURL *base = [NSFileManager.defaultManager
@@ -21,10 +22,12 @@ static NSURL *YTKACEDownloadLogURL(void) {
             NSError *error = nil;
             if (![NSFileManager.defaultManager createDirectoryAtURL:directory
                                        withIntermediateDirectories:YES
-                                                        attributes:nil
+                                                        attributes:@{NSFileProtectionKey:
+                                                            NSFileProtectionCompleteUntilFirstUserAuthentication}
                                                              error:&error]) {
                 continue;
             }
+            [directory setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
             NSURL *probe = [directory URLByAppendingPathComponent:@"downloads.log"];
             if (![NSFileManager.defaultManager fileExistsAtPath:probe.path] &&
                 ![[NSData data] writeToURL:probe atomically:YES]) {
@@ -39,6 +42,14 @@ static NSURL *YTKACEDownloadLogURL(void) {
         }
         [NSUserDefaults.standardUserDefaults setObject:cached.path
                                                 forKey:@"YTKACELogPath"];
+        // Remove the diagnostics log older builds kept in Documents (visible in Files).
+        // Only this log file is touched; downloads in Documents/YTKACE are not.
+        NSURL *documents = [NSFileManager.defaultManager URLsForDirectory:NSDocumentDirectory
+                                                                inDomains:NSUserDomainMask].firstObject;
+        NSURL *legacy = [documents URLByAppendingPathComponent:@"YTKACE/Logs/downloads.log"];
+        if (legacy != nil && ![legacy isEqual:cached]) {
+            [NSFileManager.defaultManager removeItemAtURL:legacy error:nil];
+        }
     });
     return cached;
 }
@@ -82,7 +93,33 @@ void YTKACEDebugLog(NSString *identifier, NSString *format, ...) {
     YTKACEWriteLogLine(identifier, message);
 }
 
+// MarufYT security: never persist bearer tokens, URL query strings (stream
+// signatures, keys, client IPs) or token-like parameters, even in debug logs.
+static NSString *YTKACERedactLogMessage(NSString *message) {
+    static NSArray<NSRegularExpression *> *patterns;
+    static NSArray<NSString *> *templates;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSRegularExpressionOptions options = NSRegularExpressionCaseInsensitive;
+        patterns = @[
+            [NSRegularExpression regularExpressionWithPattern:@"(Bearer\\s+)[A-Za-z0-9._~+/=-]+" options:options error:nil],
+            [NSRegularExpression regularExpressionWithPattern:@"(https?://[^\\s?#\"']+)\\?[^\\s\"']*" options:options error:nil],
+            [NSRegularExpression regularExpressionWithPattern:
+                @"\\b(access_token|refresh_token|token|key|sig|signature|pot|password|cookie)=[^&\\s\"']+"
+                                                      options:options error:nil]
+        ];
+        templates = @[@"$1[redacted]", @"$1?[redacted]", @"$1=[redacted]"];
+    });
+    NSMutableString *redacted = [message mutableCopy];
+    for (NSUInteger i = 0; i < patterns.count; i++) {
+        [patterns[i] replaceMatchesInString:redacted options:0
+                                      range:NSMakeRange(0, redacted.length) withTemplate:templates[i]];
+    }
+    return redacted;
+}
+
 static void YTKACEWriteLogLine(NSString *identifier, NSString *message) {
+    message = YTKACERedactLogMessage(message);
     if (message.length > 4096) message = [message substringToIndex:4096];
     NSString *line = [NSString stringWithFormat:@"%@ [%@] %@\n",
         NSDate.date, identifier.length == 0 ? @"download" : identifier, message];
