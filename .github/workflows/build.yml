@@ -25,7 +25,9 @@ jobs:
 
   build:
     needs: test
-    runs-on: ubuntu-latest
+    # Theos' installer needs the libxml2 apt package, which Ubuntu 26.04
+    # (ubuntu-latest since 2026-10) renamed.
+    runs-on: ubuntu-24.04
     env:
       THEOS: ${{ github.workspace }}/.theos
       CI: true
@@ -37,7 +39,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/.theos
-          key: roothide-theos-${{ runner.os }}-v1
+          key: roothide-theos-ubuntu-24.04-v1
 
       - name: Setup Theos
         if: steps.cache-theos.outputs.cache-hit != 'true'
