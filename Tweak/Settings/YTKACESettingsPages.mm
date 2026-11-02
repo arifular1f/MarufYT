@@ -337,9 +337,6 @@ static UIColor *YTKACESettingsBackground(void) {
     return MarufYTPageBackgroundColor();
 }
 
-static UIColor *YTKACESettingsCellBackground(void) {
-    return MarufYTCardBackgroundColor();
-}
 
 BOOL YTKACEPreferenceNeedsRestart(NSString *key) {
     return [@[

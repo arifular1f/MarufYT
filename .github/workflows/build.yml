@@ -49,6 +49,7 @@ jobs:
 
       - name: Build ROOTLESS package
         run: |
+          set -o pipefail
           make clean
           make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless \
             MARUFYT_BUILD=${{ github.run_number }} \
