@@ -908,6 +908,31 @@ static UIImageView *YTKACEFindImageView(UIView *view) {
     return nil;
 }
 
+// Follow the host's actual icon/label anchors, including nested containers.
+// Only synthesize a compact intrinsic stack when the host has no usable anchor.
+static void YTKACELayoutReplacementTab(UIView *view, UIImageView *icon, UILabel *label,
+                                       UIImageView *nativeIcon, UILabel *nativeLabel, BOOL hideLabel) {
+    CGRect bounds = view.bounds;
+    if (CGRectIsEmpty(bounds)) return;
+    CGRect nativeImage = nativeIcon != nil ? [nativeIcon convertRect:nativeIcon.bounds toView:view] : CGRectZero;
+    CGRect nativeText = nativeLabel != nil ? [nativeLabel convertRect:nativeLabel.bounds toView:view] : CGRectZero;
+    BOOL imageAnchor = !CGRectIsEmpty(nativeImage) && CGRectContainsRect(bounds, nativeImage);
+    BOOL textAnchor = !CGRectIsEmpty(nativeText) && CGRectContainsRect(bounds, nativeText);
+    CGFloat size = MIN(24.0, MIN(CGRectGetWidth(bounds), CGRectGetHeight(bounds)));
+    CGFloat textHeight = MIN(ceil(label.font.lineHeight), CGRectGetHeight(bounds));
+    CGFloat gap = 2.0;
+    CGFloat stackHeight = MIN(CGRectGetHeight(bounds), size + gap + textHeight);
+    CGFloat top = CGRectGetMidY(bounds) - stackHeight * 0.5;
+    CGPoint center = imageAnchor ? CGPointMake(CGRectGetMidX(nativeImage), CGRectGetMidY(nativeImage))
+        : CGPointMake(CGRectGetMidX(bounds), hideLabel ? CGRectGetMidY(bounds) : top + size * 0.5);
+    if (hideLabel) center.y = CGRectGetMidY(bounds);
+    icon.frame = CGRectMake(center.x - size * 0.5, center.y - size * 0.5, size, size);
+    label.frame = textAnchor ? nativeText : CGRectMake(CGRectGetMinX(bounds),
+        MIN(CGRectGetMaxY(bounds) - textHeight, top + size + gap), CGRectGetWidth(bounds), textHeight);
+    label.adjustsFontSizeToFitWidth = YES;
+    label.minimumScaleFactor = 0.8;
+}
+
 static BOOL YTKACEViewIsVisible(UIView *view) {
     if (view.window == nil) {
         return NO;
@@ -1044,17 +1069,7 @@ static void YTKACEApplyDownloadIcon(UIView *view) {
     imageView.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     imageView.tintColor = tabColor;
     imageView.hidden = NO;
-    CGFloat size = 24.0;
-    imageView.frame = CGRectMake(
-        (CGRectGetWidth(view.bounds) - size) * 0.5,
-        hideLabel ? (CGRectGetHeight(view.bounds) - size) * 0.5 : 4.0,
-        size,
-        size
-    );
-    label.frame = CGRectMake(0.0,
-                             MAX(0.0, CGRectGetHeight(view.bounds) - 16.0),
-                             CGRectGetWidth(view.bounds),
-                             14.0);
+    YTKACELayoutReplacementTab(view, imageView, label, nativeImageView, nativeLabel, hideLabel);
 }
 
 static NSDictionary *YTKACEExtraTabIcon(NSString *token) {
@@ -1204,14 +1219,7 @@ static void YTKACEApplyExtraTabIcon(UIView *view) {
     icon.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     icon.tintColor = YTKACETabForegroundColor(view);
     icon.hidden = NO;
-    CGFloat size = 24.0;
     BOOL hideLabel = YTKACETabLabelsHidden(view);
-    icon.frame = CGRectMake(
-        (CGRectGetWidth(view.bounds) - size) * 0.5,
-        hideLabel ? (CGRectGetHeight(view.bounds) - size) * 0.5 : 4.0,
-        size,
-        size
-    );
     UILabel *nativeLabel = YTKACEFindNativeLabel(view);
     UILabel *label = (UILabel *)[view viewWithTag:YTKACEExtraLabelTag];
     NSString *title = nativeLabel.text.length != 0
@@ -1234,12 +1242,7 @@ static void YTKACEApplyExtraTabIcon(UIView *view) {
     label.textColor = icon.tintColor;
     label.hidden = hideLabel;
     label.alpha = hideLabel ? 0.0 : 1.0;
-    label.frame = CGRectMake(
-        0.0,
-        MAX(0.0, CGRectGetHeight(view.bounds) - 16.0),
-        CGRectGetWidth(view.bounds),
-        14.0
-    );
+    YTKACELayoutReplacementTab(view, icon, label, nativeImage, nativeLabel, hideLabel);
 }
 
 static NSString *const YTKACETintModeKey = @"YTKACE.Preference.Tabs.SelectedTint";
@@ -1862,6 +1865,10 @@ static void YTKACETrackLens(UIView *lens, CFTimeInterval seconds);
 static void YTKACELowerWhenArrived(UIView *lens, CGPoint target, id token, dispatch_block_t lower);
 
 static void YTKACELensSpring(NSTimeInterval response, CGFloat bounce, CGFloat velocity, dispatch_block_t animations) {
+    if (UIAccessibilityIsReduceMotionEnabled()) {
+        [UIView performWithoutAnimation:animations];
+        return;
+    }
     UIViewAnimationOptions options = UIViewAnimationOptionBeginFromCurrentState |
         UIViewAnimationOptionAllowUserInteraction;
     SEL spring = NSSelectorFromString(@"animateWithSpringDuration:bounce:initialSpringVelocity:delay:options:animations:completion:");
@@ -1893,6 +1900,11 @@ static NSString *YTKACEPivotItemIdentifier(UIView *item);
 
 static void YTKACEBarSpring(NSTimeInterval response, CGFloat damping, NSTimeInterval delay,
                             dispatch_block_t animations, void (^completion)(BOOL)) {
+    if (UIAccessibilityIsReduceMotionEnabled()) {
+        [UIView performWithoutAnimation:animations];
+        if (completion != nil) completion(YES);
+        return;
+    }
     UIViewAnimationOptions options = UIViewAnimationOptionBeginFromCurrentState |
         UIViewAnimationOptionAllowUserInteraction;
     SEL spring = NSSelectorFromString(@"animateWithSpringDuration:bounce:initialSpringVelocity:delay:options:animations:completion:");
@@ -2186,16 +2198,26 @@ static void YTKACESetSystemLensLifted(UIView *lens, BOOL lifted, __unused NSStri
         animations, completion);
 }
 
+static const void *YTKACELightweightPillAssociation = &YTKACELightweightPillAssociation;
+static const void *YTKACEReduceTransparencyAssociation = &YTKACEReduceTransparencyAssociation;
+
 static void YTKACEUpdateGlassPill(UIView *bar, UIVisualEffectView *glass) {
+    BOOL lightweight = MarufYTLightweightGlassEnabled();
     UIView *pill = objc_getAssociatedObject(bar, YTKACEPivotBarPillAssociation);
+    if (pill != nil && [objc_getAssociatedObject(pill, YTKACELightweightPillAssociation) boolValue] != lightweight) {
+        [pill removeFromSuperview];
+        objc_setAssociatedObject(bar, YTKACEPivotBarPillAssociation, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        pill = nil;
+    }
     if (pill == nil) {
-        pill = YTKACEMakeSystemLens(bar);
+        if (!lightweight) pill = YTKACEMakeSystemLens(bar);
         if (pill == nil) {
             pill = [UIView new];
             pill.userInteractionEnabled = NO;
             pill.layer.cornerCurve = kCACornerCurveContinuous;
             pill.backgroundColor = YTKACEPillColor();
         }
+        objc_setAssociatedObject(pill, YTKACELightweightPillAssociation, @(lightweight), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         objc_setAssociatedObject(bar, YTKACEPivotBarPillAssociation, pill,
                                  OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
@@ -2236,7 +2258,7 @@ static void YTKACEUpdateGlassPill(UIView *bar, UIVisualEffectView *glass) {
         fabs(CGRectGetMidY(current) - CGRectGetMidY(target)) > 1.0 ||
         fabs(CGRectGetWidth(current) - CGRectGetWidth(target)) > 1.0 ||
         fabs(CGRectGetHeight(current) - CGRectGetHeight(target)) > 1.0;
-    BOOL animate = !pill.hidden && !CGRectIsEmpty(current) && moved;
+    BOOL animate = !lightweight && !pill.hidden && !CGRectIsEmpty(current) && moved;
     pill.hidden = NO;
     if (!systemLens) pill.layer.cornerRadius = CGRectGetHeight(target) * 0.5;
     if (systemLens && !moved) return;
@@ -2423,9 +2445,14 @@ static void YTKACESyncLensMask(UIView *lens) {
 
 - (void)tick {
     UIView *lens = self.lens;
-    if (lens == nil || CACurrentMediaTime() > self.until) {
+    if (lens == nil || lens.window == nil ||
+        UIApplication.sharedApplication.applicationState != UIApplicationStateActive ||
+        CACurrentMediaTime() > self.until) {
         [self.link invalidate];
         self.link = nil;
+        dispatch_block_t lower = self.pendingLower;
+        self.pendingLower = nil;
+        if (lens != nil && objc_getAssociatedObject(lens, YTKACEPivotBarFadedAssociation) == self.lowerToken && lower != nil) lower();
         if (lens != nil) YTKACESyncLensMask(lens);
         return;
     }
@@ -2500,7 +2527,7 @@ static UIView *YTKACEInlinePlayerBar(UIView *bar);
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gesture {
     UIView *bar = gesture.view;
     UIView *glass = objc_getAssociatedObject(bar, YTKACEPivotBarGlassAssociation);
-    if (glass == nil) return NO;
+    if (glass == nil || MarufYTLightweightGlassEnabled()) return NO;
     if (YTKACEBarMinimized(bar)) {
         YTKACESetBarMinimized(bar, NO);
         return NO;
@@ -2792,6 +2819,10 @@ static UIView *YTKACEInlinePlayerBar(UIView *bar);
             self.dragging = YES;
             if (!gesture.cancelsTouchesInView) {
                 self.heldButton = [self buttonForItem:self.touchedItem];
+                // The custom drag now owns selection; terminate the native press
+                // rather than waiting for a delayed correction after release.
+                [self.heldButton cancelTrackingWithEvent:nil];
+                self.heldButton.highlighted = NO;
             }
             if (!self.lifted) {
                 [self liftLens:lens bar:bar size:CGSizeMake(width, height) center:center];
@@ -2817,7 +2848,6 @@ static UIView *YTKACEInlinePlayerBar(UIView *bar);
             YTKACEApplyPivotItemPresentation(draggedFrom);
         });
     }
-    UIControl *heldButton = self.heldButton;
     self.heldButton = nil;
     if (!self.lifted) {
         BOOL bump = !dragging && gesture.state == UIGestureRecognizerStateEnded &&
@@ -2902,16 +2932,7 @@ static UIView *YTKACEInlinePlayerBar(UIView *bar);
     });
     if (gesture.state == UIGestureRecognizerStateEnded && nearest != nil &&
         nearest != YTKACESelectedPivotItem(bar)) {
-        if (heldButton != nil) {
-            __weak UIView *weakNearest = nearest;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)),
-                           dispatch_get_main_queue(), ^{
-                UIView *pick = weakNearest;
-                if (pick != nil && pick != YTKACESelectedPivotItem(bar)) YTKACESelectPivotItem(pick);
-            });
-        } else {
-            YTKACESelectPivotItem(nearest);
-        }
+        YTKACESelectPivotItem(nearest);
     }
 }
 
@@ -3394,6 +3415,13 @@ static BOOL YTKACEApplyPivotBarGlass(UIView *receiver, UIView *blur) {
         glass.clipsToBounds = NO;
         objc_setAssociatedObject(receiver, YTKACEPivotBarGlassAssociation, glass,
                                  OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    BOOL reduceTransparency = UIAccessibilityIsReduceTransparencyEnabled();
+    id appliedTransparency = objc_getAssociatedObject(glass, YTKACEReduceTransparencyAssociation);
+    if (appliedTransparency == nil || [appliedTransparency boolValue] != reduceTransparency) {
+        glass.effect = reduceTransparency ? nil : YTKACEMakeGlassEffect(NO);
+        glass.backgroundColor = reduceTransparency ? UIColor.secondarySystemBackgroundColor : UIColor.clearColor;
+        objc_setAssociatedObject(glass, YTKACEReduceTransparencyAssociation, @(reduceTransparency), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     blur.hidden = YES;
     NSHashTable<UIView *> *faded = YTKACEPivotFadedViews(receiver);

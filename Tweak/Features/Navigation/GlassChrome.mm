@@ -36,7 +36,7 @@ static const void *YTKACESideButtonsAssociation = &YTKACESideButtonsAssociation;
 
 
 static BOOL YTKACEGlassChromeEnabled(void) {
-    return YTKACELiquidGlassAvailable() && YTKACEFeatureEnabled(@"YTKACE.Preference.Glass.TopBar");
+    return !UIAccessibilityIsReduceTransparencyEnabled() && YTKACELiquidGlassAvailable() && YTKACEFeatureEnabled(@"YTKACE.Preference.Glass.TopBar");
 }
 
 static UIVisualEffectView *YTKACEChromeGlass(UIView *owner, const void *key) {

@@ -18,7 +18,7 @@ static IMP OriginalContextualLayout;
 static const void *YTKACESheetGlassAssociation = &YTKACESheetGlassAssociation;
 
 static BOOL YTKACESheetGlassEnabled(void) {
-    return YTKACELiquidGlassAvailable() && YTKACEFeatureEnabled(@"YTKACE.Preference.Glass.Menus");
+    return !UIAccessibilityIsReduceTransparencyEnabled() && YTKACELiquidGlassAvailable() && YTKACEFeatureEnabled(@"YTKACE.Preference.Glass.Menus");
 }
 
 static UIView *YTKACEFindViewOfClass(UIView *root, NSString *name) {

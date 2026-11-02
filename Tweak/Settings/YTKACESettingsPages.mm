@@ -1834,6 +1834,8 @@ static NSDictionary *YTKACEGlassOptionsDefinition(void) {
         @[
             YTKACEToggleDetail(@"Floating Tab Bar Depth", @"Soft shadow under the floating glass tab bar.",
                                @"YTKACE.Preference.Glass.DepthShadow"),
+            YTKACEToggleDetail(@"Lightweight Glass", @"Keep glass materials with simpler tab selection and no depth shadow. Also follows Reduce Motion and Reduce Transparency.",
+                               @"YTKACE.Preference.Glass.Lightweight"),
             YTKACEToggleDetail(@"Shrink Tab Bar When Scrolling", @"Needs the Liquid Glass tab bar.",
                                @"YTKACE.Preference.Tabs.GlassMinimize"),
             YTKACEPicker(@"Selected Tab Color", @"YTKACE.Preference.Tabs.SelectedTint",

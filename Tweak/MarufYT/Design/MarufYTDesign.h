@@ -14,6 +14,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXPORT NSString *const MarufYTDepthShadowKey;
+FOUNDATION_EXPORT NSString *const MarufYTLightweightGlassKey;
+// Keep native materials, but omit decorative lens tracking and depth effects.
+FOUNDATION_EXPORT BOOL MarufYTLightweightGlassEnabled(void);
 
 // Preference defaults contributed by the design preset. Merged into
 // YTKACERegisterDefaults(). Glass keys are only defaulted on when the

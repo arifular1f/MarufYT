@@ -10,7 +10,7 @@ static const void *YTKACENoticeGlassAssociation = &YTKACENoticeGlassAssociation;
 
 BOOL YTKACEApplyGlassBackground(UIView *view, BOOL dark) {
     UIVisualEffectView *glass = objc_getAssociatedObject(view, YTKACENoticeGlassAssociation);
-    BOOL wanted = view != nil && YTKACELiquidGlassAvailable() &&
+    BOOL wanted = view != nil && !UIAccessibilityIsReduceTransparencyEnabled() && YTKACELiquidGlassAvailable() &&
         YTKACEFeatureEnabled(@"YTKACE.Preference.Glass.Notices");
     if (!wanted) {
         [glass removeFromSuperview];

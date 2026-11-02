@@ -192,5 +192,27 @@ check("control identity", "Package: com.arifular1f.marufyt" in control and "Auth
 check("control conflicts with upstream package", "Conflicts: com.itzzace.ytkace" in control)
 check("filter plist targets YouTube only", read("MarufYT.plist").count("com.google.ios.youtube") == 1)
 
+# Performance source regressions. These assert source contracts, not device timing.
+tabs = read("Tweak/Features/Navigation/TabBarHooks.mm")
+design = read("Tweak/MarufYT/Design/MarufYTDesign.mm")
+dearrow = read("Tweak/Features/SponsorBlock/DeArrow.mm")
+progress = read("Tweak/Features/Downloads/DownloadProgressView.mm")
+check("no delayed held-button tab correction", "weakNearest" not in tabs and "cancelTrackingWithEvent:nil" in tabs)
+check("replacement tabs follow host anchors", tabs.count("YTKACELayoutReplacementTab(view,") == 2
+      and "convertRect:nativeIcon.bounds toView:view" in tabs and "convertRect:nativeLabel.bounds toView:view" in tabs)
+check("replacement labels have no fixed bottom-16 offset", "CGRectGetHeight(view.bounds) - 16.0" not in tabs)
+check("lightweight appearance preserves stored preferences", "YTKACE.Preference.Glass.Lightweight" in design
+      and "@\"Lightweight Glass\"" in read("Tweak/Settings/YTKACESettingsPages.mm"))
+check("Reduce Motion bypasses custom springs", tabs.count("if (UIAccessibilityIsReduceMotionEnabled())") >= 2)
+check("lens tracker stops off-window and inactive", "lens.window == nil" in tabs
+      and "applicationState != UIApplicationStateActive" in tabs)
+check("DeArrow cache has count and memory cost limits", "countLimit = 160" in dearrow
+      and "totalCostLimit = 24 * 1024 * 1024" in dearrow and "forKey:videoID cost:cost" in dearrow)
+check("download positioning timer reused and tolerant", "if (self.positionTimer == nil)" in progress
+      and "self.positionTimer.tolerance = 0.5" in progress)
+for surface in ["Tweak/Features/Navigation/GlassChrome.mm", "Tweak/Features/Navigation/GlassSheets.mm",
+                "Tweak/Features/Playback/PlayerGlass.mm", "Tweak/UI/Notice.mm"]:
+    check(f"Reduce Transparency respected in {pathlib.Path(surface).name}", "!UIAccessibilityIsReduceTransparencyEnabled()" in read(surface))
+
 print(f"\n{'FAILED' if failures else 'OK'}: {len(failures)} failure(s)")
 sys.exit(1 if failures else 0)

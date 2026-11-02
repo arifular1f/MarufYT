@@ -6,6 +6,13 @@
 #import <objc/runtime.h>
 
 NSString *const MarufYTDepthShadowKey = @"YTKACE.Preference.Glass.DepthShadow";
+NSString *const MarufYTLightweightGlassKey = @"YTKACE.Preference.Glass.Lightweight";
+
+BOOL MarufYTLightweightGlassEnabled(void) {
+    return UIAccessibilityIsReduceMotionEnabled() ||
+        UIAccessibilityIsReduceTransparencyEnabled() ||
+        [NSUserDefaults.standardUserDefaults boolForKey:MarufYTLightweightGlassKey];
+}
 
 CGFloat const MarufYTCapsuleShadowRadius = 18.0;
 CGFloat const MarufYTCapsuleShadowOffsetY = 6.0;
@@ -132,7 +139,7 @@ static const void *MarufYTCapsuleDepthAssociation = &MarufYTCapsuleDepthAssociat
 void MarufYTDecorateTabCapsule(UIView *bar, UIView *glass) {
     if (bar == nil || glass == nil || glass.superview != bar) return;
     MarufYTCapsuleDepthView *depth = objc_getAssociatedObject(bar, MarufYTCapsuleDepthAssociation);
-    if (!MarufYTGlassPreferenceEnabled(MarufYTDepthShadowKey)) {
+    if (MarufYTLightweightGlassEnabled() || !MarufYTGlassPreferenceEnabled(MarufYTDepthShadowKey)) {
         if (depth != nil) MarufYTRemoveTabCapsuleDecoration(bar);
         return;
     }

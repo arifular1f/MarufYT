@@ -252,13 +252,22 @@ NSNotificationName const YTKACEDownloadJobsDidChangeNotification = @"YTKACEDownl
     [window bringSubviewToFront:self.card];
     [self applyTheme];
     [self layoutCard];
-    [self.positionTimer invalidate];
-    __weak YTKACEDownloadProgressView *weakSelf = self;
-    self.positionTimer = [NSTimer scheduledTimerWithTimeInterval:2.0 repeats:YES
-        block:^(NSTimer *timer) {
-            (void)timer;
-            [weakSelf layoutCard];
-        }];
+    if (self.positionTimer == nil) {
+        __weak YTKACEDownloadProgressView *weakSelf = self;
+        self.positionTimer = [NSTimer scheduledTimerWithTimeInterval:2.0 repeats:YES
+            block:^(NSTimer *timer) {
+                YTKACEDownloadProgressView *owner = weakSelf;
+                if (owner == nil || owner.card.superview == nil) {
+                    [timer invalidate];
+                    owner.positionTimer = nil;
+                    return;
+                }
+                if (UIApplication.sharedApplication.applicationState == UIApplicationStateActive) {
+                    [owner layoutCard];
+                }
+            }];
+        self.positionTimer.tolerance = 0.5;
+    }
     if (self.card.alpha < 1.0 && !self.dragging) {
         self.card.transform = CGAffineTransformMakeTranslation(0.0, 18.0);
         [UIView animateWithDuration:0.32 delay:0.0

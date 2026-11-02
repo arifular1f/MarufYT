@@ -148,6 +148,8 @@ static void YTKACELoadStore(void) {
         ? [stored mutableCopy] : [NSMutableDictionary dictionary];
     YTKACEImageCache = [NSCache new];
     YTKACEImageCache.countLimit = 160;
+    // NSCache may evict earlier under memory pressure; this is an advisory budget.
+    YTKACEImageCache.totalCostLimit = 24 * 1024 * 1024;
     YTKACEInFlight = [NSMutableSet set];
     YTKACEThumbInFlight = [NSMutableSet set];
     YTKACEPendingIDs = [NSMutableArray array];
@@ -271,7 +273,10 @@ static void YTKACEFetchThumbnail(NSString *videoID, double timestamp, id node) {
             ? [UIImage imageWithData:data] : nil;
         if (decoded == nil) return;
         os_unfair_lock_lock(&YTKACELock);
-        [YTKACEImageCache setObject:decoded forKey:videoID];
+        CGImageRef pixels = decoded.CGImage;
+        NSUInteger cost = pixels != NULL
+            ? CGImageGetBytesPerRow(pixels) * CGImageGetHeight(pixels) : data.length;
+        [YTKACEImageCache setObject:decoded forKey:videoID cost:cost];
         os_unfair_lock_unlock(&YTKACELock);
         YTKACEApplyImage(weakNode, videoID, decoded);
     }] resume];

@@ -32,7 +32,7 @@ static NSArray<UIView *> *YTKACEFrostedLayers(UIView *frosted) {
 
 static void YTKACEApplyFrostedGlass(UIView *receiver) {
     UIVisualEffectView *glass = objc_getAssociatedObject(receiver, YTKACEPlayerGlassAssociation);
-    BOOL enabled = YTKACELiquidGlassAvailable() && YTKACEFeatureEnabled(@"YTKACE.Preference.Glass.Player");
+    BOOL enabled = !UIAccessibilityIsReduceTransparencyEnabled() && YTKACELiquidGlassAvailable() && YTKACEFeatureEnabled(@"YTKACE.Preference.Glass.Player");
     BOOL wanted = enabled && YTKACEInPlayerControls(receiver);
     if (!wanted) {
         if (glass != nil) {
