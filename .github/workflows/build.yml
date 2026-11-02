@@ -2,7 +2,14 @@ name: Build
 
 # Builds the MarufYT ROOTLESS package. No YouTube IPA is downloaded or
 # published here; IPAs are assembled locally from a user-supplied decrypted
-# YouTube (see BUILD_INSTRUCTIONS.md).
+# YouTube (see Documentation/BUILD_INSTRUCTIONS.md).
+#
+# Hardening (see SECURITY.md):
+# - read-only token, no secrets used, credentials never persisted to disk;
+# - every action pinned to a full commit SHA (tag in the trailing comment);
+# - the Theos installer is fetched from a pinned commit and verified by SHA-256,
+#   and Theos itself is checked out at that commit;
+# - no untrusted event data is interpolated into shell commands.
 
 on:
   push:
@@ -13,59 +20,98 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  THEOS_COMMIT: 3ac89c984ec652fd16bcd91b33ae16de45ce76fa
+  THEOS_INSTALLER_SHA256: b9a86c31d0ef7b3f029c484160bbc034e1700688c07f528c8a0f49f123dc7d60
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+          fetch-depth: 0 # full history for the secret scan
       - name: Upstream packaging tests
         run: python3 -m unittest discover -s Tests -v
       - name: MarufYT source checks
         run: python3 Tools/marufyt_checks.py
+      - name: Secret scan (all history reachable from this checkout)
+        run: python3 Tools/marufyt_secret_scan.py
 
   build:
     needs: test
     # Theos' installer needs the libxml2 apt package, which Ubuntu 26.04
     # (ubuntu-latest since 2026-10) renamed.
     runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    permissions:
+      contents: read
     env:
       THEOS: ${{ github.workspace }}/.theos
       CI: true
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
 
       - name: Cache Theos
         id: cache-theos
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ${{ github.workspace }}/.theos
-          key: roothide-theos-ubuntu-24.04-v1
+          key: roothide-theos-ubuntu-24.04-${{ env.THEOS_COMMIT }}
 
-      - name: Setup Theos
+      - name: Setup Theos (pinned and verified)
         if: steps.cache-theos.outputs.cache-hit != 'true'
-        run: bash -c "$(curl -fsSL https://raw.githubusercontent.com/roothide/theos/master/bin/install-theos)"
+        run: |
+          set -euo pipefail
+          curl -fsSL -o "$RUNNER_TEMP/install-theos" \
+            "https://raw.githubusercontent.com/roothide/theos/${THEOS_COMMIT}/bin/install-theos"
+          echo "${THEOS_INSTALLER_SHA256}  $RUNNER_TEMP/install-theos" | sha256sum -c -
+          bash "$RUNNER_TEMP/install-theos"
+          git -C "$THEOS" fetch --quiet origin "$THEOS_COMMIT"
+          git -C "$THEOS" checkout --quiet "$THEOS_COMMIT"
+          git -C "$THEOS" submodule update --init --recursive --quiet
         env:
+          # Read-only token; the installer uses it only for GitHub API rate limits.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Record toolchain provenance
+        run: |
+          {
+            echo "theos commit: $(git -C "$THEOS" rev-parse HEAD)"
+            echo "sdks: $(ls "$THEOS/sdks" 2>/dev/null | tr '\n' ' ')"
+            echo "clang: $("$THEOS/toolchain/linux/iphone/bin/clang" --version 2>/dev/null | head -1)"
+          } | tee provenance.txt
 
       - name: Build ROOTLESS package
         run: |
           set -o pipefail
           make clean
           make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless \
-            MARUFYT_BUILD=${{ github.run_number }} \
+            MARUFYT_BUILD="$GITHUB_RUN_NUMBER" \
             DISABLE_ROOTLESS_COMPAT_WARNING=1 2>&1 | tee build.log
 
       - name: Collect artifacts
         run: |
+          set -euo pipefail
           version="$(awk '/^Version:/ {print $2}' control)"
           mkdir -p artifacts
           cp "$(ls packages/*.deb | head -1)" "artifacts/com.arifular1f.marufyt_${version}_rootless.deb"
-          cp dist/MarufYT.dylib artifacts/
-          cp build.log artifacts/
+          cp dist/MarufYT.dylib build.log provenance.txt artifacts/
           (cd artifacts && sha256sum * > SHA256SUMS.txt && cat SHA256SUMS.txt)
 
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: MarufYT-rootless
           path: artifacts/
           if-no-files-found: error
+          retention-days: 30

@@ -137,6 +137,26 @@ for language, entries in tables.items():
     print(f"INFO {language}: {len(missing)} English keys fall back to English")
 branded = [v.replace("YTKACE", "MarufYT") for t in tables.values() for v in t.values()]
 check("branding leaves no upstream name in localized values", not any("YTKACE" in v for v in branded))
+check("16 localization tables", len(tables) == 16, f"{len(tables)}")
+marufyt_keys = ["ALERTS", "SKIPPING", "SEGMENT COLORS", "Repository", "Version", "Package", "Developer",
+                "Floating Tab Bar Depth", "Soft shadow under the floating glass tab bar.",
+                "YTKACE Sleep Timer", "YTKACE SponsorBlock", "YTKACE Transcript"]
+untranslated = [f"{lang}:{k}" for lang, entries in tables.items() for k in marufyt_keys if k not in entries]
+check("every MarufYT string translated in all 16 tables", not untranslated, ", ".join(untranslated[:8]))
+
+# 9b. Runtime hardening.
+log = read("Tweak/Features/Downloads/DownloadLog.mm")
+check("diagnostics log redacts tokens and URL queries", "YTKACERedactLogMessage(message)" in log)
+check("diagnostics log not in Files-visible Documents",
+      "@[@(NSApplicationSupportDirectory),\n" in log and "NSURLIsExcludedFromBackupKey" in log)
+overlay = read("Tweak/UI/OverlayButtonHost.mm")
+check("player buttons have localized VoiceOver labels",
+      "button.accessibilityLabel = YTKACELocalized(identifier);" in overlay)
+tls_overrides = [p.name for p, t in SRC.items()
+                 if re.search(r"serverTrust|SecTrustEvaluate|NSAllowsArbitraryLoads|allowsAnyHTTPSCertificate", t)]
+check("no TLS trust overrides", not tls_overrides, ", ".join(tls_overrides))
+cleartext = [p.name for p, t in SRC.items() if re.search(r'@"http://', t)]
+check("no cleartext http:// endpoints", not cleartext, ", ".join(cleartext))
 
 # 10. Licences and workflows.
 license_text = read("LICENSE")
@@ -147,6 +167,23 @@ check("THIRD_PARTY_NOTICES credits YTKACE and FFmpeg", "YTKACE" in notices and "
 workflows = "".join(p.read_text(encoding="utf-8") for p in (ROOT / ".github/workflows").glob("*.yml"))
 check("workflows never download or publish a YouTube IPA",
       "dropbox" not in workflows.lower() and ".ipa" not in workflows.lower())
+uses = re.findall(r"uses:\s*([^\s#]+)", workflows)
+unpinned = [u for u in uses if not re.search(r"@[0-9a-f]{40}$", u)]
+check("every action pinned to a full commit SHA", bool(uses) and not unpinned, ", ".join(unpinned))
+check("checkout never persists credentials",
+      workflows.count("persist-credentials: false") == workflows.count("actions/checkout@"))
+check("workflow token read-only", "permissions:\n  contents: read" in workflows and "write" not in workflows)
+check("Theos installer pinned and hash-verified",
+      "THEOS_INSTALLER_SHA256" in workflows and "sha256sum -c" in workflows and "theos/master" not in workflows)
+check("no untrusted event data in run steps",
+      not re.search(r"\$\{\{\s*github\.(event|head_ref)", workflows))
+check("job timeouts set", workflows.count("timeout-minutes:") >= 2)
+check("Dependabot watches GitHub Actions", "github-actions" in read(".github/dependabot.yml"))
+for doc in ["SECURITY.md", "PRIVACY.md"]:
+    check(f"{doc} present", (ROOT / doc).exists() and "arifular1f" in read(doc))
+check("no upstream funding link in repository config", not (ROOT / ".github/FUNDING.yml").exists())
+templates = "".join(p.read_text(encoding="utf-8") for p in (ROOT / ".github/ISSUE_TEMPLATE").glob("*.yml"))
+check("issue templates branded MarufYT", "YTKACE" not in templates and "MarufYT" in templates)
 
 # 11. Package metadata.
 control = read("control")
