@@ -48,3 +48,18 @@ The script:
 5. Verifies the result.
 
 Afterwards, sign the IPA with your own certificate.
+
+## 3. Regenerating the vendored FFmpeg libraries (optional)
+
+`Vendor/FFmpeg/lib/*.a` are prebuilt LGPL static libraries from upstream (FFmpeg 8.1.2, built without `--enable-gpl` or `--enable-nonfree`). CI does not rebuild them. Their SHA-256 values are recorded in `Documentation/audits/DEPENDENCY_AUDIT.md`.
+
+To rebuild them, `Scripts/build-ffmpeg.sh` requires a verified source archive:
+
+```sh
+curl -LO https://ffmpeg.org/releases/ffmpeg-8.1.2.tar.xz
+curl -LO https://ffmpeg.org/releases/ffmpeg-8.1.2.tar.xz.asc
+gpg --verify ffmpeg-8.1.2.tar.xz.asc ffmpeg-8.1.2.tar.xz   # FFmpeg release signing key
+FFMPEG_SHA256=$(sha256sum ffmpeg-8.1.2.tar.xz | cut -d' ' -f1) bash Scripts/build-ffmpeg.sh
+```
+
+Before running the script, place the verified archive in its build directory, or let the script download it. The script stops if the SHA-256 does not match.

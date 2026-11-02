@@ -20,8 +20,20 @@ JOBS="${JOBS:-$(getconf _NPROCESSORS_ONLN 2>/dev/null || sysctl -n hw.ncpu)}"
 
 mkdir -p "$BUILD" "$OUTPUT/lib"
 if [[ ! -f "$BUILD/ffmpeg-$VERSION.tar.xz" ]]; then
-    curl -L --fail "https://ffmpeg.org/releases/ffmpeg-$VERSION.tar.xz" \
+    curl -L --fail --proto '=https' --tlsv1.2 "https://ffmpeg.org/releases/ffmpeg-$VERSION.tar.xz" \
         -o "$BUILD/ffmpeg-$VERSION.tar.xz"
+fi
+# MarufYT: never build from an unverified source archive. Verify the release
+# signature (ffmpeg-$VERSION.tar.xz.asc, FFmpeg release key) once, then pass
+# the archive's SHA-256 as FFMPEG_SHA256. See Documentation/BUILD_INSTRUCTIONS.md.
+if [[ -z "${FFMPEG_SHA256:-}" ]]; then
+    echo "error: set FFMPEG_SHA256 to the verified SHA-256 of ffmpeg-$VERSION.tar.xz" >&2
+    exit 1
+fi
+ACTUAL_SHA256="$( (sha256sum "$BUILD/ffmpeg-$VERSION.tar.xz" 2>/dev/null || shasum -a 256 "$BUILD/ffmpeg-$VERSION.tar.xz") | awk '{print $1}')"
+if [[ "$ACTUAL_SHA256" != "$FFMPEG_SHA256" ]]; then
+    echo "error: ffmpeg-$VERSION.tar.xz SHA-256 $ACTUAL_SHA256 does not match FFMPEG_SHA256" >&2
+    exit 1
 fi
 if [[ ! -d "$SOURCE" ]]; then
     tar -xf "$BUILD/ffmpeg-$VERSION.tar.xz" -C "$BUILD"
