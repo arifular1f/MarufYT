@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.1.4+marufyt.5 (2026-11-02): Phase 3 UI stability and simplicity
+
+Device behaviour is **not tested** for this release; see `Documentation/PHASE3/DEVICE_TEST_RESULTS.md`.
+
+### Default look (changes; each is reversible in Settings)
+- **Tab bar default is "Simple"** (YouTube's classic docked bar). Liquid Glass bars remain as the optional "YouTube" and "MarufYT" choices. A value you already stored always wins.
+- **Normal Home Layout is on by default**, which asks YouTube not to use its tabbed Home. A stored choice still wins; changing it needs an app restart.
+- **Glass presets (top bar, menus, notices, player) are no longer on by default.** Turn them on in Settings if you want them.
+
+### Stability
+- Layout geometry moved to a small pure-C module with native unit tests that run in CI.
+- The MarufYT tab icon and label are laid out from the tab's own bounds and a native sibling, so repeated layout passes give the same result. Label visibility follows the host.
+- The capsule no longer depends on the bottom safe-area inset, which was 0 during early layout and made it jump.
+- New on-demand layout snapshot: long-press the About "Version" row. Nothing observes or repairs layout in the background.
+
+### Motion and performance
+- Springs and bounces removed from the downloads library, progress card, SponsorBlock banner and mini player. New helper honours Reduce Motion.
+- The download progress card no longer runs a 2 s layout timer; it relayouts on orientation and activation.
+- The diagnostics log appends instead of rewriting the whole file per line. Redaction, backup exclusion and file protection are unchanged.
+- No measurements were taken; no performance or battery numbers are claimed.
+
+### Localization
+- Two new strings in all 16 tables. They are machine-assisted and not reviewed by native speakers.
+
 ## 1.1.4+marufyt.3 (2026-11-02): security, localization and accessibility
 
 ### Security and privacy
