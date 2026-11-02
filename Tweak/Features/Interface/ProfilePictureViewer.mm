@@ -1,5 +1,6 @@
 #import "../../YTKACE.h"
 #import "../../Runtime/Preferences.h"
+#import "../../Runtime/URLPolicy.h"
 #import "../../UI/Notice.h"
 
 #import <Photos/Photos.h>
@@ -496,8 +497,10 @@ static const void *YTKACEAvatarViewGestureAssociation =
     NSString *absolute = YTKACEAvatarURLString(node);
     NSString *upgraded = YTKACEHighResAvatarURL(absolute);
     if (upgraded == nil) return;
+    NSURL *avatarURL = [NSURL URLWithString:upgraded];
+    if (!MarufYTIsSecureURL(avatarURL)) return;
     __weak UIView *weakView = view;
-    [[NSURLSession.sharedSession dataTaskWithURL:[NSURL URLWithString:upgraded]
+    [[NSURLSession.sharedSession dataTaskWithURL:avatarURL
         completionHandler:^(NSData *data, __unused NSURLResponse *response,
                             __unused NSError *error) {
         UIImage *full = data.length != 0 ? [UIImage imageWithData:data] : nil;

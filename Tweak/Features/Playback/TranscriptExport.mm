@@ -1,5 +1,6 @@
 #import "../../YTKACE.h"
 #import "../../Runtime/Hooking.h"
+#import "../../Runtime/URLPolicy.h"
 #import "../../Runtime/Preferences.h"
 #import "../../Runtime/Localization.h"
 #import "../../UI/Assets.h"
@@ -404,7 +405,7 @@ NSURL *YTKACECaptionTrackURL(id track) {
 
 void YTKACEFetchCuesForURL(NSURL *url,
                            void (^completion)(NSArray<NSDictionary *> *cues)) {
-    if (url == nil) {
+    if (!MarufYTIsSecureURL(url)) {
         completion(nil);
         return;
     }
@@ -472,7 +473,7 @@ void YTKACEFetchCaptionCues(id playerResponse,
                             void (^completion)(NSArray<NSDictionary *> *cues,
                                                NSString *language)) {
     YTKACEResolveCaptionTrack(playerResponse, ^(NSURL *url, NSString *language) {
-        if (url == nil) {
+        if (!MarufYTIsSecureURL(url)) {
             completion(nil, nil);
             return;
         }
@@ -525,7 +526,7 @@ static void YTKACEFetchTranscript(id track,
                                   BOOL timestamps,
                                   void (^completion)(NSString *)) {
     NSURL *URL = YTKACETrackJSONURL(track);
-    if (URL == nil) {
+    if (!MarufYTIsSecureURL(URL)) {
         completion(nil);
         return;
     }

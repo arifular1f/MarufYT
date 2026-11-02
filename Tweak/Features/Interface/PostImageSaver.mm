@@ -1,6 +1,7 @@
 #import "../../YTKACE.h"
 #import "../../Runtime/Hooking.h"
 #import "../../Runtime/Preferences.h"
+#import "../../Runtime/URLPolicy.h"
 #import "../../Runtime/Localization.h"
 #import "../../UI/Notice.h"
 #import "../Downloads/DownloadLog.h"
@@ -106,6 +107,10 @@ static NSURL *YTKACEOriginalImageURL(NSURL *url) {
     }
 
     NSURL *original = YTKACEOriginalImageURL(url);
+    if (!MarufYTIsSecureURL(original)) {
+        YTKACEShowNotice(YTKACELocalized(@"The image could not be saved."));
+        return;
+    }
     sender.enabled = NO;
     NSURLSessionDataTask *task = [NSURLSession.sharedSession
         dataTaskWithURL:original

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.4+marufyt.6 (2026-11-02): Phase 4 security, privacy and repository cleanup
+
+- **HTTPS-only fetches:** profile pictures, post images and caption/transcript downloads, whose URLs come from YouTube objects, are only requested over HTTPS (`Tweak/Runtime/URLPolicy.h`).
+- **Documentation:** new audits in `Documentation/PHASE4/` (security, privacy data flow, iOS permissions, binary and supply chain, performance, repository cleanup, GitHub redesign, feature regression). Phase 2 reports moved to `Documentation/history/phase2/`. README rewritten.
+- **CI:** branches matching `phase4-*` are built.
+- No change to features, defaults or the look. Device behaviour of this build is not tested.
+
 ## 1.1.4+marufyt.5 (2026-11-02): Phase 3 UI stability and simplicity
 
 Device behaviour is **not tested** for this release; see `Documentation/PHASE3/DEVICE_TEST_RESULTS.md`.

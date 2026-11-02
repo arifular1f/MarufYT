@@ -263,5 +263,12 @@ check("layout snapshot is on demand only",
       and "NSTimer" not in read("Tweak/Features/Navigation/LayoutSnapshot.mm")
       and "LayoutSnapshot.mm" in read("Makefile"))
 
+# Phase 4: fetches of URLs that come from YouTube objects require HTTPS.
+check("URL policy requires https before MarufYT fetches YouTube-supplied URLs",
+      "MarufYTIsSecureURL" in read("Tweak/Runtime/URLPolicy.h")
+      and all("MarufYTIsSecureURL(" in read(f) for f in [
+          "Tweak/Features/Interface/PostImageSaver.mm", "Tweak/Features/Interface/ProfilePictureViewer.mm",
+          "Tweak/Features/Playback/TranscriptExport.mm"]))
+
 print(f"\n{'FAILED' if failures else 'OK'}: {len(failures)} failure(s)")
 sys.exit(1 if failures else 0)
