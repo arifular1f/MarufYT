@@ -10,24 +10,24 @@ These come from YTKACE and are kept unchanged:
 
 - Ad blocking: feed, sponsored app cards, video, Shorts and upsell prompts
 - SponsorBlock and DeArrow
-- Video, audio, Shorts and playlist downloads, with a download library
+- Video, audio, Shorts, playlist and subtitle downloads, with a library
 - Background playback, Picture-in-Picture, speed, loop and sleep timer
-- Gestures, quality presets, and Shorts, feed and tab customization
+- Gestures, quality presets, captions, and Shorts, feed, watch-page, top-bar and tab customization
 - Liquid Glass tab bar, top bar, menus, toasts and player buttons (iOS 26 and later)
 
 MarufYT adds:
 
-- MarufYT branding, plus an About section with Repository, Developer and Credits rows
-- A Liquid Glass design preset: glass surfaces are on by default where `UIGlassEffect` exists, and any setting you change yourself is kept
-- A floating tab-bar depth layer: a soft shadow drawn outside the glass capsule only, so the glass itself never darkens
+- A native iOS settings design system: inset-grouped cards, Dynamic Type, restrained accent colour, grey values and Settings-style icons
+- An About section with Developer, Repository, Version, YouTube version and Package
+- A regrouped SponsorBlock page
+- A Liquid Glass preset, and a depth layer under the floating tab bar
 
-## Compatibility
+## Branches
 
-| Item | Value |
-| --- | --- |
-| YouTube | 21.39.4 (the host YTKACE 1.1.1 was released for) |
-| iOS | 15 or later for the tweak; 17 or later for the YouTube 21.39.4 IPA; Liquid Glass needs 26 or later |
-| Package | ROOTLESS (`iphoneos-arm64`) |
+| Branch | YouTube host | Status |
+| --- | --- | --- |
+| `phase2` | 21.39.4 and 21.43.5 | Current development; source based on upstream `main` |
+| `stable-21.39.4` / `main` | 21.39.4 | Previous release (1.1.1+marufyt.1) |
 
 ## Building
 

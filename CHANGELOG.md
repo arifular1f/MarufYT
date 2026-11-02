@@ -1,21 +1,42 @@
 # Changelog
 
+## 1.1.4+marufyt.2 (2026-11-02) — Phase 2
+
+Based on upstream YTKACE `main` at `11249ee` (after v1.1.4), which adds fixes for newer YouTube versions, including the YouTube glass tab bar (`YTFloatingPivotBarView`).
+
+### Design system (new: `Tweak/MarufYT/Design/MarufYTTheme`)
+- Semantic, dynamic colours for light, dark and OLED.
+  - A restrained cobalt accent (#3563D9 light, #7C9CFF dark) replaces YouTube red. It is used only for switches, sliders, steppers, checkmarks and the search caret.
+  - Values are secondary grey.
+  - Surfaces are iOS-style grouped pages with card cells.
+- Dynamic Type everywhere in settings (body, subheadline, footnote, monospaced-digit readouts), instead of fixed 10–17 pt sizes.
+- Native row heights (self-sizing, no fixed 40 pt rows), full-size switches (no 0.95 scaling) and hairline colour swatches.
+- Pickers show the value with an up/down chevron, the iOS pop-up menu affordance.
+
+### Settings
+- The main screen, all settings pages, the tab editor and the search results are now inset-grouped.
+- Main menu: Settings-style coloured icon tiles.
+- About shows Developer (arifular1f), Repository (arifular1f/MarufYT), Version (with CI build number), YouTube version and Package (ROOTLESS · arm64).
+  - The Credits row is removed. Attribution stays in `LICENSE` and `THIRD_PARTY_NOTICES.md`.
+  - The device model and bundle ID are no longer shown.
+- SponsorBlock is regrouped into Main, Alerts, DeArrow, Skipping and Segment Colors.
+  - Skipping has one row per category, with its colour dot.
+  - Every key, option and default is unchanged.
+- The Liquid Glass page adds a *Floating Tab Bar Depth* toggle.
+
+### Branding
+- All user-visible names, dialogs, the tab title, the library title, the settings group and the 15 localizations show MarufYT.
+- The AiSList user agent and default reporter name are MarufYT.
+- The tab-bar mode formerly called "YTKACE" is now called "MarufYT".
+
+### Liquid Glass
+- Adapted the preset to upstream's new tab-bar mode setting (Default, MarufYT capsule, YouTube, Off). The MarufYT capsule is preferred only when you have stored neither a mode nor the legacy switch.
+
+### Build and tools
+- The CI build step fails on compiler errors (`pipefail`) and stamps the run number into the build.
+- `Tools/marufyt_host_audit.py` (static host compatibility audit) and `Tools/phase2_apply.py` (record of the Phase 2 transformation) are added.
+- The packager finds `YTKACE.bundle` in either deb layout and removes `AppMigrationExtension.appex`, as upstream's sideload script does.
+
 ## 1.1.1+marufyt.1 (2026-11-02)
 
-Based on YTKACE 1.1.1 by itzzace.
-
-### Added
-- MarufYT branding module. The settings title, YouTube Settings group, tab name, dialogs and all 15 localizations show "MarufYT".
-- About section: **Repository** (github.com/arifular1f/MarufYT), **Developer** (github.com/arifular1f) and **Credits**.
-- Credits and licences page, listing YTKACE by itzzace, FFmpeg, SponsorBlock/DeArrow, the yt-dlp EJS solver, YTPlaybackFix, YTLiquidGlass, meriyah and astring.
-- Liquid Glass preset. YTKACE's glass tab bar, top-bar buttons, menus, toasts and player buttons are on by default on iOS 26 and later. Your own choices are kept.
-- Floating tab-bar depth: a soft shadow drawn only outside the glass capsule. Toggle it in *Liquid Glass → Floating Tab Bar Depth*.
-- `Tools/marufyt_checks.py` (static regression checks) and `Tools/marufyt_package.py` (local IPA assembly).
-
-### Changed
-- The library is now `MarufYT.dylib`, and the package is `com.arifular1f.marufyt`. It conflicts with and replaces `com.itzzace.ytkace`.
-- CI builds ROOTLESS only. The upstream IPA workflow (which downloaded YouTube from Dropbox) and the Pages workflow are removed.
-
-### Unchanged
-- All YTKACE features, hooks and preference keys. Existing settings and backups carry over.
-- Google sign-in and the sideload compatibility hooks.
+The first MarufYT release, based on YTKACE 1.1.1. It added branding, About, Credits, the Liquid Glass preset, the floating tab-bar depth layer, CI and the packager. The source is kept on branch `stable-21.39.4`.

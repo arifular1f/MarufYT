@@ -1,30 +1,43 @@
-# MarufYT modules
+# MarufYT modules (`Tweak/MarufYT/`)
 
-## Branding (`Tweak/MarufYT/MarufYTBranding.*`)
+## Branding (`Branding/MarufYTBranding.*`)
 
-The single source of the product identity. Dependencies: Foundation and UIKit (`openURL`).
+The single source of the product identity:
 
-- `MarufYTBrandedString()` replaces the upstream product name in user-facing text. `Localization.mm` applies it once per language load, so all 15 translations are rebranded without editing their keys.
-- `MarufYTIsOwnAccessibilityText()` keeps the navigation-cleanup hooks from hiding MarufYT's own buttons under either name.
+- `MarufYTProductName`, `MarufYTDeveloperName`
+- repository and profile URLs; `MarufYTRepositoryDisplay`
+- `MarufYTPackageDescription`
+- `MarufYTVersionString()`, from the control file at build time
+- `MarufYTBuildNumber()`, the CI run number via `MARUFYT_BUILD`
+- `MarufYTHostVersion()`
 
-## Design system (`Tweak/MarufYT/MarufYTDesign.*`)
+How branding is applied:
 
-This module builds on YTKACE's native Liquid Glass implementation (`TabBarHooks.mm`, `GlassChrome.mm`, `GlassSheets.mm`, `PlayerGlass.mm`, `Notice.mm`). It does not create a second navigation layer, so hit-testing, the selection lens, scroll-to-minimize and safe-area geometry all stay upstream's.
+- **Localization:** `MarufYTBrandedString()` rebrands localized values once per language load, so all 15 translations change without editing their keys.
+- **Own-view detection:** `MarufYTIsOwnAccessibilityText()` keeps the navigation-cleanup hooks from hiding MarufYT's own buttons under either name.
 
-- **Preset.** `MarufYTPreferenceDefaults()` turns these on by default when `UIGlassEffect` exists (iOS 26 and later): the tab bar, top-bar buttons, menus and sheets, toasts and popups, and player buttons. `registerDefaults` never overrides a value the user has set.
-  - `MarufYTGlassPreferenceEnabled()` gives the same answer for the image constructor that removes `UIDesignRequiresCompatibility`. That constructor can run before defaults are registered.
-- **Capsule depth.** `MarufYTDecorateTabCapsule()` puts a shadow-only view behind the floating glass capsule.
-  - **Outside only:** an even-odd mask clips the shadow to the area outside the capsule, so the translucent glass is never darkened.
-  - **Cheap:** it uses an explicit `shadowPath` (no offscreen shadow pass) and does no work when the frame and style haven't changed.
-  - **No interference:** it's hidden in the minimized circle state, never receives touches, and is ignored by accessibility.
-  - **Toggle:** *Liquid Glass → Floating Tab Bar Depth* (`YTKACE.Preference.Glass.DepthShadow`, on by default).
+## Design (`Design/`)
 
-## Credits (`Tweak/MarufYT/MarufYTCreditsController.mm`)
+### `MarufYTTheme.*`: the settings design system
 
-An inset-grouped page with three sections:
+| Token or helper | Value |
+| --- | --- |
+| Accent | Cobalt #3563D9 / #7C9CFF. Used only for switches, sliders, steppers, checkmarks and the caret. `YTKACEAccentColor()` returns it |
+| Values | `secondaryLabelColor` |
+| Page / card | Grouped grey #F2F2F7 / white (light); 0.075 / 0.135 (dark, matching YouTube); black / 0.07 (OLED) |
+| Typography | Dynamic Type: body (titles and values), subheadline (descriptions), footnote (headers and notes), monospaced-digit body (readouts) |
+| Metrics | 12 pt card radius, 7 pt icon radius; `MarufYTScaledHeight()` scales fixed rows with the content size |
+| Helpers | `MarufYTStyleSettingsTable`, `MarufYTStyleCell`, `MarufYTStyleSectionHeader`, `MarufYTStyleSwitch`, `MarufYTStyleSlider`, `MarufYTMenuValueView` (value + up/down chevron), `MarufYTIconTile` / `MarufYTIconTileWithImage` (cached; at most 64 tiles), `MarufYTTintForPage` |
 
-- **MarufYT:** version, Developer (→ https://github.com/arifular1f) and Repository (→ https://github.com/arifular1f/MarufYT)
-- **Built on:** YTKACE by itzzace, with a link
-- **Third-party components:** each component, with its licence and a link
+### `MarufYTDesign.*`: the Liquid Glass preset and capsule depth
 
-It is reached from MarufYT settings → About → Credits and from YouTube Settings → MarufYT → Credits.
+- **Preset:** top bar, menus, toasts and player glass default to on when `UIGlassEffect` exists.
+- **Tab bar mode:** `MarufYTPresetTabGlassMode()` (the floating capsule) is used only when you have stored neither `Tabs.GlassMode` nor the legacy `Tabs.Glass` switch.
+- **Depth layer:** `MarufYTDecorateTabCapsule()` adds a shadow that is masked to outside the capsule and rasterized. Toggle: `YTKACE.Preference.Glass.DepthShadow`.
+
+## Where the modules are used
+
+All upstream changes are listed in `SOURCE_PROVENANCE.md`.
+
+- **Settings screens:** root, pages, tab editor and search.
+- **Runtime:** localization, preference defaults, the tab bar and navigation visibility.
