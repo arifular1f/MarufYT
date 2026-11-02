@@ -1,7 +1,8 @@
-// MarufYT — Liquid Glass design system.
+// MarufYT — appearance defaults and the optional Liquid Glass capsule depth layer.
 // Copyright (c) 2026 arifular1f. MIT License; see LICENSE.
 
 #import "MarufYTDesign.h"
+#import "MarufYTLayoutMath.h"
 
 #import <objc/runtime.h>
 
@@ -20,34 +21,25 @@ CGFloat const MarufYTCapsuleShadowOffsetY = 6.0;
 static CGFloat const MarufYTShadowOpacityLight = 0.14;
 static CGFloat const MarufYTShadowOpacityDark = 0.40;
 
-static BOOL MarufYTNativeGlassAvailable(void) {
-    return NSClassFromString(@"UIGlassEffect") != Nil;
-}
-
-static NSArray<NSString *> *MarufYTGlassPresetKeys(void) {
-    return @[@"YTKACE.Preference.Glass.TopBar",
-             @"YTKACE.Preference.Glass.Menus",
-             @"YTKACE.Preference.Glass.Notices",
-             @"YTKACE.Preference.Glass.Player"];
-}
-
+// Phase 3: the default appearance is simple and host-native. The glass
+// surfaces stay available as opt-in settings; nothing here is ever written
+// to the user's preferences, and any stored value always wins.
 NSInteger MarufYTPresetTabGlassMode(void) {
-    // 1 = the floating glass capsule (with the MarufYT depth layer).
-    // Not registered as a default: an explicit legacy Tabs.Glass value must win.
-    return MarufYTNativeGlassAvailable() ? 1 : 0;
+    return MarufYTTabModeSimple;
 }
 
 NSDictionary<NSString *, id> *MarufYTPreferenceDefaults(void) {
     static NSDictionary *defaults;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSMutableDictionary *values = [NSMutableDictionary dictionary];
-        values[MarufYTDepthShadowKey] = @YES;
-        // Only where the native material exists; older systems keep upstream defaults.
-        if (MarufYTNativeGlassAvailable()) {
-            for (NSString *key in MarufYTGlassPresetKeys()) values[key] = @YES;
-        }
-        defaults = [values copy];
+        defaults = @{
+            // Optional capsule: no depth shadow, simple pill (no lens tracking).
+            MarufYTDepthShadowKey: @NO,
+            MarufYTLightweightGlassKey: @YES,
+            // Keep YouTube's classic category chips instead of the server-driven
+            // "tabbed Home" redesign, which a remote config can switch on later.
+            @"YTKACE.Preference.Feed.HomeTabsHidden": @YES
+        };
     });
     return defaults;
 }

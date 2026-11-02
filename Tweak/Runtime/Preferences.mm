@@ -120,7 +120,8 @@ void YTKACERegisterDefaults(void) {
         @"YTKACE.Preference.Gestures.HUDSize": @1,
         @"YTKACE.Preference.Gestures.HUDPosition": @0,
         @"YTKACE.Preference.Tabs.Startup": @"",
-        @"YTKACE.Preference.Feed.HomeTabsHidden": @NO,
+        // MarufYT: on by default (see MarufYTPreferenceDefaults); a stored value always wins.
+        @"YTKACE.Preference.Feed.HomeTabsHidden": @YES,
         @"YTKACE.Preference.Shorts.LimitEnabled": @NO,
         @"YTKACE.Preference.Shorts.FeedHidden": @NO,
         @"YTKACE.Preference.Shorts.HomeKept": @NO,

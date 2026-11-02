@@ -12,7 +12,7 @@ name: Build
 
 on:
   push:
-    branches: [main, phase2, 'stable-*', 'migrate/*']
+    branches: [main, phase2, 'stable-*', 'migrate/*', 'phase3-*']
   pull_request:
   workflow_dispatch:
     inputs:
@@ -40,7 +40,10 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0 # full history for the secret scan
-      - name: Upstream packaging tests
+      - name: Upstream packaging tests and native layout tests
+        env:
+          # The native layout tests need a C compiler; fail instead of skipping.
+          MARUFYT_REQUIRE_NATIVE: '1'
         run: python3 -m unittest discover -s Tests -v
       - name: MarufYT source checks
         run: python3 Tools/marufyt_checks.py

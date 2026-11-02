@@ -1,13 +1,11 @@
-// MarufYT — Liquid Glass design system.
+// MarufYT — appearance defaults and the optional Liquid Glass capsule.
 // Copyright (c) 2026 arifular1f. MIT License; see LICENSE.
 //
-// Builds on YTKACE's native UIGlassEffect implementation (TabBarHooks.mm,
-// GlassChrome.mm, GlassSheets.mm, PlayerGlass.mm) instead of adding a second
-// navigation layer:
-//   * a "premium" preset that turns the existing glass surfaces on by default
-//     on iOS versions that provide UIGlassEffect (explicit user choices win);
-//   * shared design tokens;
-//   * a depth layer for the floating tab-bar capsule (outside-only shadow).
+// Since Phase 3 the default look is simple and host-native: YouTube's classic
+// docked tab bar, no glass presets, no depth layer. This module provides:
+//   * the default preference values (stored user choices always win);
+//   * the optional depth layer for the MarufYT Liquid Glass capsule, which is
+//     off unless the user turns it on.
 
 #import <UIKit/UIKit.h>
 
@@ -18,17 +16,17 @@ FOUNDATION_EXPORT NSString *const MarufYTLightweightGlassKey;
 // Keep native materials, but omit decorative lens tracking and depth effects.
 FOUNDATION_EXPORT BOOL MarufYTLightweightGlassEnabled(void);
 
-// Preference defaults contributed by the design preset. Merged into
-// YTKACERegisterDefaults(). Glass keys are only defaulted on when the
-// system provides UIGlassEffect.
+// Default values contributed by MarufYT. Merged into YTKACERegisterDefaults();
+// registerDefaults never overrides a value the user has stored.
 FOUNDATION_EXPORT NSDictionary<NSString *, id> *MarufYTPreferenceDefaults(void);
 
 // Same answer as YTKACEFeatureEnabled() for a preset key, but usable from
 // image constructors that may run before defaults are registered.
 FOUNDATION_EXPORT BOOL MarufYTGlassPreferenceEnabled(NSString *key);
 
-// Tab-bar glass mode used when the user has stored neither
-// YTKACE.Preference.Tabs.GlassMode nor the legacy Tabs.Glass switch.
+// Tab-bar mode used when the user has stored neither
+// YTKACE.Preference.Tabs.GlassMode nor the legacy Tabs.Glass switch:
+// 3, YouTube's classic docked bar.
 FOUNDATION_EXPORT NSInteger MarufYTPresetTabGlassMode(void);
 
 // Design tokens.
