@@ -1,4 +1,5 @@
 #import "DownloadProgressView.h"
+#import "../../MarufYT/Design/MarufYTDesign.h"
 #import "../../Runtime/Preferences.h"
 #import "../../Runtime/Localization.h"
 #import "../../UI/Notice.h"
@@ -39,7 +40,7 @@ NSNotificationName const YTKACEDownloadJobsDidChangeNotification = @"YTKACEDownl
 @property(nonatomic, strong) NSMutableArray<NSString *> *activeIdentifiers;
 @property(nonatomic, copy, nullable) NSString *visibleIdentifier;
 @property(nonatomic, copy, nullable) NSString *renderedIdentifier;
-@property(nonatomic, strong) NSTimer *positionTimer;
+@property(nonatomic) BOOL observingLayout;
 @property(nonatomic, assign) BOOL userHidden;
 @property(nonatomic, assign) BOOL dragging;
 @end
@@ -197,8 +198,6 @@ NSNotificationName const YTKACEDownloadJobsDidChangeNotification = @"YTKACEDownl
 }
 
 - (void)hideCardAnimated {
-    [self.positionTimer invalidate];
-    self.positionTimer = nil;
     [UIView animateWithDuration:0.22 delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.card.alpha = 0.0;
         self.card.transform = CGAffineTransformMakeTranslation(0.0, 40.0);
@@ -242,6 +241,20 @@ NSNotificationName const YTKACEDownloadJobsDidChangeNotification = @"YTKACEDownl
     }];
 }
 
+// Event-driven: the card's frame depends only on the window bounds and safe
+// area, so it is recomputed when those change instead of on a timer.
+- (void)observeLayoutChanges {
+    if (self.observingLayout) return;
+    self.observingLayout = YES;
+    [UIDevice.currentDevice beginGeneratingDeviceOrientationNotifications];
+    NSNotificationCenter *center = NSNotificationCenter.defaultCenter;
+    for (NSNotificationName name in @[UIDeviceOrientationDidChangeNotification,
+                                      UIApplicationDidBecomeActiveNotification,
+                                      UISceneDidActivateNotification]) {
+        [center addObserver:self selector:@selector(layoutCard) name:name object:nil];
+    }
+}
+
 - (void)attach {
     UIWindow *window = [self keyWindow];
     if (window == nil || self.suppressed || self.userHidden) return;
@@ -252,30 +265,14 @@ NSNotificationName const YTKACEDownloadJobsDidChangeNotification = @"YTKACEDownl
     [window bringSubviewToFront:self.card];
     [self applyTheme];
     [self layoutCard];
-    if (self.positionTimer == nil) {
-        __weak YTKACEDownloadProgressView *weakSelf = self;
-        self.positionTimer = [NSTimer scheduledTimerWithTimeInterval:2.0 repeats:YES
-            block:^(NSTimer *timer) {
-                YTKACEDownloadProgressView *owner = weakSelf;
-                if (owner == nil || owner.card.superview == nil) {
-                    [timer invalidate];
-                    owner.positionTimer = nil;
-                    return;
-                }
-                if (UIApplication.sharedApplication.applicationState == UIApplicationStateActive) {
-                    [owner layoutCard];
-                }
-            }];
-        self.positionTimer.tolerance = 0.5;
-    }
+    [self observeLayoutChanges];
     if (self.card.alpha < 1.0 && !self.dragging) {
-        self.card.transform = CGAffineTransformMakeTranslation(0.0, 18.0);
-        [UIView animateWithDuration:0.32 delay:0.0
-            usingSpringWithDamping:0.82 initialSpringVelocity:0.2
-            options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-                self.card.alpha = 1.0;
-                self.card.transform = CGAffineTransformIdentity;
-            } completion:nil];
+        self.card.transform = MarufYTReduceMotion() ? CGAffineTransformIdentity
+                                                    : CGAffineTransformMakeTranslation(0.0, 12.0);
+        MarufYTAnimate(MarufYTMotionStandard, ^{
+            self.card.alpha = 1.0;
+            self.card.transform = CGAffineTransformIdentity;
+        }, nil);
     }
 }
 
@@ -398,8 +395,6 @@ NSNotificationName const YTKACEDownloadJobsDidChangeNotification = @"YTKACEDownl
     }
     self.visibleIdentifier = nil;
     self.userHidden = NO;
-    [self.positionTimer invalidate];
-    self.positionTimer = nil;
     [UIView animateWithDuration:0.22 animations:^{
         self.card.alpha = 0.0;
         self.card.transform = CGAffineTransformMakeTranslation(0.0, 14.0);

@@ -1,4 +1,5 @@
 #import "SponsorClient.h"
+#import "../../MarufYT/Design/MarufYTDesign.h"
 #import "SponsorPreferences.h"
 #import "../../YTKACE.h"
 #import "../../Runtime/Hooking.h"
@@ -227,11 +228,10 @@ static void YTKACEFadeInSponsorBanner(UIView *banner) {
         YTKACEFadeOutSponsorBanner(banner);
         return;
     }
-    [UIView animateWithDuration:0.35 delay:0.0 usingSpringWithDamping:0.75 initialSpringVelocity:0.0
-                        options:UIViewAnimationOptionAllowUserInteraction animations:^{
+    MarufYTAnimate(MarufYTMotionStandard, ^{
         banner.transform = CGAffineTransformIdentity;
         banner.alpha = 1.0;
-    } completion:nil];
+    }, nil);
 }
 @end
 

@@ -8,6 +8,7 @@
 #import "../UI/Assets.h"
 #import "../UI/Notice.h"
 #import "../Features/Downloads/DownloadLog.h"
+#import "../Features/Navigation/LayoutSnapshot.h"
 #import "../MarufYT/Branding/MarufYTBranding.h"
 #import "../MarufYT/Design/MarufYTTheme.h"
 
@@ -278,6 +279,7 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
     // Hidden diagnostics: long-press the Version row.
     if (indexPath.section == (NSInteger)YTKACESettingsMenu().count &&
         indexPath.row == MarufYTAboutRowVersion) {
+        YTKACELogLayoutSnapshot();
         [self showDownloadLog];
     }
 }

@@ -125,15 +125,25 @@ static void YTKACEWriteLogLine(NSString *identifier, NSString *message) {
         NSDate.date, identifier.length == 0 ? @"download" : identifier, message];
     dispatch_async(YTKACEDownloadLogQueue(), ^{
         NSURL *URL = YTKACEDownloadLogURL();
-        NSData *existing = [NSData dataWithContentsOfURL:URL] ?: NSData.data;
-        NSMutableData *data = [existing mutableCopy];
-        [data appendData:[line dataUsingEncoding:NSUTF8StringEncoding]];
-        if (data.length > YTKACEDownloadLogLimit) {
-            NSUInteger keep = YTKACEDownloadLogLimit * 3 / 4;
-            NSData *tail = [data subdataWithRange:NSMakeRange(data.length - keep, keep)];
-            data = [tail mutableCopy];
+        // Append only; the file is rewritten (trimmed) once it passes the limit.
+        NSData *bytes = [line dataUsingEncoding:NSUTF8StringEncoding];
+        NSFileHandle *handle = [NSFileHandle fileHandleForWritingToURL:URL error:nil];
+        if (handle == nil) {
+            [bytes writeToURL:URL atomically:YES];
+            return;
         }
-        [data writeToURL:URL atomically:YES];
+        unsigned long long size = 0;
+        [handle seekToEndReturningOffset:&size error:nil];
+        [handle writeData:bytes error:nil];
+        [handle closeAndReturnError:nil];
+        if (size + bytes.length > YTKACEDownloadLogLimit) {
+            NSMutableData *data = [[NSData dataWithContentsOfURL:URL] mutableCopy];
+            NSUInteger keep = YTKACEDownloadLogLimit * 3 / 4;
+            if (data.length > keep) {
+                [[data subdataWithRange:NSMakeRange(data.length - keep, keep)]
+                    writeToURL:URL atomically:YES];
+            }
+        }
     });
 }
 

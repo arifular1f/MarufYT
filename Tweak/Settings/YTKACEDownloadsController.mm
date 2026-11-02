@@ -1,4 +1,5 @@
 #import "YTKACEDownloadsController.h"
+#import "../MarufYT/Design/MarufYTDesign.h"
 #import "../MarufYT/Branding/MarufYTBranding.h"
 #import <Photos/Photos.h>
 #import "../Features/Downloads/DownloadCoordinator.h"
@@ -1426,19 +1427,10 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
         [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
     [feedback impactOccurred];
     NSURL *url = self.files[(NSUInteger)indexPath.item];
-    [UIView animateWithDuration:0.14 delay:0.0
-                        options:UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-        cell.cardView.transform = CGAffineTransformMakeScale(0.94, 0.94);
-        cell.cardView.alpha = 0.75;
-    } completion:^(__unused BOOL finished) {
-        [UIView animateWithDuration:0.3 delay:0.0 usingSpringWithDamping:0.6 initialSpringVelocity:0.0
-                            options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            cell.cardView.transform = CGAffineTransformIdentity;
-            cell.cardView.alpha = 1.0;
-        } completion:nil];
-        [self showItemMenuForURL:url sourceView:cell];
-    }];
+    // Simple press feedback; the menu opens immediately instead of after a bounce.
+    cell.cardView.alpha = 0.75;
+    MarufYTAnimate(MarufYTMotionQuick, ^{ cell.cardView.alpha = 1.0; }, nil);
+    [self showItemMenuForURL:url sourceView:cell];
 }
 
 - (id)nativeActionWithTitle:(NSString *)title

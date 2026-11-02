@@ -16,6 +16,14 @@ FOUNDATION_EXPORT NSString *const MarufYTLightweightGlassKey;
 // Keep native materials, but omit decorative lens tracking and depth effects.
 FOUNDATION_EXPORT BOOL MarufYTLightweightGlassEnabled(void);
 
+// Motion. Short, linear-feeling transitions only: no springs, bounces or
+// scale pulses. Both helpers honour Reduce Motion by finishing instantly.
+FOUNDATION_EXPORT NSTimeInterval const MarufYTMotionQuick;     // fades, highlights
+FOUNDATION_EXPORT NSTimeInterval const MarufYTMotionStandard;  // small slides
+FOUNDATION_EXPORT BOOL MarufYTReduceMotion(void);
+FOUNDATION_EXPORT void MarufYTAnimate(NSTimeInterval duration, void (^animations)(void),
+                                      void (^_Nullable completion)(BOOL finished));
+
 // Default values contributed by MarufYT. Merged into YTKACERegisterDefaults();
 // registerDefaults never overrides a value the user has stored.
 FOUNDATION_EXPORT NSDictionary<NSString *, id> *MarufYTPreferenceDefaults(void);

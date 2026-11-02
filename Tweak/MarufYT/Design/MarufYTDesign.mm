@@ -15,6 +15,27 @@ BOOL MarufYTLightweightGlassEnabled(void) {
         [NSUserDefaults.standardUserDefaults boolForKey:MarufYTLightweightGlassKey];
 }
 
+NSTimeInterval const MarufYTMotionQuick = 0.15;
+NSTimeInterval const MarufYTMotionStandard = 0.2;
+
+BOOL MarufYTReduceMotion(void) {
+    return UIAccessibilityIsReduceMotionEnabled();
+}
+
+void MarufYTAnimate(NSTimeInterval duration, void (^animations)(void),
+                    void (^completion)(BOOL finished)) {
+    if (MarufYTReduceMotion()) {
+        animations();
+        if (completion) completion(YES);
+        return;
+    }
+    [UIView animateWithDuration:duration delay:0.0
+                        options:UIViewAnimationOptionCurveEaseOut |
+                                UIViewAnimationOptionBeginFromCurrentState |
+                                UIViewAnimationOptionAllowUserInteraction
+                     animations:animations completion:completion];
+}
+
 CGFloat const MarufYTCapsuleShadowRadius = 18.0;
 CGFloat const MarufYTCapsuleShadowOffsetY = 6.0;
 

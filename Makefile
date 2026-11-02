@@ -73,6 +73,7 @@ MarufYT_FILES = \
 	Tweak/Features/Compatibility/CastCompatibility.mm \
 	Tweak/Features/Onboarding/FirstLaunch.mm \
 	Tweak/Features/Navigation/TabBarHooks.mm \
+	Tweak/Features/Navigation/LayoutSnapshot.mm \
 	Tweak/Features/Navigation/GlassChrome.mm \
 	Tweak/Features/Navigation/GlassSheets.mm \
 	Tweak/Features/Playback/PlayerGlass.mm \

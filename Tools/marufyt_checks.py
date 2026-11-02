@@ -210,8 +210,9 @@ check("lens tracker stops off-window and inactive", "lens.window == nil" in tabs
       and "applicationState != UIApplicationStateActive" in tabs)
 check("DeArrow cache has count and memory cost limits", "countLimit = 160" in dearrow
       and "totalCostLimit = 24 * 1024 * 1024" in dearrow and "forKey:videoID cost:cost" in dearrow)
-check("download positioning timer reused and tolerant", "if (self.positionTimer == nil)" in progress
-      and "self.positionTimer.tolerance = 0.5" in progress)
+check("download progress card is event-driven (no layout polling timer)",
+      "positionTimer" not in progress and "observeLayoutChanges" in progress
+      and "NSTimer" not in progress)
 library = read("Tweak/Settings/YTKACEDownloadsController.mm")
 check("download metadata cache bounded and pending work cancelled", "metadataCache.countLimit = 64" in library
       and "metadataCache.totalCostLimit = 32 * 1024 * 1024" in library and "forKey:path cost:cost" in library
@@ -245,6 +246,22 @@ check("native layout tests exist and run in CI",
 for key in ["Simple", "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars."]:
     missing = [lang for lang, entries in tables.items() if key not in entries]
     check(f"Phase 3 string translated in all 16 tables: {key[:28]}", not missing, ", ".join(missing))
+
+# Phase 3 stage 7-8: simple motion, append-only log.
+check("motion helpers honour Reduce Motion",
+      "MarufYTReduceMotion()" in design and "void MarufYTAnimate(" in design)
+spring_files = ["Tweak/Settings/YTKACEDownloadsController.mm", "Tweak/Features/Downloads/DownloadProgressView.mm",
+                "Tweak/Features/SponsorBlock/SponsorHooks.mm", "Tweak/Features/Downloads/GlobalDownloadMiniPlayer.mm"]
+check("default-visible overlays use no spring animation",
+      all("usingSpringWithDamping" not in read(f) and "MarufYTAnimate(" in read(f) for f in spring_files))
+dl_log = read("Tweak/Features/Downloads/DownloadLog.mm")
+check("diagnostics log appends instead of rewriting each line",
+      "seekToEndReturningOffset" in dl_log and "dataWithContentsOfURL:URL] ?: NSData.data" not in dl_log
+      and "NSURLIsExcludedFromBackupKey" in dl_log and "YTKACERedactLogMessage(message)" in dl_log)
+check("layout snapshot is on demand only",
+      "YTKACELogLayoutSnapshot();" in read("Tweak/Settings/YTKACERootOptionsController.mm")
+      and "NSTimer" not in read("Tweak/Features/Navigation/LayoutSnapshot.mm")
+      and "LayoutSnapshot.mm" in read("Makefile"))
 
 print(f"\n{'FAILED' if failures else 'OK'}: {len(failures)} failure(s)")
 sys.exit(1 if failures else 0)

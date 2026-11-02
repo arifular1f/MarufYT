@@ -1,4 +1,5 @@
 #import "GlobalDownloadMiniPlayer.h"
+#import "../../MarufYT/Design/MarufYTDesign.h"
 #import "../../YTKACE.h"
 #import "MediaArtwork.h"
 #import "YTKACEAudioPlayerController.h"
@@ -448,13 +449,11 @@ static UIButton *YTKACEMiniButton(NSString *symbol, CGFloat size, id target, SEL
     self.corner = (top ? 0 : 2) + (left ? 0 : 1);
     [NSUserDefaults.standardUserDefaults setInteger:self.corner forKey:YTKACEMiniCornerKey];
     CGRect target = [self frameForCorner:self.corner size:self.card.bounds.size area:area];
-    [UIView animateWithDuration:0.45 delay:0.0 usingSpringWithDamping:0.82
-          initialSpringVelocity:0.4 options:UIViewAnimationOptionAllowUserInteraction
-                     animations:^{
+    MarufYTAnimate(MarufYTMotionStandard, ^{
         self.card.center = CGPointMake(CGRectGetMidX(target), CGRectGetMidY(target));
-    } completion:^(__unused BOOL finished) {
+    }, ^(__unused BOOL finished) {
         self.interacting = NO;
-    }];
+    });
 }
 
 - (void)handlePinch:(UIPinchGestureRecognizer *)gesture {
