@@ -22,7 +22,7 @@ def main():
     out = opts.output.resolve()
     bin_dir = opts.theos.resolve() / 'toolchain/linux/iphone/bin'
     compiler = bin_dir / 'clang'
-    archiver = bin_dir / 'ar'
+    archiver = bin_dir / 'llvm-ar'
     sdk = opts.theos.resolve() / 'sdks/iPhoneOS16.5.sdk'
     source = ROOT / 'Vendor/FFmpeg/lib/libavutil.a'
     before = hashlib.sha256(source.read_bytes()).hexdigest()
@@ -30,7 +30,11 @@ def main():
 
     def run(*args):
         commands.append([str(a) for a in args])
-        return subprocess.check_output([str(a) for a in args], text=True, stderr=subprocess.STDOUT)
+        try:
+            return subprocess.check_output([str(a) for a in args], text=True, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError as error:
+            print(error.output, flush=True)
+            raise
 
     names = run(archiver, 't', source).splitlines()
     if names.count('version.o') != 1:
