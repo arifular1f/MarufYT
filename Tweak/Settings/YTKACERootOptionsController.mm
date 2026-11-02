@@ -8,21 +8,28 @@
 #import "../UI/Assets.h"
 #import "../UI/Notice.h"
 #import "../Features/Downloads/DownloadLog.h"
+#import "../MarufYT/Branding/MarufYTBranding.h"
+#import "../MarufYT/Design/MarufYTTheme.h"
 
 #import <objc/runtime.h>
 #import <stdlib.h>
-#import <sys/utsname.h>
+
+// MarufYT About section rows.
+typedef NS_ENUM(NSInteger, MarufYTAboutRow) {
+    MarufYTAboutRowDeveloper = 0,
+    MarufYTAboutRowRepository,
+    MarufYTAboutRowVersion,
+    MarufYTAboutRowYouTube,
+    MarufYTAboutRowPackage,
+    MarufYTAboutRowCount
+};
 
 static UIColor *YTKACERootBackground(void) {
-    return [UIColor colorWithDynamicProvider:^UIColor *(UITraitCollection *traits) {
-        return YTKACEInterfaceBackgroundColor(traits);
-    }];
+    return MarufYTPageBackgroundColor();
 }
 
 static UIColor *YTKACERootCellBackground(void) {
-    return [UIColor colorWithDynamicProvider:^UIColor *(UITraitCollection *traits) {
-        return YTKACEInterfaceBackgroundColor(traits);
-    }];
+    return MarufYTCardBackgroundColor();
 }
 
 static UIImage *YTKACETemplateImage(NSString *asset, NSString *symbol) {
@@ -199,15 +206,9 @@ void YTKACEApplyAppearance(UIViewController *controller) {
 @end
 
 NSString *YTKACEDeviceInformationText(void) {
-    struct utsname systemInfo;
-    uname(&systemInfo);
-    NSString *model = [NSString stringWithUTF8String:systemInfo.machine] ?: @"iOS Device";
-    NSDictionary *info = NSBundle.mainBundle.infoDictionary;
-    NSString *youtubeVersion = info[@"CFBundleShortVersionString"] ?: @"Unknown";
-    NSString *bundleID = NSBundle.mainBundle.bundleIdentifier ?: @"com.google.ios.youtube";
-    return [NSString stringWithFormat:@"YTKACE %@  •  YouTube %@\n%@\n%@  •  iOS %@",
-        YTKACEVersion, youtubeVersion, bundleID, model,
-        UIDevice.currentDevice.systemVersion];
+    // MarufYT: short product line only; no bundle ID or device model in the UI.
+    return [NSString stringWithFormat:@"%@ %@  •  YouTube %@",
+        MarufYTProductName, MarufYTVersionString(), MarufYTHostVersion()];
 }
 
 UIViewController *YTKACEMakeDownloadLogController(void) {
@@ -238,12 +239,12 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds
-                                                  style:UITableViewStyleGrouped];
+                                                  style:UITableViewStyleInsetGrouped];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.sectionHeaderHeight = 22.0;
+    MarufYTStyleSettingsTable(self.tableView);
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 60.0;
     self.tableView.sectionFooterHeight = 6.0;
     self.tableView.contentInsetAdjustmentBehavior =
         UIScrollViewContentInsetAdjustmentNever;
@@ -274,7 +275,9 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
     if (recognizer.state != UIGestureRecognizerStateBegan) return;
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:
         [recognizer locationInView:self.tableView]];
-    if (indexPath.section == (NSInteger)YTKACESettingsMenu().count && indexPath.row == 0) {
+    // Hidden diagnostics: long-press the Version row.
+    if (indexPath.section == (NSInteger)YTKACESettingsMenu().count &&
+        indexPath.row == MarufYTAboutRowVersion) {
         [self showDownloadLog];
     }
 }
@@ -356,16 +359,20 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
 
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(56.0, 55.0, width - 112.0, 34.0)];
     title.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    title.text = @"YTKACE";
-    title.font = [UIFont systemFontOfSize:28.0 weight:UIFontWeightBold];
+    title.text = MarufYTProductName;
+    UIFontDescriptor *rounded = [[UIFont systemFontOfSize:30.0 weight:UIFontWeightBold].fontDescriptor
+        fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded];
+    title.font = rounded != nil ? [UIFont fontWithDescriptor:rounded size:30.0]
+                                : [UIFont systemFontOfSize:30.0 weight:UIFontWeightBold];
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = UIColor.labelColor;
     [header addSubview:title];
 
     UILabel *version = [[UILabel alloc] initWithFrame:CGRectMake(56.0, 89.0, width - 112.0, 20.0)];
     version.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    version.text = [NSString stringWithFormat:@"v%@", YTKACEVersion];
-    version.font = [UIFont systemFontOfSize:13.0 weight:UIFontWeightMedium];
+    version.text = [NSString stringWithFormat:@"%@ %@  ·  %@", YTKACELocalized(@"Version"),
+                    MarufYTVersionString(), MarufYTDeveloperName];
+    version.font = [UIFont systemFontOfSize:13.0 weight:UIFontWeightRegular];
     version.textAlignment = NSTextAlignmentCenter;
     version.textColor = UIColor.secondaryLabelColor;
     [header addSubview:version];
@@ -482,7 +489,7 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
     }
     NSArray *menu = YTKACESettingsMenu();
     if (section < (NSInteger)menu.count) return (NSInteger)[menu[(NSUInteger)section][@"rows"] count];
-    return 2;
+    return MarufYTAboutRowCount;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -501,31 +508,24 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
     return nil;
 }
 
-- (NSString *)deviceInformationText {
-    struct utsname systemInfo;
-    uname(&systemInfo);
-    NSString *model = [NSString stringWithUTF8String:systemInfo.machine] ?: YTKACELocalized(@"iOS Device");
-    NSDictionary *info = NSBundle.mainBundle.infoDictionary;
-    NSString *youtubeVersion = info[@"CFBundleShortVersionString"] ?: YTKACELocalized(@"Unknown");
-    NSString *bundleID = NSBundle.mainBundle.bundleIdentifier ?: @"com.google.ios.youtube";
-    return [NSString stringWithFormat:YTKACELocalized(@"YTKACE %@  •  YouTube %@\n%@\n%@  •  iOS %@"),
-        YTKACEVersion, youtubeVersion, bundleID, model,
-        UIDevice.currentDevice.systemVersion];
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     (void)tableView;
-    if (self.searchResults != nil) return 62.0;
-    if (indexPath.section == (NSInteger)YTKACESettingsMenu().count && indexPath.row == 1) {
-        return 92.0;
-    }
-    return 62.0;
+    (void)indexPath;
+    return UITableViewAutomaticDimension;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     (void)tableView;
     (void)section;
-    return 30.0;
+    return UITableViewAutomaticDimension;
+}
+
+- (void)tableView:(UITableView *)tableView
+willDisplayHeaderView:(UIView *)view
+       forSection:(NSInteger)section {
+    (void)tableView;
+    (void)section;
+    MarufYTStyleSectionHeader(view);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -541,25 +541,18 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:identifier];
     }
+    MarufYTStyleCell(cell);
     cell.backgroundColor = YTKACERootCellBackground();
     cell.textLabel.text = nil;
     cell.detailTextLabel.text = nil;
-    cell.textLabel.font = [UIFont systemFontOfSize:17.0];
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
-    cell.textLabel.textColor = UIColor.labelColor;
-    cell.detailTextLabel.textColor = UIColor.secondaryLabelColor;
+    cell.textLabel.numberOfLines = 0;
+    cell.detailTextLabel.numberOfLines = 0;
     cell.imageView.tintColor = UIColor.labelColor;
     cell.imageView.image = nil;
     cell.accessoryView = nil;
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     return cell;
-}
-
-- (void)configureImageForCell:(UITableViewCell *)cell
-                         asset:(NSString *)asset
-                         symbol:(NSString *)symbol {
-    cell.imageView.image = YTKACETemplateImage(asset, symbol);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -569,7 +562,6 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
                                                      style:UITableViewCellStyleSubtitle];
         if (self.searchResults.count == 0) {
             cell.textLabel.text = YTKACELocalized(@"No matching settings");
-            cell.textLabel.font = [UIFont systemFontOfSize:16.0];
             cell.textLabel.textColor = UIColor.secondaryLabelColor;
             cell.detailTextLabel.text = nil;
             cell.imageView.image = nil;
@@ -594,32 +586,52 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
         UITableViewCell *cell = [self baseCellForTableView:tableView style:UITableViewCellStyleSubtitle];
         cell.textLabel.text = YTKACELocalized(row[@"title"]);
         cell.detailTextLabel.text = YTKACELocalized(row[@"detail"]);
+        // MarufYT: Settings-style coloured icon tiles.
+        UIColor *tint = MarufYTTintForPage(row[@"id"]);
         if ([row[@"symbol"] isEqualToString:@"sponsor"]) {
-            cell.imageView.image = YTKACESponsorIcon();
+            cell.imageView.image = MarufYTIconTileWithImage(YTKACESponsorIcon(), @"sponsor", tint);
         } else if ([row[@"symbol"] isEqualToString:@"shorts"]) {
-            cell.imageView.image = YTKACEShortsIcon();
+            cell.imageView.image = MarufYTIconTileWithImage(YTKACEShortsIcon(), @"shorts", tint);
         } else {
-            [self configureImageForCell:cell asset:@"" symbol:row[@"symbol"]];
+            cell.imageView.image = MarufYTIconTile(row[@"symbol"], tint);
         }
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }
 
-    if (indexPath.row == 1) {
-        UITableViewCell *cell = [self baseCellForTableView:tableView style:UITableViewCellStyleDefault];
-        cell.textLabel.text = [self deviceInformationText];
-        cell.textLabel.textColor = UIColor.secondaryLabelColor;
-        cell.textLabel.font = [UIFont systemFontOfSize:15.0 weight:UIFontWeightRegular];
-        cell.textLabel.numberOfLines = 3;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
-    }
-
+    // MarufYT About: Developer, Repository, Version, YouTube, Package.
     UITableViewCell *cell = [self baseCellForTableView:tableView style:UITableViewCellStyleValue1];
-    cell.textLabel.text = YTKACELocalized(@"itzzace");
-    cell.detailTextLabel.text = @"YTKACE";
-    cell.imageView.image = YTKACEAssetImage(@"YTKIco", @"person.crop.circle");
-    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    cell.detailTextLabel.textColor = MarufYTValueColor();
+    cell.detailTextLabel.font = MarufYTValueFont();
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    switch ((MarufYTAboutRow)indexPath.row) {
+        case MarufYTAboutRowDeveloper:
+            cell.textLabel.text = YTKACELocalized(@"Developer");
+            cell.detailTextLabel.text = MarufYTDeveloperName;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            break;
+        case MarufYTAboutRowRepository:
+            cell.textLabel.text = YTKACELocalized(@"Repository");
+            cell.detailTextLabel.text = MarufYTRepositoryDisplay;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            break;
+        case MarufYTAboutRowVersion:
+            cell.textLabel.text = YTKACELocalized(@"Version");
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@)",
+                                         MarufYTVersionString(), MarufYTBuildNumber()];
+            break;
+        case MarufYTAboutRowYouTube:
+            cell.textLabel.text = @"YouTube";
+            cell.detailTextLabel.text = MarufYTHostVersion();
+            break;
+        case MarufYTAboutRowPackage:
+        default:
+            cell.textLabel.text = YTKACELocalized(@"Package");
+            cell.detailTextLabel.text = MarufYTPackageDescription;
+            break;
+    }
     return cell;
 }
 
@@ -633,10 +645,8 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
     }
     NSArray *menu = YTKACESettingsMenu();
     if (indexPath.section >= (NSInteger)menu.count) {
-        if (indexPath.row != 0) return;
-        NSURL *URL = [NSURL URLWithString:@"https://github.com/itzzace/ytkace"];
-        [UIApplication.sharedApplication openURL:URL options:@{}
-                               completionHandler:nil];
+        if (indexPath.row == MarufYTAboutRowDeveloper) MarufYTOpenURLString(MarufYTDeveloperURLString);
+        if (indexPath.row == MarufYTAboutRowRepository) MarufYTOpenURLString(MarufYTRepositoryURLString);
         return;
     }
     NSDictionary *row = menu[(NSUInteger)indexPath.section][@"rows"][(NSUInteger)indexPath.row];

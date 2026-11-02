@@ -7,6 +7,8 @@
 #import "../Runtime/Localization.h"
 #import "../UI/Assets.h"
 
+#import "../MarufYT/Branding/MarufYTBranding.h"
+#import "../MarufYT/Design/MarufYTTheme.h"
 #import <objc/runtime.h>
 
 static const void *YTKACETabSwitchKey = &YTKACETabSwitchKey;
@@ -86,18 +88,16 @@ static NSString *YTKACETintHexFromColor(UIColor *color) {
 }
 
 - (instancetype)init {
-    return [super initWithStyle:UITableViewStylePlain];
+    return [super initWithStyle:UITableViewStyleInsetGrouped];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = YTKACELocalized(@"Tabs");
     self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.rowHeight = 48.0;
-    if (@available(iOS 15.0, *)) {
-        self.tableView.sectionHeaderTopPadding = 0.0;
-    }
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 48.0;
+    MarufYTStyleSettingsTable(self.tableView);
     [self loadTabs];
     [self setEditing:YES animated:NO];
     self.tableView.allowsSelectionDuringEditing = YES;
@@ -107,8 +107,7 @@ static NSString *YTKACETintHexFromColor(UIColor *color) {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     YTKACEApplyAppearance(self);
-    self.tableView.backgroundColor =
-        YTKACEInterfaceBackgroundColor(self.traitCollection);
+    self.tableView.backgroundColor = MarufYTPageBackgroundColor();
     [self.tableView reloadData];
 }
 
@@ -130,7 +129,7 @@ static NSString *YTKACETintHexFromColor(UIColor *color) {
         [self tab:@"shorts" title:YTKACELocalized(@"Shorts") symbol:@"play.rectangle" key:@"YTKACE.Preference.Tabs.Hidden.Shorts"],
         [self tab:@"subscriptions" title:YTKACELocalized(@"Subscriptions") symbol:@"rectangle.stack" key:@"YTKACE.Preference.Tabs.Hidden.Subscriptions"],
         [self tab:@"library" title:YTKACELocalized(@"Library") symbol:@"person.circle" key:@"YTKACE.Preference.Tabs.Hidden.Library"],
-        [self tab:@"ytkace" title:@"YTKACE" symbol:@"arrow.down.circle" key:@"YTKACE.Preference.Tabs.Hidden.YTKACETab"],
+        [self tab:@"ytkace" title:MarufYTProductName symbol:@"arrow.down.circle" key:@"YTKACE.Preference.Tabs.Hidden.YTKACETab"],
         [self tab:@"create" title:YTKACELocalized(@"Create") symbol:@"plus.circle" key:@"YTKACE.Preference.Tabs.Hidden.Create"],
         [self tab:@"music" title:YTKACELocalized(@"Music") symbol:@"music.note" key:@"YTKACE.Preference.Tabs.Hidden.Music"],
         [self tab:@"live" title:YTKACELocalized(@"Live") symbol:@"dot.radiowaves.left.and.right" key:@"YTKACE.Preference.Tabs.Hidden.Live"],
@@ -202,8 +201,7 @@ willDisplayHeaderView:(UIView *)view
     (void)tableView;
     (void)section;
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
-    header.textLabel.font = [UIFont systemFontOfSize:11.0];
-    header.textLabel.textColor = UIColor.secondaryLabelColor;
+    MarufYTStyleSectionHeader(header);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -220,8 +218,7 @@ willDisplayHeaderView:(UIView *)view
     cell.editingAccessoryView = nil;
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.editingAccessoryType = UITableViewCellAccessoryNone;
-    cell.textLabel.font = [UIFont systemFontOfSize:17.0];
-    cell.backgroundColor = YTKACEInterfaceBackgroundColor(self.traitCollection);
+    MarufYTStyleCell(cell);
     cell.textLabel.textColor = UIColor.labelColor;
     cell.detailTextLabel.textColor = UIColor.secondaryLabelColor;
     cell.indentationLevel = 0;
@@ -231,14 +228,14 @@ willDisplayHeaderView:(UIView *)view
     if ([row isEqualToString:@"tint"]) {
         cell.textLabel.text = YTKACELocalized(@"Selected Tab Color");
         cell.detailTextLabel.text = YTKACETintTitles()[YTKACETintIndex()];
-        cell.detailTextLabel.textColor = YTKACEAccentColor();
+        cell.detailTextLabel.textColor = MarufYTValueColor();
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         return cell;
     }
     if ([row isEqualToString:@"frosted"]) {
         cell.textLabel.text = YTKACELocalized(@"Frosted Tab Bar");
         cell.detailTextLabel.text = YTKACEFrostedTitles()[(NSUInteger)YTKACEFrostedTabBarMode()];
-        cell.detailTextLabel.textColor = YTKACEAccentColor();
+        cell.detailTextLabel.textColor = MarufYTValueColor();
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         return cell;
     }
@@ -264,8 +261,7 @@ willDisplayHeaderView:(UIView *)view
                                };
         cell.textLabel.text = titles[row];
         UISwitch *toggle = [UISwitch new];
-        toggle.transform = CGAffineTransformMakeScale(0.95, 0.95);
-        toggle.onTintColor = YTKACEAccentColor();
+        MarufYTStyleSwitch(toggle);
         NSString *key = keys[row];
         toggle.on = [YTKACEPreferenceObject(key) boolValue];
         objc_setAssociatedObject(toggle, YTKACETabSwitchKey, key, OBJC_ASSOCIATION_COPY_NONATOMIC);
@@ -283,7 +279,7 @@ willDisplayHeaderView:(UIView *)view
         YTKACEStartupDestinations(&startupTitles, &startupValues);
         cell.detailTextLabel.text = YTKACEPickerSummary(
             @"YTKACE.Preference.Tabs.Startup", startupTitles, startupValues, 0);
-        cell.detailTextLabel.textColor = YTKACEAccentColor();
+        cell.detailTextLabel.textColor = MarufYTValueColor();
         return cell;
     }
 

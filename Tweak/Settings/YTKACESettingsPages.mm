@@ -14,6 +14,8 @@
 #import "../Features/SponsorBlock/SponsorPreferences.h"
 #import "../Features/SponsorBlock/DeArrow.h"
 
+#import "../MarufYT/Branding/MarufYTBranding.h"
+#import "../MarufYT/Design/MarufYTTheme.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
@@ -302,6 +304,21 @@ static UIColor *YTKACEColorFromHex(NSString *hex) {
                            alpha:1.0];
 }
 
+// MarufYT: small colour dot for rows that carry a "dotKey" (SponsorBlock
+// categories), so behaviour rows show the segment colour they use.
+static UIImage *YTKACEItemDotImage(NSDictionary *item) {
+    NSString *key = item[@"dotKey"];
+    if (key.length == 0) return nil;
+    NSString *stored = YTKACEPreferenceObject(key);
+    UIColor *color = YTKACEColorFromHex([stored isKindOfClass:NSString.class] ? stored : item[@"dotFallback"]);
+    CGFloat side = 12.0;
+    UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:CGSizeMake(side, side)];
+    return [[renderer imageWithActions:^(__unused UIGraphicsImageRendererContext *context) {
+        [color setFill];
+        [[UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, side, side)] fill];
+    }] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+}
+
 static NSDictionary *YTKACEActionDetail(NSString *title,
                                          NSString *subtitle,
                                          YTKACEAction action) {
@@ -317,15 +334,11 @@ static NSDictionary *YTKACEActionDetail(NSString *title,
 }
 
 static UIColor *YTKACESettingsBackground(void) {
-    return [UIColor colorWithDynamicProvider:^UIColor *(UITraitCollection *traits) {
-        return YTKACEInterfaceBackgroundColor(traits);
-    }];
+    return MarufYTPageBackgroundColor();
 }
 
 static UIColor *YTKACESettingsCellBackground(void) {
-    return [UIColor colorWithDynamicProvider:^UIColor *(UITraitCollection *traits) {
-        return YTKACEInterfaceBackgroundColor(traits);
-    }];
+    return MarufYTCardBackgroundColor();
 }
 
 BOOL YTKACEPreferenceNeedsRestart(NSString *key) {
@@ -358,14 +371,15 @@ void YTKACEShowRestartNotice(UIViewController *controller) {
     [old removeFromSuperview];
     UIView *notice = [UIView new];
     notice.tag = 0x594B524E;
-    notice.backgroundColor = [UIColor colorWithWhite:0.72 alpha:0.96];
-    notice.layer.cornerRadius = 8.0;
+    notice.backgroundColor = UIColor.secondarySystemBackgroundColor;
+    notice.layer.cornerRadius = MarufYTCornerRadius;
     notice.layer.masksToBounds = YES;
     notice.translatesAutoresizingMaskIntoConstraints = NO;
     UILabel *label = [UILabel new];
     label.text = YTKACELocalized(@"Your changes take effect once YouTube restarts.");
     label.textColor = UIColor.labelColor;
-    label.font = [UIFont systemFontOfSize:13.0];
+    label.font = MarufYTFootnoteFont();
+    label.adjustsFontForContentSizeCategory = YES;
     label.numberOfLines = 2;
     label.translatesAutoresizingMaskIntoConstraints = NO;
     [notice addSubview:label];
@@ -511,7 +525,7 @@ NSString *YTKACEPickerSummary(NSString *key,
                         titles:(NSArray<NSString *> *)titles
                         values:(NSArray *)values
                   defaultIndex:(NSUInteger)defaultIndex {
-    self = [super initWithStyle:UITableViewStylePlain];
+    self = [super initWithStyle:UITableViewStyleInsetGrouped];
     if (self != nil) {
         self.title = title;
         _preferenceKey = [key copy];
@@ -551,10 +565,8 @@ NSString *YTKACEPickerSummary(NSString *key,
     if (selectedIndex == NSNotFound) {
         selectedIndex = MIN(_defaultIndex, _values.count - 1);
     }
+    MarufYTStyleCell(cell);
     cell.textLabel.text = _titles[(NSUInteger)indexPath.row];
-    cell.textLabel.font = [UIFont systemFontOfSize:17.0];
-    cell.textLabel.textColor = UIColor.labelColor;
-    cell.backgroundColor = YTKACESettingsCellBackground();
     cell.accessoryType = (NSUInteger)indexPath.row == selectedIndex
         ? UITableViewCellAccessoryCheckmark
         : UITableViewCellAccessoryNone;
@@ -596,7 +608,7 @@ NSString *YTKACEPickerSummary(NSString *key,
 - (instancetype)initWithTitle:(NSString *)title
                       sections:(NSArray<NSArray<NSDictionary *> *> *)sections
                 sectionTitles:(NSArray<NSString *> *)sectionTitles {
-    self = [super initWithStyle:UITableViewStylePlain];
+    self = [super initWithStyle:UITableViewStyleInsetGrouped];
     if (self != nil) {
         self.title = title;
         _sections = [sections copy];
@@ -607,12 +619,8 @@ NSString *YTKACEPickerSummary(NSString *key,
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.rowHeight = 50.0;
-    if (@available(iOS 15.0, *)) {
-        self.tableView.sectionHeaderTopPadding = 0.0;
-    }
+    self.tableView.estimatedRowHeight = 52.0;
+    MarufYTStyleSettingsTable(self.tableView);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -660,23 +668,21 @@ NSString *YTKACEPickerSummary(NSString *key,
     NSString *title = (NSUInteger)section < _sectionTitles.count
         ? _sectionTitles[(NSUInteger)section]
         : @"";
-    return title.length == 0 ? 18.0 : 38.0;
+    return title.length == 0 ? 12.0 : UITableViewAutomaticDimension;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     (void)tableView;
     NSDictionary *item = _sections[(NSUInteger)indexPath.section][(NSUInteger)indexPath.row];
     NSString *type = item[@"type"];
-    if ([type isEqualToString:@"text"]) {
-        return 92.0;
-    }
+    // Fixed-layout rows scale with Dynamic Type; standard rows self-size.
     if ([type isEqualToString:@"slider"]) {
-        return [item[@"stacked"] boolValue] ? 78.0 : 58.0;
+        return MarufYTScaledHeight([item[@"stacked"] boolValue] ? 92.0 : 60.0);
     }
     if ([type isEqualToString:@"segmented"] && [item[@"stacked"] boolValue]) {
-        return 74.0;
+        return MarufYTScaledHeight(84.0);
     }
-    return [item[@"subtitle"] length] == 0 ? 40.0 : 56.0;
+    return UITableViewAutomaticDimension;
 }
 
 - (void)tableView:(UITableView *)tableView
@@ -685,9 +691,7 @@ willDisplayHeaderView:(UIView *)view
     (void)tableView;
     (void)section;
     if ([view isKindOfClass:UITableViewHeaderFooterView.class]) {
-        UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
-        header.textLabel.font = [UIFont systemFontOfSize:11.0 weight:UIFontWeightRegular];
-        header.textLabel.textColor = UIColor.secondaryLabelColor;
+        MarufYTStyleSectionHeader(view);
     }
 }
 
@@ -715,24 +719,19 @@ willDisplayHeaderView:(UIView *)view
     [[cell.contentView viewWithTag:8802] removeFromSuperview];
     [[cell.contentView viewWithTag:4271] removeFromSuperview];
 
+    MarufYTStyleCell(cell);
     cell.textLabel.text = item[@"title"];
     cell.detailTextLabel.text = item[@"subtitle"];
-    cell.textLabel.font = [UIFont systemFontOfSize:17.0];
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
-    cell.textLabel.numberOfLines = 1;
-    cell.detailTextLabel.numberOfLines = 2;
-    cell.textLabel.textColor = UIColor.labelColor;
-    cell.detailTextLabel.textColor = UIColor.secondaryLabelColor;
-    cell.backgroundColor = YTKACESettingsCellBackground();
+    cell.textLabel.numberOfLines = 0;
+    cell.detailTextLabel.numberOfLines = 0;
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.accessoryView = nil;
-    cell.imageView.image = nil;
+    cell.imageView.image = YTKACEItemDotImage(item);
 
     if ([type isEqualToString:@"toggle"]) {
         UISwitch *toggle = [UISwitch new];
-        toggle.transform = CGAffineTransformMakeScale(0.95, 0.95);
-        toggle.onTintColor = YTKACEAccentColor();
+        MarufYTStyleSwitch(toggle);
         id stored = YTKACEPreferenceObject(item[@"key"]);
         toggle.on = [stored respondsToSelector:@selector(boolValue)] && [stored boolValue];
         objc_setAssociatedObject(toggle,
@@ -762,7 +761,8 @@ willDisplayHeaderView:(UIView *)view
             UILabel *caption = [UILabel new];
             caption.tag = 8802;
             caption.text = item[@"title"];
-            caption.font = [UIFont systemFontOfSize:16.0];
+            caption.font = MarufYTTitleFont();
+            caption.adjustsFontForContentSizeCategory = YES;
             caption.textColor = UIColor.labelColor;
             caption.translatesAutoresizingMaskIntoConstraints = NO;
             [cell.contentView addSubview:caption];
@@ -818,20 +818,20 @@ willDisplayHeaderView:(UIView *)view
 
         UILabel *caption = [UILabel new];
         caption.text = item[@"title"];
-        caption.font = [UIFont systemFontOfSize:16.0];
+        caption.font = MarufYTTitleFont();
+        caption.adjustsFontForContentSizeCategory = YES;
         caption.textColor = UIColor.labelColor;
 
         UILabel *readout = [UILabel new];
-        readout.font = [UIFont monospacedDigitSystemFontOfSize:15.0
-                                                        weight:UIFontWeightSemibold];
-        readout.textColor = YTKACEAccentColor();
+        readout.font = MarufYTReadoutFont();
+        readout.textColor = MarufYTValueColor();
         readout.textAlignment = NSTextAlignmentRight;
         readout.text = YTKACESliderValueText(item, value);
         [readout setContentCompressionResistancePriority:UILayoutPriorityRequired
                                                  forAxis:UILayoutConstraintAxisHorizontal];
 
         UISlider *slider = [UISlider new];
-        slider.minimumTrackTintColor = YTKACEAccentColor();
+        MarufYTStyleSlider(slider);
         slider.minimumValue = [item[@"minimum"] floatValue];
         slider.maximumValue = [item[@"maximum"] floatValue];
         slider.value = (float)value;
@@ -880,13 +880,13 @@ willDisplayHeaderView:(UIView *)view
         double value = stored > 0.0 ? stored : [item[@"fallback"] doubleValue];
         UIView *accessory = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 158.0, 46.0)];
         UISlider *slider = [[UISlider alloc] initWithFrame:CGRectMake(0.0, 0.0, 158.0, 30.0)];
-        slider.minimumTrackTintColor = YTKACEAccentColor();
+        MarufYTStyleSlider(slider);
         slider.minimumValue = [item[@"minimum"] floatValue];
         slider.maximumValue = [item[@"maximum"] floatValue];
         slider.value = (float)value;
         UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 28.0, 158.0, 14.0)];
-        valueLabel.font = [UIFont systemFontOfSize:10.0];
-        valueLabel.textColor = UIColor.tertiaryLabelColor;
+        valueLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        valueLabel.textColor = MarufYTValueColor();
         valueLabel.textAlignment = NSTextAlignmentRight;
         valueLabel.text = YTKACESliderValueText(item, value);
         objc_setAssociatedObject(slider, YTKACEItemAssociation, item, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -903,25 +903,16 @@ willDisplayHeaderView:(UIView *)view
             item[@"values"],
             [item[@"default"] unsignedIntegerValue]
         );
-        if ([item[@"subtitle"] length] == 0) {
-            cell.detailTextLabel.text = summary;
-            cell.detailTextLabel.textColor = YTKACEAccentColor();
-        } else {
-            UILabel *value = [UILabel new];
-            value.text = summary;
-            value.font = [UIFont systemFontOfSize:15.0];
-            value.textColor = YTKACEAccentColor();
-            value.textAlignment = NSTextAlignmentRight;
-            [value sizeToFit];
-            cell.accessoryView = value;
-        }
+        // Current value in secondary grey with a menu chevron (was accent red).
+        cell.detailTextLabel.text = [item[@"subtitle"] length] == 0 ? nil : item[@"subtitle"];
+        cell.accessoryView = MarufYTMenuValueView(summary, 170.0);
         cell.accessoryType = UITableViewCellAccessoryNone;
     } else if ([type isEqualToString:@"input"]) {
         id stored = YTKACEPreferenceObject(item[@"key"]);
         UILabel *value = [UILabel new];
         value.text = [stored isKindOfClass:NSString.class] && [stored length] != 0 ? stored : item[@"placeholder"];
-        value.font = [UIFont systemFontOfSize:15.0];
-        value.textColor = YTKACEAccentColor();
+        value.font = MarufYTValueFont();
+        value.textColor = MarufYTValueColor();
         value.textAlignment = NSTextAlignmentRight;
         [value sizeToFit];
         if (CGRectGetWidth(value.frame) > 160.0) value.frame = CGRectMake(0.0, 0.0, 160.0, CGRectGetHeight(value.frame));
@@ -932,14 +923,14 @@ willDisplayHeaderView:(UIView *)view
         NSString *stored = YTKACEPreferenceObject(item[@"key"]);
         UIColor *color = YTKACEColorFromHex(
             [stored isKindOfClass:NSString.class] ? stored : item[@"fallback"]);
-        UIView *dot = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 28.0, 28.0)];
+        UIView *dot = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 26.0, 26.0)];
         dot.backgroundColor = color;
-        dot.layer.cornerRadius = 14.0;
-        dot.layer.borderWidth = 2.0;
-        dot.layer.borderColor = UIColor.secondaryLabelColor.CGColor;
+        dot.layer.cornerRadius = 13.0;
+        dot.layer.borderWidth = 1.0;
+        dot.layer.borderColor = [UIColor.separatorColor resolvedColorWithTraitCollection:cell.traitCollection].CGColor;
         cell.accessoryView = dot;
     } else if ([type isEqualToString:@"text"]) {
-        cell.textLabel.font = [UIFont systemFontOfSize:10.0];
+        cell.textLabel.font = MarufYTFootnoteFont();
         cell.textLabel.textColor = UIColor.secondaryLabelColor;
         cell.textLabel.numberOfLines = 0;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -1250,7 +1241,7 @@ didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls {
     if (_backupRunning) return;
     __weak YTKACEOptionsController *weakSelf = self;
     BOOL shown = YTKACEShowYouTubeConfirmation(
-        @"YTKACE",
+        MarufYTProductName,
         YTKACELocalized(@"Do you want to create a backup?"),
         YTKACELocalized(@"Create"),
         ^{
@@ -1375,7 +1366,7 @@ void YTKACEStartupDestinations(NSArray<NSString *> * _Nullable * _Nullable outTi
         @[@"subscriptions", YTKACELocalized(@"Subscriptions"), @"YTKACE.Preference.Tabs.Hidden.Subscriptions"],
         @[@"shorts", YTKACELocalized(@"Shorts"), @"YTKACE.Preference.Tabs.Hidden.Shorts"],
         @[@"library", YTKACELocalized(@"You"), @"YTKACE.Preference.Tabs.Hidden.Library"],
-        @[@"ytkace", @"YTKACE", @"YTKACE.Preference.Tabs.Hidden.YTKACETab"],
+        @[@"ytkace", MarufYTProductName, @"YTKACE.Preference.Tabs.Hidden.YTKACETab"],
         @[@"create", YTKACELocalized(@"Create"), @"YTKACE.Preference.Tabs.Hidden.Create"],
         @[@"music", YTKACELocalized(@"Music"), @"YTKACE.Preference.Tabs.Hidden.Music"],
         @[@"live", YTKACELocalized(@"Live"), @"YTKACE.Preference.Tabs.Hidden.Live"],
@@ -1448,7 +1439,11 @@ static NSDictionary *YTKACESponsorBlockDefinition(void) {
                            YTKACESponsorBlockKey),
         YTKACEToggleDetail(@"Player Button",
                            @"Adds a shield to the player to whitelist channels, vote on segments and submit new ones.",
-                           @"YTKACE.Preference.SponsorBlock.OverlayButton"),
+                           @"YTKACE.Preference.SponsorBlock.OverlayButton")
+    ]];
+    NSMutableArray<NSString *> *titles = [NSMutableArray arrayWithObject:YTKACELocalized(@"MAIN")];
+
+    [sections addObject:@[
         YTKACEPickerDetail(@"Skip Notice", @"Shown after a segment is skipped.",
                      @"YTKACE.Preference.SponsorBlock.NotificationMode",
                      @[@"With Unskip", @"Text Only", @"Off"],
@@ -1460,7 +1455,7 @@ static NSDictionary *YTKACESponsorBlockDefinition(void) {
         YTKACESlider(@"Unskip Duration", @"YTKACE.Preference.SponsorBlock.UnskipAlertSeconds",
                      1.0, 10.0, 1.0, 4.0)
     ]];
-    NSMutableArray<NSString *> *titles = [NSMutableArray arrayWithObject:YTKACELocalized(@"MAIN")];
+    [titles addObject:YTKACELocalized(@"ALERTS")];
 
     [sections addObject:@[
         YTKACEToggleDetail(@"DeArrow Thumbnails",
@@ -1476,24 +1471,32 @@ static NSDictionary *YTKACESponsorBlockDefinition(void) {
     ]];
     [titles addObject:YTKACELocalized(@"DEARROW")];
 
+    // MarufYT: one compact row per category instead of one section each.
+    // Same keys, options and defaults as before.
+    NSMutableArray *behaviours = [NSMutableArray array];
+    NSMutableArray *colours = [NSMutableArray array];
     for (NSDictionary<NSString *, NSString *> *definition in
          YTKACESponsorCategoryDefinitions()) {
         NSString *category = definition[@"id"];
         BOOL highlight = [category isEqualToString:@"poi_highlight"];
-        [sections addObject:@[
-            highlight
-                ? YTKACEPicker(@"Behavior", YTKACESponsorBehaviorKey(category),
-                               @[@"Show Marker", @"Disabled"], @[@3, @2], 1, @"", @"")
-                : YTKACEPicker(@"Behavior", YTKACESponsorBehaviorKey(category),
-                               @[@"Auto-skip", @"Ask", @"Show Marker", @"Disabled"],
-                               @[@0, @1, @3, @2],
-                               [category isEqualToString:@"sponsor"] ? 0 : 3,
-                               @"", @""),
-            YTKACEColor(@"Segment Color", YTKACESponsorColorKey(category),
-                        definition[@"color"])
-        ]];
-        [titles addObject:YTKACELocalized([definition[@"title"] uppercaseString])];
+        NSMutableDictionary *behaviour = [(highlight
+            ? YTKACEPicker(definition[@"title"], YTKACESponsorBehaviorKey(category),
+                           @[@"Show Marker", @"Disabled"], @[@3, @2], 1, @"", @"")
+            : YTKACEPicker(definition[@"title"], YTKACESponsorBehaviorKey(category),
+                           @[@"Auto-skip", @"Ask", @"Show Marker", @"Disabled"],
+                           @[@0, @1, @3, @2],
+                           [category isEqualToString:@"sponsor"] ? 0 : 3,
+                           @"", @"")) mutableCopy];
+        behaviour[@"dotKey"] = YTKACESponsorColorKey(category);
+        behaviour[@"dotFallback"] = definition[@"color"];
+        [behaviours addObject:behaviour];
+        [colours addObject:YTKACEColor(definition[@"title"], YTKACESponsorColorKey(category),
+                                       definition[@"color"])];
     }
+    [sections addObject:behaviours];
+    [titles addObject:YTKACELocalized(@"SKIPPING")];
+    [sections addObject:colours];
+    [titles addObject:YTKACELocalized(@"SEGMENT COLORS")];
     return YTKACEPageDefinition(@"sponsorblock", @"SponsorBlock", sections, titles);
 }
 
@@ -1747,7 +1750,7 @@ static NSDictionary *YTKACEFeedDefinition(void) {
                                @"Adds Report AI Channel to the ⋯ menu of videos.",
                                @"YTKACE.Preference.Feed.AIChannelReporting"),
             YTKACEWithFooter(YTKACEInput(@"Report Name", @"Sent with your reports to AiSList.",
-                                         @"YTKACE.Preference.Feed.AIReportName", @"YTKACE"),
+                                         @"YTKACE.Preference.Feed.AIReportName", MarufYTProductName),
                              @"List from aisloplist.com, updates automatically.")
         ]
     ], @[YTKACELocalized(@"HOME"), YTKACELocalized(@"FEED"), YTKACELocalized(@"VIDEO MENU"),
@@ -1824,7 +1827,7 @@ static NSDictionary *YTKACEGlassOptionsDefinition(void) {
         @[
             YTKACEPickerDetail(@"Tab Bar", @"Default leaves YouTube's own tab bar as is.",
                                @"YTKACE.Preference.Tabs.GlassMode",
-                               @[@"Default", @"YTKACE", @"YouTube", @"Off"], @[@0, @1, @2, @3],
+                               @[@"Default", MarufYTProductName, @"YouTube", @"Off"], @[@0, @1, @2, @3],
                                YTKACETabBarOwnGlass() ? 1 : 0),
             YTKACEToggle(@"Top Bar Buttons", @"YTKACE.Preference.Glass.TopBar", @"", @""),
             YTKACEToggle(@"Menus and Sheets", @"YTKACE.Preference.Glass.Menus", @"", @""),
@@ -1832,6 +1835,8 @@ static NSDictionary *YTKACEGlassOptionsDefinition(void) {
             YTKACEToggle(@"Player Buttons", @"YTKACE.Preference.Glass.Player", @"", @"")
         ],
         @[
+            YTKACEToggleDetail(@"Floating Tab Bar Depth", @"Soft shadow under the floating glass tab bar.",
+                               @"YTKACE.Preference.Glass.DepthShadow"),
             YTKACEToggleDetail(@"Shrink Tab Bar When Scrolling", @"Needs the Liquid Glass tab bar.",
                                @"YTKACE.Preference.Tabs.GlassMinimize"),
             YTKACEPicker(@"Selected Tab Color", @"YTKACE.Preference.Tabs.SelectedTint",

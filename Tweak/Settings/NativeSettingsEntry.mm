@@ -6,6 +6,7 @@
 #import "../Runtime/Hooking.h"
 #import "../UI/Assets.h"
 #import "../YTKACE.h"
+#import "../MarufYT/Branding/MarufYTBranding.h"
 
 #import <UIKit/UIKit.h>
 #import <objc/message.h>
@@ -39,7 +40,8 @@ static NSArray<NSDictionary *> *YTKACENativeLayout(void) {
     }
     [layout addObjectsFromArray:@[
         @{@"kind": @"header", @"title": @"ABOUT"},
-        @{@"kind": @"row", @"title": @"itzzace", @"developer": @YES},
+        @{@"kind": @"row", @"title": @"Developer", @"developer": @YES},
+        @{@"kind": @"row", @"title": @"Repository"},
         @{@"kind": @"footer"}
     ]];
     return layout;
@@ -80,7 +82,7 @@ static NSArray *YTKACEOrderedSettingsGroups(id receiver, SEL selector) {
 }
 
 static NSString *YTKACESettingsGroupTitle(id receiver, SEL selector, NSUInteger type) {
-    if (type == YTKACENativeSettingsGroup) return @"YTKACE";
+    if (type == YTKACENativeSettingsGroup) return MarufYTProductName;
     return OriginalSettingsGroupTitle == NULL ? nil :
         ((id (*)(id, SEL, NSUInteger))OriginalSettingsGroupTitle)(receiver, selector, type);
 }
@@ -94,7 +96,8 @@ static NSArray *YTKACEOrderedGroupCategories(id receiver, SEL selector, NSUInteg
 static NSString *YTKACENativeSettingsSubtitle(NSString *title) {
     NSString *value = YTKACENativeMenuRow(title)[@"detail"];
     if ([title isEqualToString:@"Downloads & Library"]) value = @"Saved video, audio, Shorts, imports and backups";
-    if ([title isEqualToString:@"itzzace"]) value = @"Developer";
+    if ([title isEqualToString:@"Developer"]) return MarufYTDeveloperName;
+    if ([title isEqualToString:@"Repository"]) return MarufYTRepositoryDisplay;
     return value != nil ? YTKACELocalized(value) : nil;
 }
 
@@ -178,7 +181,9 @@ static UIImage *YTKACENativeSettingsIconImage(NSString *title) {
     if ([title isEqualToString:@"Downloads & Library"]) {
         return YTKACEDownloadTabImage(NO);
     }
-    NSString *symbol = [title isEqualToString:@"itzzace"] ? @"person.crop.circle" : YTKACENativeMenuRow(title)[@"symbol"];
+    NSString *symbol = [title isEqualToString:@"Developer"] ? @"person.crop.circle"
+        : [title isEqualToString:@"Repository"] ? @"chevron.left.forwardslash.chevron.right"
+        : YTKACENativeMenuRow(title)[@"symbol"];
     return symbol.length != 0 ? [UIImage systemImageNamed:symbol] : nil;
 }
 
@@ -389,10 +394,12 @@ static void YTKACEUpdateNativeSettingsSection(id receiver, SEL selector,
             controller.hidesSettingsButton = YES;
             return controller;
         } copy],
-        @"itzzace": [^UIViewController *{
-            NSURL *URL = [NSURL URLWithString:@"https://github.com/itzzace/ytkace"];
-            [UIApplication.sharedApplication openURL:URL options:@{}
-                                   completionHandler:nil];
+        @"Developer": [^UIViewController *{
+            MarufYTOpenURLString(MarufYTDeveloperURLString);
+            return nil;
+        } copy],
+        @"Repository": [^UIViewController *{
+            MarufYTOpenURLString(MarufYTRepositoryURLString);
             return nil;
         } copy]
     } mutableCopy];
@@ -414,9 +421,7 @@ static void YTKACEUpdateNativeSettingsSection(id receiver, SEL selector,
             item = YTKACENativePlainItem(nil, YTKACELocalized(title));
             YTKACEMakeItemInert(item);
         } else if ([kind isEqualToString:@"footer"]) {
-            NSString *info = [YTKACEDeviceInformationText()
-                stringByReplacingOccurrencesOfString:@"\n" withString:@"  •  "];
-            item = YTKACENativePlainItem(nil, info);
+            item = YTKACENativePlainItem(nil, YTKACEDeviceInformationText());
             YTKACEMakeItemInert(item);
         } else {
             item = YTKACENativeSettingsItem(title, settingsController, builders[title]);
@@ -442,10 +447,10 @@ static void YTKACEUpdateNativeSettingsSection(id receiver, SEL selector,
             ((void (*)(id, SEL, NSInteger))objc_msgSend)(icon, setIconType, 44);
         }
         ((void (*)(id, SEL, id, NSUInteger, id, id, id, BOOL))objc_msgSend)(
-            settingsController, modern, items, category, @"YTKACE", icon, nil, NO);
+            settingsController, modern, items, category, MarufYTProductName, icon, nil, NO);
     } else if ([settingsController respondsToSelector:legacy]) {
         ((void (*)(id, SEL, id, NSUInteger, id, id, BOOL))objc_msgSend)(
-            settingsController, legacy, items, category, @"YTKACE", nil, NO);
+            settingsController, legacy, items, category, MarufYTProductName, nil, NO);
     }
 }
 

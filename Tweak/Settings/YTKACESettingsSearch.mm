@@ -2,6 +2,7 @@
 #import "YTKACESettingsPages.h"
 #import "../Runtime/Localization.h"
 #import "../UI/Assets.h"
+#import "../MarufYT/Design/MarufYTTheme.h"
 
 #import <objc/message.h>
 #import <objc/runtime.h>
@@ -125,7 +126,7 @@ void YTKACEOpenSettingsRecord(NSDictionary *record, UIViewController *presenter)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = UIColor.systemBackgroundColor;
+    self.view.backgroundColor = MarufYTPageBackgroundColor();
 
     self.searchBar = [UISearchBar new];
     self.searchBar.delegate = self;

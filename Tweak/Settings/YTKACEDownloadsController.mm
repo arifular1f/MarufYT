@@ -1,4 +1,5 @@
 #import "YTKACEDownloadsController.h"
+#import "../MarufYT/Branding/MarufYTBranding.h"
 #import <Photos/Photos.h>
 #import "../Features/Downloads/DownloadCoordinator.h"
 #import "../Features/Downloads/DownloadLog.h"
@@ -604,7 +605,7 @@ static void YTKACEStoreMode(NSString *field, NSInteger segment, NSInteger mode) 
     self.controlBar.translatesAutoresizingMaskIntoConstraints = NO;
 
     self.libraryTitleLabel = [UILabel new];
-    self.libraryTitleLabel.text = @"YTKACE";
+    self.libraryTitleLabel.text = MarufYTProductName;
     self.libraryTitleLabel.font = [UIFont systemFontOfSize:22.0
                                                     weight:UIFontWeightBold];
     self.libraryTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
