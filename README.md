@@ -48,7 +48,7 @@ Details, including the build environment: [Documentation/BUILD_INSTRUCTIONS.md](
 ## Privacy and security
 
 - MarufYT contains no analytics, advertising, crash-reporting or telemetry SDK (verified in source and in the compiled library; see the [data-flow audit](Documentation/PHASE4/PRIVACY_DATA_FLOW_AUDIT.md)).
-- Its own network requests go only to the services listed in [PRIVACY.md](PRIVACY.md). SponsorBlock, DeArrow and AiSList are off by default.
+- Its own network requests go only to the services listed in [PRIVACY.md](PRIVACY.md). SponsorBlock, DeArrow and AiSList are off by default; SponsorBlock can optionally send only a hash prefix of the video ID (Settings → SponsorBlock → Private Lookup).
 - Network behaviour has been reviewed statically. It has **not** yet been captured on a device, so the project does not claim "zero data".
 - Report vulnerabilities privately: [SECURITY.md](SECURITY.md). Audit reports: [Documentation/PHASE4/](Documentation/PHASE4/) and [Documentation/audits/](Documentation/audits/).
 

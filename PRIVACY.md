@@ -18,6 +18,7 @@ Maintainer: [arifular1f](https://github.com/arifular1f). This document describes
 | --- | --- | --- |
 | YouTube and Google (`youtubei.googleapis.com`, `www.youtube.com`, `*.googlevideo.com`, `i.ytimg.com`) | Playback fixes, downloads, playlist downloads, quality and caption features | The same kind of requests the YouTube app makes. Playlist downloads may use your current YouTube sign-in to read playlists you can access. It is used only for these Google requests and is never stored or logged |
 | SponsorBlock (`sponsor.ajay.app`) | When SponsorBlock is on, for each video you watch | The video ID (to fetch segments) |
+| SponsorBlock with **Private Lookup** on (off by default) | Same, instead of the row above | Only the first 4 hex characters of the SHA-256 of the video ID. The server replies with every video sharing that prefix and MarufYT keeps its own. Your IP address and timing are still visible to the server |
 | SponsorBlock: voting or submitting segments | Only when you vote or submit from the player | The segment data, plus a random SponsorBlock user ID created on your device |
 | DeArrow (`sponsor.ajay.app`, `dearrow-thumb.ajay.app`) | When DeArrow titles or thumbnails are on | The video ID |
 | AiSList lists (`raw.githubusercontent.com/Override92/AiSList`) | When the AI-channel list feature is on | A standard download of the public lists; nothing about you |
