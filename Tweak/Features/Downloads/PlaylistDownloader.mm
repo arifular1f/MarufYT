@@ -1,3 +1,4 @@
+#import "../../Runtime/SecurityLifecycle.h"
 #import "../../Runtime/URLPolicy.h"
 #import "../../YTKACE.h"
 #import "../../Runtime/Hooking.h"
