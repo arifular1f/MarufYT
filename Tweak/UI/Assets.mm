@@ -1,5 +1,6 @@
 #import "Assets.h"
 
+#import "../MarufYT/Design/MarufYTTheme.h"
 #import <dlfcn.h>
 
 static NSString *YTKACELoadedImagePath(void) {
@@ -103,5 +104,6 @@ UIImage *YTKACEDownloadTabImage(BOOL selected) {
 }
 
 UIColor *YTKACEAccentColor(void) {
-    return [UIColor colorWithRed:0.749 green:0.0 blue:0.075 alpha:1.0];
+    // MarufYT: restrained accent instead of YouTube red (see MarufYTTheme).
+    return MarufYTAccentColor();
 }

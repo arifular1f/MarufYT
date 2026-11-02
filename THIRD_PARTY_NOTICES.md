@@ -1,5 +1,12 @@
 # Third-Party Notices
 
+MarufYT is a modified version of **YTKACE** by itzzace (https://github.com/itzzace/ytkace), MIT licensed.
+The upstream copyright notice is kept in `LICENSE`. MarufYT changes are listed in `CHANGELOG.md` and
+`Documentation/SOURCE_PROVENANCE.md`.
+
+The sections below are the upstream notices, unchanged. "YTKACE" in them refers to the upstream project,
+whose code MarufYT includes.
+
 YTKACE source is licensed under MIT. The following components and services have separate terms.
 
 ## FFmpeg
@@ -9,10 +16,6 @@ YTKACE statically links FFmpeg 8.1.2 for local media processing. It is built fro
 ## SponsorBlock and DeArrow
 
 SponsorBlock and DeArrow community data is provided by the SponsorBlock service under CC BY-NC-SA 4.0. See https://sponsor.ajay.app/. The shield image shipped in `YTKACE.bundle` is SponsorBlock's artwork, taken from the same site and used to mark the integration.
-
-## AiSList
-
-Hide AI Channels uses the AiSList blocklist and warnlist from [aisloplist.com](https://aisloplist.com), maintained by the AiSList community at [Override92/AiSList](https://github.com/Override92/AiSList) and licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). The lists are downloaded unmodified and only read to match channels in the feed and search. The list locations and the idea of matching channel handles in feed data came from the [Morphe](https://github.com/MorpheApp/morphe-patches) AiSList patch. No Morphe code is used.
 
 ## SABR reference
 

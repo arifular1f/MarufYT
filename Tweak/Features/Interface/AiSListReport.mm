@@ -5,6 +5,7 @@
 #import "../../UI/Notice.h"
 #import "../../UI/OverlayButtonHost.h"
 
+#import "../../MarufYT/Branding/MarufYTBranding.h"
 #import <UIKit/UIKit.h>
 #import <objc/message.h>
 
@@ -87,7 +88,7 @@ static void YTKACEAiSListSubmit(NSString *handle, NSString *videoID, NSString *n
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 20.0;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:@"YTKACE" forHTTPHeaderField:@"User-Agent"];
+    [request setValue:MarufYTProductName forHTTPHeaderField:@"User-Agent"];
     request.HTTPBody = [NSJSONSerialization dataWithJSONObject:body options:0 error:nil];
     [[NSURLSession.sharedSession dataTaskWithRequest:request
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -106,7 +107,7 @@ static void YTKACEAiSListSubmit(NSString *handle, NSString *videoID, NSString *n
 
 static void YTKACEAiSListConfirm(NSString *handle, NSString *channel, NSString *videoID) {
     NSString *name = [NSUserDefaults.standardUserDefaults stringForKey:YTKACEAiSListNameKey];
-    if (name.length == 0) name = @"YTKACE";
+    if (name.length == 0) name = MarufYTProductName;
     UIImage *icon = [[UIImage systemImageNamed:@"flag"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     YTKACEPresentNativeSheet(channel.length != 0 ? channel : handle, channel.length != 0 ? handle : nil, nil, @[
         @{@"title": YTKACELocalized(@"Report as AI channel"),

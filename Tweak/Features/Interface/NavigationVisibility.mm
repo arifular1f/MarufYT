@@ -2,6 +2,7 @@
 #import "../../Runtime/Hooking.h"
 #import "../../Runtime/Preferences.h"
 
+#import "../../MarufYT/Branding/MarufYTBranding.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
 #import <stdlib.h>
@@ -57,7 +58,7 @@ static IMP YTKACENavigationOriginal(id receiver, SEL selector) {
 
 static void YTKACESetNavigationHidden(UIView *view, BOOL hidden) {
     if (view == nil ||
-        [view.accessibilityLabel hasPrefix:@"YTKACE"] ||
+        MarufYTIsOwnAccessibilityText(view.accessibilityLabel) ||
         [view.accessibilityIdentifier hasPrefix:@"YTKACE"]) {
         return;
     }

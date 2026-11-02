@@ -1,0 +1,70 @@
+name: Build
+
+# Builds the MarufYT ROOTLESS package. No YouTube IPA is downloaded or
+# published here; IPAs are assembled locally from a user-supplied decrypted
+# YouTube (see BUILD_INSTRUCTIONS.md).
+
+on:
+  push:
+    branches: [main, phase2, 'stable-*', 'migrate/*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Upstream packaging tests
+        run: python3 -m unittest discover -s Tests -v
+      - name: MarufYT source checks
+        run: python3 Tools/marufyt_checks.py
+
+  build:
+    needs: test
+    # Theos' installer needs the libxml2 apt package, which Ubuntu 26.04
+    # (ubuntu-latest since 2026-10) renamed.
+    runs-on: ubuntu-24.04
+    env:
+      THEOS: ${{ github.workspace }}/.theos
+      CI: true
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Cache Theos
+        id: cache-theos
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.theos
+          key: roothide-theos-ubuntu-24.04-v1
+
+      - name: Setup Theos
+        if: steps.cache-theos.outputs.cache-hit != 'true'
+        run: bash -c "$(curl -fsSL https://raw.githubusercontent.com/roothide/theos/master/bin/install-theos)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build ROOTLESS package
+        run: |
+          make clean
+          make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless \
+            MARUFYT_BUILD=${{ github.run_number }} \
+            DISABLE_ROOTLESS_COMPAT_WARNING=1 2>&1 | tee build.log
+
+      - name: Collect artifacts
+        run: |
+          version="$(awk '/^Version:/ {print $2}' control)"
+          mkdir -p artifacts
+          cp "$(ls packages/*.deb | head -1)" "artifacts/com.arifular1f.marufyt_${version}_rootless.deb"
+          cp dist/MarufYT.dylib artifacts/
+          cp build.log artifacts/
+          (cd artifacts && sha256sum * > SHA256SUMS.txt && cat SHA256SUMS.txt)
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: MarufYT-rootless
+          path: artifacts/
+          if-no-files-found: error

@@ -1,6 +1,7 @@
 #import "YTKACEDownloadPlayerController.h"
 #import "../../YTKACE.h"
 #import "../../Runtime/Localization.h"
+#import "../../MarufYT/Branding/MarufYTBranding.h"
 #import "../../Runtime/Preferences.h"
 #import "../../Runtime/Hooking.h"
 #import "MediaArtwork.h"
@@ -739,7 +740,7 @@ static void YTKACEStoreCompleted(NSURL *URL, NSTimeInterval duration,
     if (self.currentURL == nil) return;
     NSMutableDictionary *info = [NSMutableDictionary dictionary];
     info[MPMediaItemPropertyTitle] =
-        self.currentURL.lastPathComponent.stringByDeletingPathExtension ?: @"YTKACE";
+        self.currentURL.lastPathComponent.stringByDeletingPathExtension ?: MarufYTProductName;
     NSTimeInterval duration = CMTimeGetSeconds(self.player.currentItem.duration);
     NSTimeInterval elapsed = CMTimeGetSeconds(self.player.currentTime);
     if (isfinite(duration) && duration > 0.0) info[MPMediaItemPropertyPlaybackDuration] = @(duration);
