@@ -1,4 +1,15 @@
-# Source provenance (branch `phase2`)
+# Source provenance (phase2 and optimization branch)
+
+## Optimization continuation (1.1.4+marufyt.4)
+
+Dedicated branch `optimization/phase2-performance` starts at phase2 `6d079b1`.
+Original changes by arifular1f, MIT; existing upstream notices remain intact:
+tab release/cancellation, host-relative icon anchors and safe-area capsule width;
+lightweight glass/accessibility and transient tracker lifecycle; DeArrow decoded
+image cost limits; library metadata cache budget/queue cleanup; progress timer
+reuse. The Settings page adds a toggle in the existing preference namespace.
+Details and evidence: [final optimization report](FINAL_OPTIMIZATION_REPORT.md).
+No proprietary host binary or new third-party source is added to this repository.
 
 **Base:** upstream YTKACE `main` at **`11249ee`** (2026-11-01, after tag v1.1.4), MIT, https://github.com/itzzace/ytkace. The full upstream history is kept in Git. The previous MarufYT release (based on v1.1.1) is preserved on branch `stable-21.39.4`.
 

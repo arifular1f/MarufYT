@@ -31,6 +31,11 @@ How branding is applied:
 
 ### `MarufYTDesign.*`: the Liquid Glass preset and capsule depth
 
+Optimization .4 adds `MarufYTLightweightGlassEnabled()` and the persistent
+`YTKACE.Preference.Glass.Lightweight` setting. It follows Reduce Motion and Reduce
+Transparency, suppresses optional capsule depth and selects the simpler tab pill.
+Normal glass defaults remain unchanged. See FINAL_OPTIMIZATION_REPORT.md.
+
 - **Preset:** top bar, menus, toasts and player glass default to on when `UIGlassEffect` exists.
 - **Tab bar mode:** `MarufYTPresetTabGlassMode()` (the floating capsule) is used only when you have stored neither `Tabs.GlassMode` nor the legacy `Tabs.Glass` switch.
 - **Depth layer:** `MarufYTDecorateTabCapsule()` adds a shadow that is masked to outside the capsule and rasterized. Toggle: `YTKACE.Preference.Glass.DepthShadow`.
