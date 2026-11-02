@@ -270,5 +270,16 @@ check("URL policy requires https before MarufYT fetches YouTube-supplied URLs",
           "Tweak/Features/Interface/PostImageSaver.mm", "Tweak/Features/Interface/ProfilePictureViewer.mm",
           "Tweak/Features/Playback/TranscriptExport.mm"]))
 
+# Phase 4.1: private SponsorBlock lookup, artwork off the main thread.
+check("SponsorBlock hash helper is pure C with native tests wired",
+      "#import" not in read("Tweak/MarufYT/Privacy/MarufYTSponsorHash.h")
+      and (ROOT / "Tests/native/test_sponsor_hash.c").exists() and (ROOT / "Tests/test_native_sponsor_hash.py").exists())
+check("Private Lookup is a labelled, translated opt-in",
+      "SponsorBlock.PrivateLookup" in read("Tweak/Settings/YTKACESettingsPages.mm")
+      and all("Private Lookup" in entries for entries in tables.values()))
+check("artwork cache is bounded and async loader exists",
+      "YTKACEMediaArtworkImageAsync" in read("Tweak/Features/Downloads/MediaArtwork.mm")
+      and "countLimit = 8" in read("Tweak/Features/Downloads/MediaArtwork.mm"))
+
 print(f"\n{'FAILED' if failures else 'OK'}: {len(failures)} failure(s)")
 sys.exit(1 if failures else 0)

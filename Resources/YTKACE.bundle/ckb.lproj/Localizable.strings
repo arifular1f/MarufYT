@@ -1057,3 +1057,6 @@ Licensed under CC BY-NC-SA 4.0." = "YTKACE داتای SponsorBlock بەکارد�
 /* MarufYT Phase 3 */
 "Simple" = "سادە";
 "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "سادە شریتی تابی کلاسیکی جێگیری YouTube بەکاردەهێنێت. YouTube و MarufYT شریتی Liquid Glassی هەڵبژاردەنین.";
+/* MarufYT Phase 4.1 */
+"Private Lookup" = "گەڕانی تایبەت";
+"Sends only a short hash prefix of the video ID instead of the full ID. Replies are larger." = "تەنها پێشگری هاشێکی کورتی ناسنامەی ڤیدیۆ دەنێرێت نەک ناسنامە تەواوەکە. وەڵامەکان گەورەترن.";

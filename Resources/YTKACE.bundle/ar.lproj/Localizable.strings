@@ -1057,3 +1057,6 @@ Licensed under CC BY-NC-SA 4.0." = "يستخدم YTKACE بيانات SponsorBloc
 /* MarufYT Phase 3 */
 "Simple" = "بسيط";
 "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "الوضع البسيط يستخدم شريط التبويب الكلاسيكي المثبّت في YouTube. وضعا YouTube وMarufYT شريطان اختياريان بتأثير Liquid Glass.";
+/* MarufYT Phase 4.1 */
+"Private Lookup" = "بحث خاص";
+"Sends only a short hash prefix of the video ID instead of the full ID. Replies are larger." = "يرسل بادئة تجزئة قصيرة فقط من معرّف الفيديو بدلاً من المعرّف الكامل. الردود أكبر.";

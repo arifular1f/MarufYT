@@ -1068,3 +1068,6 @@ Licensed under CC BY-NC-SA 4.0." = "YTKACE 使用 SponsorBlock 数据。
 /* MarufYT Phase 3 */
 "Simple" = "简洁";
 "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "“简洁”使用 YouTube 经典的固定标签栏。YouTube 和 MarufYT 为可选的 Liquid Glass 标签栏。";
+/* MarufYT Phase 4.1 */
+"Private Lookup" = "隐私查询";
+"Sends only a short hash prefix of the video ID instead of the full ID. Replies are larger." = "仅发送视频 ID 的简短哈希前缀，而不是完整 ID。响应会更大。";

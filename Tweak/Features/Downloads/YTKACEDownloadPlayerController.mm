@@ -143,6 +143,11 @@ static NSArray<YTKACESubtitleCue *> *YTKACEReadSubtitles(NSURL *mediaURL) {
 @property(nonatomic, strong, nullable) NSArray *remoteTargets;
 @end
 
+static MPMediaItemArtwork *YTKACENowPlayingArtwork(UIImage *image) {
+    return [[MPMediaItemArtwork alloc] initWithBoundsSize:image.size
+                                           requestHandler:^UIImage *(__unused CGSize size) { return image; }];
+}
+
 @implementation YTKACEDownloadPlaybackSession
 
 static YTKACEDownloadPlaybackSession *YTKACESharedPlaybackSession;
@@ -746,16 +751,23 @@ static void YTKACEStoreCompleted(NSURL *URL, NSTimeInterval duration,
     if (isfinite(duration) && duration > 0.0) info[MPMediaItemPropertyPlaybackDuration] = @(duration);
     if (isfinite(elapsed) && elapsed >= 0.0) info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = @(elapsed);
     info[MPNowPlayingInfoPropertyPlaybackRate] = @(self.player.rate);
-    UIImage *image = YTKACEMediaArtworkImage(self.currentURL);
-    if (image != nil) {
-        MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]
-            initWithBoundsSize:image.size requestHandler:^UIImage *(CGSize size) {
-                (void)size;
-                return image;
-            }];
-        info[MPMediaItemPropertyArtwork] = artwork;
-    }
+    // Artwork comes from the cache; a first load happens off the main thread
+    // and is merged into the current info when it arrives.
+    UIImage *image = YTKACEMediaArtworkCachedImage(self.currentURL);
+    if (image != nil) info[MPMediaItemPropertyArtwork] = YTKACENowPlayingArtwork(image);
     MPNowPlayingInfoCenter.defaultCenter.nowPlayingInfo = info;
+    if (image == nil) {
+        NSURL *URL = self.currentURL;
+        __weak YTKACEDownloadPlaybackSession *weakSelf = self;
+        YTKACEMediaArtworkImageAsync(URL, ^(UIImage *loaded) {
+            YTKACEDownloadPlaybackSession *strongSelf = weakSelf;
+            if (loaded == nil || strongSelf == nil || ![strongSelf.currentURL isEqual:URL]) return;
+            NSMutableDictionary *current = [MPNowPlayingInfoCenter.defaultCenter.nowPlayingInfo mutableCopy];
+            if (current == nil) return;
+            current[MPMediaItemPropertyArtwork] = YTKACENowPlayingArtwork(loaded);
+            MPNowPlayingInfoCenter.defaultCenter.nowPlayingInfo = current;
+        });
+    }
 }
 
 @end

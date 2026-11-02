@@ -1012,3 +1012,6 @@
 /* MarufYT Phase 3 */
 "Simple" = "Simples";
 "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "“Simples” usa a barra de abas clássica e ancorada do YouTube. YouTube e MarufYT são barras Liquid Glass opcionais.";
+/* MarufYT Phase 4.1 */
+"Private Lookup" = "Consulta privada";
+"Sends only a short hash prefix of the video ID instead of the full ID. Replies are larger." = "Envia apenas um prefixo de hash curto do ID do vídeo em vez do ID completo. As respostas são maiores.";

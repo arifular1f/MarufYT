@@ -1436,7 +1436,10 @@ static NSDictionary *YTKACESponsorBlockDefinition(void) {
                            YTKACESponsorBlockKey),
         YTKACEToggleDetail(@"Player Button",
                            @"Adds a shield to the player to whitelist channels, vote on segments and submit new ones.",
-                           @"YTKACE.Preference.SponsorBlock.OverlayButton")
+                           @"YTKACE.Preference.SponsorBlock.OverlayButton"),
+        YTKACEToggleDetail(@"Private Lookup",
+                           @"Sends only a short hash prefix of the video ID instead of the full ID. Replies are larger.",
+                           @"YTKACE.Preference.SponsorBlock.PrivateLookup")
     ]];
     NSMutableArray<NSString *> *titles = [NSMutableArray arrayWithObject:YTKACELocalized(@"MAIN")];
 

@@ -666,9 +666,19 @@ static void YTKACELoadQueueInfo(NSURL *URL, void (^completion)(NSDictionary *inf
     self.channelLabel.text = URL == nil ? nil : YTKACEStoredChannelName(URL);
     if (![URL isEqual:self.artworkURL]) {
         self.artworkURL = URL;
-        UIImage *artwork = URL == nil ? nil : YTKACEMediaArtworkImage(URL);
-        self.artworkView.image = artwork ?: [UIImage systemImageNamed:@"music.note"];
+        UIImage *placeholder = [UIImage systemImageNamed:@"music.note"];
+        UIImage *artwork = YTKACEMediaArtworkCachedImage(URL);
+        self.artworkView.image = artwork ?: placeholder;
         self.miniArtwork.image = self.artworkView.image;
+        if (artwork == nil && URL != nil) {
+            __weak YTKACEAudioPlayerController *weakSelf = self;
+            YTKACEMediaArtworkImageAsync(URL, ^(UIImage *image) {
+                YTKACEAudioPlayerController *strongSelf = weakSelf;
+                if (image == nil || strongSelf == nil || ![strongSelf.artworkURL isEqual:URL]) return;
+                strongSelf.artworkView.image = image;
+                strongSelf.miniArtwork.image = image;
+            });
+        }
     }
     self.artworkView.tintColor = UIColor.systemGrayColor;
     self.miniTitle.text = self.titleLabel.text;

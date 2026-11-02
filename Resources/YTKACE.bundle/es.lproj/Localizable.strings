@@ -1039,3 +1039,6 @@ Licensed under CC BY-NC-SA 4.0." = "YTKACE usa datos de SponsorBlock.\nCon licen
 /* MarufYT Phase 3 */
 "Simple" = "Sencillo";
 "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "«Sencillo» usa la barra de pestañas clásica anclada de YouTube. YouTube y MarufYT son barras opcionales con Liquid Glass.";
+/* MarufYT Phase 4.1 */
+"Private Lookup" = "Consulta privada";
+"Sends only a short hash prefix of the video ID instead of the full ID. Replies are larger." = "Envía solo un prefijo hash corto del ID del vídeo en lugar del ID completo. Las respuestas son más grandes.";

@@ -1057,3 +1057,6 @@ CC BY-NC-SA 4.0 でライセンスされています。";
 /* MarufYT Phase 3 */
 "Simple" = "シンプル";
 "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "「シンプル」はYouTubeの従来の固定タブバーを使用します。YouTubeとMarufYTは任意のLiquid Glassバーです。";
+/* MarufYT Phase 4.1 */
+"Private Lookup" = "プライベート検索";
+"Sends only a short hash prefix of the video ID instead of the full ID. Replies are larger." = "動画IDの全体ではなく、短いハッシュの先頭部分のみを送信します。応答は大きくなります。";

@@ -1057,3 +1057,6 @@ Sous licence CC BY-NC-SA 4.0.";
 /* MarufYT Phase 3 */
 "Simple" = "Simple";
 "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "« Simple » utilise la barre d’onglets classique ancrée de YouTube. YouTube et MarufYT sont des barres Liquid Glass facultatives.";
+/* MarufYT Phase 4.1 */
+"Private Lookup" = "Recherche privée";
+"Sends only a short hash prefix of the video ID instead of the full ID. Replies are larger." = "N’envoie qu’un court préfixe de hachage de l’identifiant de la vidéo au lieu de l’identifiant complet. Les réponses sont plus volumineuses.";

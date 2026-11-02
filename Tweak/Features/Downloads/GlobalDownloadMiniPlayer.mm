@@ -161,6 +161,7 @@ static UIButton *YTKACEMiniButton(NSString *symbol, CGFloat size, id target, SEL
 @property(nonatomic, strong) UIButton *closeButton;
 @property(nonatomic, strong) YTKACEMiniProgressView *progressView;
 @property(nonatomic, strong) NSTimer *positionTimer;
+@property(nonatomic, strong) NSURL *artworkURL;
 @property(nonatomic, assign) BOOL interacting;
 @property(nonatomic, assign) BOOL dismissing;
 @property(nonatomic, assign) BOOL audio;
@@ -542,7 +543,21 @@ static UIButton *YTKACEMiniButton(NSString *symbol, CGFloat size, id target, SEL
     [window bringSubviewToFront:self.card];
     self.audio = [URL.path containsString:@"/Downloads/Audio/"];
     self.artworkView.hidden = !self.audio;
-    self.artworkView.image = self.audio ? YTKACEMediaArtworkImage(URL) : nil;
+    if (!self.audio) {
+        self.artworkURL = nil;
+        self.artworkView.image = nil;
+    } else if (![URL isEqual:self.artworkURL]) {
+        // Never read artwork on the main thread: use the cache, else load async.
+        self.artworkURL = URL;
+        self.artworkView.image = YTKACEMediaArtworkCachedImage(URL);
+        if (self.artworkView.image == nil) {
+            __weak YTKACEGlobalDownloadMiniPlayer *weakSelf = self;
+            YTKACEMediaArtworkImageAsync(URL, ^(UIImage *image) {
+                YTKACEGlobalDownloadMiniPlayer *strongSelf = weakSelf;
+                if (strongSelf != nil && [strongSelf.artworkURL isEqual:URL]) strongSelf.artworkView.image = image;
+            });
+        }
+    }
     UIImageSymbolConfiguration *configuration =
         [UIImageSymbolConfiguration configurationWithPointSize:15.0
                                                         weight:UIImageSymbolWeightBold];

@@ -1,6 +1,14 @@
 #import "SponsorClient.h"
 #import "SponsorPreferences.h"
+#import "../../MarufYT/Privacy/MarufYTSponsorHash.h"
+#import "../../Runtime/Preferences.h"
 #import <math.h>
+
+// Opt-in. When on, only the first 4 hex characters of SHA-256(videoID) are sent
+// (GET /api/skipSegments/<prefix>) and the matching video is picked from the
+// response. Off by default: the response is larger and the path is not yet
+// verified on a device.
+static NSString * const YTKACESponsorPrivateLookupKey = @"YTKACE.Preference.SponsorBlock.PrivateLookup";
 
 @interface YTKACESponsorClient ()
 @property(nonatomic, strong) NSCache<NSString *, NSArray *> *cache;
@@ -61,16 +69,26 @@
         return;
     }
 
-    NSURLComponents *components =
-        [NSURLComponents componentsWithString:@"https://sponsor.ajay.app/api/skipSegments"];
+    BOOL privateLookup = YTKACEFeatureEnabled(YTKACESponsorPrivateLookupKey);
+    NSString *endpoint = @"https://sponsor.ajay.app/api/skipSegments";
+    if (privateLookup) {
+        char prefix[MARUFYT_SPONSOR_PREFIX_LENGTH + 1];
+        if (!MarufYTSponsorHashPrefix(videoID.UTF8String, MARUFYT_SPONSOR_PREFIX_LENGTH, prefix, sizeof prefix)) {
+            // Not a well-formed video ID: send nothing rather than the full ID.
+            completion(@[]);
+            return;
+        }
+        endpoint = [endpoint stringByAppendingFormat:@"/%s", prefix];
+    }
+    NSURLComponents *components = [NSURLComponents componentsWithString:endpoint];
     NSData *categoryData = [NSJSONSerialization dataWithJSONObject:categories
                                                             options:0 error:nil];
     NSString *categoryJSON = categoryData == nil ? @"[]" :
         [[NSString alloc] initWithData:categoryData encoding:NSUTF8StringEncoding];
-    components.queryItems = @[
-        [NSURLQueryItem queryItemWithName:@"videoID" value:videoID],
-        [NSURLQueryItem queryItemWithName:@"categories" value:categoryJSON]
-    ];
+    NSURLQueryItem *categoryItem = [NSURLQueryItem queryItemWithName:@"categories" value:categoryJSON];
+    components.queryItems = privateLookup
+        ? @[categoryItem]
+        : @[[NSURLQueryItem queryItemWithName:@"videoID" value:videoID], categoryItem];
     NSURL *url = components.URL;
     if (url == nil) {
         completion(@[]);
@@ -94,8 +112,22 @@
 
         if (error == nil && http.statusCode == 200 && data.length <= 1024 * 1024) {
             id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            if ([json isKindOfClass:NSArray.class]) {
-                for (id item in (NSArray *)json) {
+            NSArray *entries = [json isKindOfClass:NSArray.class] ? json : nil;
+            if (privateLookup) {
+                // The reply lists every video sharing the prefix; keep only ours.
+                entries = nil;
+                for (id candidate in (NSArray *)([json isKindOfClass:NSArray.class] ? json : @[])) {
+                    id candidateID = [candidate isKindOfClass:NSDictionary.class] ? candidate[@"videoID"] : nil;
+                    id candidateSegments = [candidate isKindOfClass:NSDictionary.class] ? candidate[@"segments"] : nil;
+                    if ([candidateID isKindOfClass:NSString.class] && [candidateSegments isKindOfClass:NSArray.class] &&
+                        MarufYTSponsorEntryMatches(videoID.UTF8String, [candidateID UTF8String])) {
+                        entries = candidateSegments;
+                        break;
+                    }
+                }
+            }
+            if (entries != nil) {
+                for (id item in entries) {
                     if (![item isKindOfClass:NSDictionary.class]) {
                         continue;
                     }

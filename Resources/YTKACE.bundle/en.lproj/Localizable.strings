@@ -1080,3 +1080,6 @@ Licensed under CC BY-NC-SA 4.0.";
 /* MarufYT Phase 3 */
 "Simple" = "Simple";
 "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars.";
+/* MarufYT Phase 4.1 */
+"Private Lookup" = "Private Lookup";
+"Sends only a short hash prefix of the video ID instead of the full ID. Replies are larger." = "Sends only a short hash prefix of the video ID instead of the full ID. Replies are larger.";

@@ -12,7 +12,7 @@ name: Build
 
 on:
   push:
-    branches: [main, phase2, 'stable-*', 'migrate/*', 'phase3-*', 'phase4-*']
+    branches: [main, phase2, 'stable-*', 'migrate/*', 'phase3-*', 'phase4-*', 'phase4.*']
   pull_request:
   workflow_dispatch:
     inputs:

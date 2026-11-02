@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.4+marufyt.7 (2026-11-02): Phase 4.1 responsiveness and optional private SponsorBlock lookup
+
+- **Artwork off the main thread:** the mini player, audio player and Now Playing info no longer read artwork files or parse media metadata on the main thread. A small bounded cache (8 images, about 16 MB) is shared.
+- **SponsorBlock Private Lookup (new, off by default):** when turned on in Settings, only the first 4 hex characters of the video ID's SHA-256 are sent and the matching video is chosen from the reply. Replies are larger. The default request is unchanged.
+- **Tests:** native tests for the hash helper (run in CI), and static guards for observers, blocking waits and artwork I/O.
+- Two new strings in all 16 languages (machine-assisted).
+- Device behaviour of this build is not tested.
+
 ## 1.1.4+marufyt.6 (2026-11-02): Phase 4 security, privacy and repository cleanup
 
 - **HTTPS-only fetches:** profile pictures, post images and caption/transcript downloads, whose URLs come from YouTube objects, are only requested over HTTPS (`Tweak/Runtime/URLPolicy.h`).

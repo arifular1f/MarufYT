@@ -1057,3 +1057,6 @@ CC BY-NC-SA 4.0 ile lisanslanmıştır.";
 /* MarufYT Phase 3 */
 "Simple" = "Basit";
 "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "“Basit”, YouTube’un klasik sabit sekme çubuğunu kullanır. YouTube ve MarufYT isteğe bağlı Liquid Glass çubuklarıdır.";
+/* MarufYT Phase 4.1 */
+"Private Lookup" = "Gizli Sorgu";
+"Sends only a short hash prefix of the video ID instead of the full ID. Replies are larger." = "Tam kimlik yerine video kimliğinin yalnızca kısa bir karma önekini gönderir. Yanıtlar daha büyüktür.";

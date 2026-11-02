@@ -1057,3 +1057,6 @@ Cấp phép theo CC BY-NC-SA 4.0.";
 /* MarufYT Phase 3 */
 "Simple" = "Đơn giản";
 "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "“Đơn giản” dùng thanh tab cố định cổ điển của YouTube. YouTube và MarufYT là các thanh Liquid Glass tùy chọn.";
+/* MarufYT Phase 4.1 */
+"Private Lookup" = "Tra cứu riêng tư";
+"Sends only a short hash prefix of the video ID instead of the full ID. Replies are larger." = "Chỉ gửi một tiền tố băm ngắn của ID video thay vì ID đầy đủ. Phản hồi lớn hơn.";

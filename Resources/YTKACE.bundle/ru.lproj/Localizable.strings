@@ -1057,3 +1057,6 @@ Licensed under CC BY-NC-SA 4.0." = "YTKACE использует данные Spo
 /* MarufYT Phase 3 */
 "Simple" = "Простой";
 "Simple uses YouTube's classic docked tab bar. YouTube and MarufYT are optional Liquid Glass bars." = "«Простой» использует классическую закреплённую панель вкладок YouTube. YouTube и MarufYT — необязательные панели Liquid Glass.";
+/* MarufYT Phase 4.1 */
+"Private Lookup" = "Приватный запрос";
+"Sends only a short hash prefix of the video ID instead of the full ID. Replies are larger." = "Отправляет только короткий префикс хеша идентификатора видео вместо полного идентификатора. Ответы больше.";
