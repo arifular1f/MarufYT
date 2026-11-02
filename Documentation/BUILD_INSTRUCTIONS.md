@@ -4,12 +4,19 @@
 
 ### On GitHub Actions (recommended)
 
-Push to `main`, or run **Actions → Build → Run workflow**. The workflow:
+Push to `phase2` or `main` (or run **Actions → Build → Run workflow**). The workflow:
 
-1. Runs the upstream unit tests and `Tools/marufyt_checks.py`.
-2. Installs Theos (the roothide fork, as upstream uses).
-3. Runs `make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless`.
-4. Uploads the artifact `MarufYT-rootless`. It contains `com.arifular1f.marufyt_<version>_rootless.deb`, `MarufYT.dylib`, `build.log` and `SHA256SUMS.txt`.
+1. **Tests:** runs the upstream unit tests, `Tools/marufyt_checks.py` (static and CI-hardening checks) and `Tools/marufyt_secret_scan.py` (full history).
+2. **Theos:** installs the roothide fork, which upstream also uses.
+   - The installer is downloaded from the commit in `THEOS_COMMIT` and must match `THEOS_INSTALLER_SHA256`.
+   - Theos is then checked out at that commit.
+   - The SDK and toolchain versions are written to `provenance.txt`.
+3. **Build:** runs `make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless MARUFYT_BUILD=<run number>`. Any compiler error fails the step.
+4. **Artifact:** uploads `MarufYT-rootless` with `com.arifular1f.marufyt_<version>_rootless.deb`, `MarufYT.dylib`, `build.log`, `provenance.txt` and `SHA256SUMS.txt`.
+
+**Updating pins:** Dependabot proposes action updates. To move Theos, update both `THEOS_COMMIT` and `THEOS_INSTALLER_SHA256` (the hash of `bin/install-theos` at that commit), then review the CI log.
+
+**Verifying an artifact:** run `sha256sum -c SHA256SUMS.txt` inside the extracted artifact.
 
 ### Locally (macOS or Linux with Theos)
 
@@ -17,6 +24,7 @@ Push to `main`, or run **Actions → Build → Run workflow**. The workflow:
 export THEOS=~/theos   # https://theos.dev/docs/installation
 python3 -m unittest discover -s Tests
 python3 Tools/marufyt_checks.py
+python3 Tools/marufyt_secret_scan.py
 make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
 ```
 

@@ -1,5 +1,5 @@
 name: Feature Request
-description: Propose an idea or enhancement for YTKACE.
+description: Propose an idea or enhancement for MarufYT.
 title: "feat: "
 labels:
   - enhancement
@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Share your ideas for improving YTKACE. Please ensure the suggestion fits within the tweak's scope.
+        Share your ideas for improving MarufYT. Please ensure the suggestion fits within the tweak's scope.
 
   - type: checkboxes
     id: prereqs
@@ -40,6 +40,6 @@ body:
     attributes:
       label: Interface & Behavior Concept (Optional)
       description: Ideas regarding tweak settings toggles, placement, or configuration menus.
-      placeholder: e.g. Add a toggle under YTKACE Settings > Video Player...
+      placeholder: e.g. Add a toggle under MarufYT Settings > Player...
     validations:
       required: false

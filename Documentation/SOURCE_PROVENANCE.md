@@ -13,6 +13,9 @@
 | `Tools/marufyt_package.py` | Local IPA assembly |
 | `Tools/marufyt_host_audit.py` | Static compatibility audit between two YouTube hosts |
 | `Tools/phase2_apply.py` | Exact record of the Phase 2 changes applied to upstream files |
+| `Tools/phase2_translations.py` | Adds the MarufYT strings to all 16 localization tables (idempotent) |
+| `Tools/marufyt_secret_scan.py` | Full-history credential scanner (CI) |
+| `SECURITY.md`, `PRIVACY.md`, `.github/dependabot.yml`, `Documentation/REQUIREMENTS_CHECKLIST.md`, `Documentation/audits/*` | Security policy, privacy statement, dependency updates, requirement tracking, audit reports |
 | `Documentation/*`, `README.md`, `CHANGELOG.md`, `.github/workflows/build.yml` | Project documentation and CI |
 
 ## 2. Modified upstream files
@@ -29,6 +32,10 @@
 | `Tweak/Settings/YTKACERootOptionsController.mm` | Inset-grouped themed table, icon tiles, MarufYT header, new About section (no Credits), concise product line |
 | `Tweak/Settings/YTKACESettingsPages.mm` | Inset-grouped themed pages; values grey with a menu chevron; Dynamic Type; native heights; SponsorBlock regrouping; colour dots; depth toggle; branded literals |
 | `Tweak/Settings/YTKACETabEditorController.mm`, `YTKACESettingsSearch.mm`, `NativeSettingsEntry.mm`, `SettingsEntry.mm`, `YTKACEDownloadsController.mm` | Theme and branding; YouTube Settings About rows Developer and Repository |
+| `Tweak/Features/Downloads/DownloadLog.mm` | Security: log moved to Application Support, excluded from backup, file protection, redaction of tokens and URL queries, one-time removal of the old Documents log |
+| `Tweak/UI/OverlayButtonHost.mm` | Accessibility: localized VoiceOver labels for player buttons |
+| `Resources/YTKACE.bundle/*.lproj/Localizable.strings` | 11 MarufYT strings appended to each of the 16 tables (upstream entries unchanged) |
+| `.github/ISSUE_TEMPLATE/*` | Rebranded; private security-report link. `.github/FUNDING.yml` (upstream donation link) removed from this repository |
 | `Makefile`, `control`, `MarufYT.plist` | `MarufYT.dylib`, build number define, package `com.arifular1f.marufyt` |
 | `LICENSE`, `THIRD_PARTY_NOTICES.md` | MarufYT copyright line and provenance header added; upstream text unchanged |
 

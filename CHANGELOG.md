@@ -1,5 +1,31 @@
 # Changelog
 
+## 1.1.4+marufyt.3 (2026-11-02): security, localization and accessibility
+
+### Security and privacy
+- **Diagnostics log:**
+  - Moved from `Documents/YTKACE/Logs` (visible in the Files app because file sharing is on, and included in device backups) to `Library/Application Support/YTKACE/Logs`.
+  - Excluded from backup and given `CompleteUntilFirstUserAuthentication` file protection.
+  - The old Documents log file is removed once. Downloads are not touched.
+- **Log redaction:** every log line has bearer tokens, URL query strings (stream signatures, keys, client IPs) and token-like parameters removed before it is written, including in debug mode.
+
+### Accessibility and localization
+- **VoiceOver:** player overlay buttons (Download, PiP, Loop, Sleep Timer, Speed −/value/+, Transcript, SponsorBlock) announce localized, branded names instead of internal identifiers.
+- **Translations:** all 11 strings added by MarufYT are translated into all 16 languages. 13 untranslated upstream strings remain unchanged and fall back to English.
+
+### Repository and CI
+- **Actions:**
+  - pinned to full commit SHAs;
+  - credentials not persisted;
+  - per-job read-only permissions, timeouts and concurrency.
+- **Theos installer:** fetched from a pinned commit, verified by SHA-256, and Theos checked out at that commit. Toolchain provenance is recorded per build.
+- **CI secret scan:** `Tools/marufyt_secret_scan.py` checks the full history on every run.
+- **Dependabot:** updates for GitHub Actions.
+- **New documents:** `SECURITY.md`, `PRIVACY.md` and `Documentation/REQUIREMENTS_CHECKLIST.md`; audit reports in `Documentation/audits/`.
+- **Repository config:**
+  - issue templates rebranded to MarufYT, with a private security-report link;
+  - the upstream donation config (`FUNDING.yml`) removed from this repository, while upstream credit remains in `LICENSE`, `THIRD_PARTY_NOTICES.md` and `UPSTREAM_README.md`.
+
 ## 1.1.4+marufyt.2 (2026-11-02) — Phase 2
 
 Based on upstream YTKACE `main` at `11249ee` (after v1.1.4), which adds fixes for newer YouTube versions, including the YouTube glass tab bar (`YTFloatingPivotBarView`).

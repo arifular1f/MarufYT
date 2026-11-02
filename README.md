@@ -1,42 +1,54 @@
 # MarufYT
 
-MarufYT is a YouTube enhancement for iOS by [arifular1f](https://github.com/arifular1f). It is built on [YTKACE](https://github.com/itzzace/ytkace) by itzzace (MIT).
+**A YouTube enhancement for iOS, maintained by [arifular1f](https://github.com/arifular1f).**
 
-It runs inside the original YouTube app. Google sign-in, account switching and YouTube's own interface are kept. It needs no extra account, has no activation service, and sends no analytics.
+[![Build](https://github.com/arifular1f/MarufYT/actions/workflows/build.yml/badge.svg?branch=phase2)](https://github.com/arifular1f/MarufYT/actions/workflows/build.yml)
+![Package](https://img.shields.io/badge/package-ROOTLESS%20arm64-blue)
+![Licence](https://img.shields.io/badge/licence-MIT-green)
+
+MarufYT runs inside the original YouTube app. Google sign-in, account switching and YouTube's own interface are kept. It needs no extra account, has no activation service, and sends no analytics ([PRIVACY.md](PRIVACY.md)).
+
+MarufYT is built on [YTKACE](https://github.com/itzzace/ytkace) by itzzace (MIT). See [Credits](#credits).
 
 ## Features
 
-These come from YTKACE and are kept unchanged:
+- **Ad blocking:** home-feed ads, sponsored app cards, video and Shorts ads, upsell prompts
+- **SponsorBlock and DeArrow:** per-category skipping, alerts and segment colours
+- **Downloads:** video, audio, Shorts, playlists and subtitles, with a download library
+- **Playback:** background audio, Picture-in-Picture, speed and custom speed, loop, sleep timer, gestures, quality presets, captions
+- **Customization:** Shorts, home feed, watch page, top bar and tabs
+- **Liquid Glass (iOS 26+):** a floating glass tab bar with depth, plus glass top-bar buttons, menus, toasts and player buttons
+- **MarufYT settings:** native iOS design (inset-grouped cards, Dynamic Type, restrained accent, Settings-style icons) in 16 languages, with an About section (developer, repository, version, YouTube version, package)
 
-- Ad blocking: feed, sponsored app cards, video, Shorts and upsell prompts
-- SponsorBlock and DeArrow
-- Video, audio, Shorts, playlist and subtitle downloads, with a library
-- Background playback, Picture-in-Picture, speed, loop and sleep timer
-- Gestures, quality presets, captions, and Shorts, feed, watch-page, top-bar and tab customization
-- Liquid Glass tab bar, top bar, menus, toasts and player buttons (iOS 26 and later)
+## Versions
 
-MarufYT adds:
+| Branch | MarufYT | YouTube | Status |
+| --- | --- | --- | --- |
+| `phase2` | 1.1.4+marufyt.3 | 21.43.5 (latest) and 21.39.4 (stable fallback) | Development; awaiting device testing before promotion |
+| `main`, `stable-21.39.4` | 1.1.1+marufyt.1 | 21.39.4 | Previous release |
 
-- A native iOS settings design system: inset-grouped cards, Dynamic Type, restrained accent colour, grey values and Settings-style icons
-- An About section with Developer, Repository, Version, YouTube version and Package
-- A regrouped SponsorBlock page
-- A Liquid Glass preset, and a depth layer under the floating tab bar
-
-## Branches
-
-| Branch | YouTube host | Status |
-| --- | --- | --- |
-| `phase2` | 21.39.4 and 21.43.5 | Current development; source based on upstream `main` |
-| `stable-21.39.4` / `main` | 21.39.4 | Previous release (1.1.1+marufyt.1) |
+The tweak needs iOS 15+. The YouTube 21.39.4 and 21.43.5 IPAs need iOS 17+, and Liquid Glass needs iOS 26+.
 
 ## Building
 
-See [BUILD_INSTRUCTIONS.md](Documentation/BUILD_INSTRUCTIONS.md).
+See [Documentation/BUILD_INSTRUCTIONS.md](Documentation/BUILD_INSTRUCTIONS.md).
 
-GitHub Actions builds the ROOTLESS `.deb` and `MarufYT.dylib`. The IPA is assembled locally from a decrypted YouTube that you supply. No YouTube binaries are stored in or downloaded by this repository.
+- **CI:** GitHub Actions builds the ROOTLESS `.deb` and `MarufYT.dylib` with pinned, verified tooling.
+- **IPA:** assembled locally from a decrypted YouTube that you supply. This repository never stores or downloads YouTube binaries.
+
+## Security and privacy
+
+- **Reporting vulnerabilities:** privately, see [SECURITY.md](SECURITY.md).
+- **Data:** what MarufYT sends and stores is in [PRIVACY.md](PRIVACY.md).
+- **Audit reports:** [Documentation/audits/](Documentation/audits/).
+
+## Credits
+
+MarufYT is a modified version of **YTKACE** by **itzzace** (MIT). Most features come from that project. The upstream history is preserved in this repository, and its README is kept as [UPSTREAM_README.md](UPSTREAM_README.md).
+
+- **Code split:** what MarufYT changed or added is listed in [Documentation/SOURCE_PROVENANCE.md](Documentation/SOURCE_PROVENANCE.md).
+- **Third-party components:** FFmpeg (LGPL), SponsorBlock/DeArrow data (CC BY-NC-SA 4.0), the yt-dlp EJS solver (Unlicense), YTPlaybackFix (MIT), and others are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Licence
 
-MIT. See `LICENSE` and `THIRD_PARTY_NOTICES.md`. FFmpeg is LGPL. SponsorBlock data is CC BY-NC-SA 4.0.
-
-The upstream README is kept as `UPSTREAM_README.md`.
+MIT. See [LICENSE](LICENSE). It keeps the upstream copyright and adds the MarufYT copyright.
