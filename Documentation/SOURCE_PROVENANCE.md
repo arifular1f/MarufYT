@@ -43,7 +43,7 @@ Removed: upstream workflows `build-ipa.yml` (downloads YouTube from Dropbox), `p
 
 ## 3. Unchanged upstream
 
-Everything else: features, hooks, `Resources/YTKACE.bundle` (localizations, EJS solver, artwork), `Vendor/FFmpeg`, `Scripts/`, `Tests/`, upstream `Tools/`, `docs/`, `web/` and `screenshots/`.
+Everything else remains upstream unless listed above or in the follow-up exception here. In particular, feature implementations, vendored libraries and solver bytes retain the audited release state. Follow-up audit exceptions: `Scripts/build-ffmpeg.sh` requires a verified archive hash (commit `8a63e14`); `Tests/test_secret_scan.py` adds independent security regression fixtures; the secret scanner and security documentation were strengthened without changing native implementation sources. `UPSTREAM_README.md` is an exact copy of the README at the pinned upstream commit `11249eef76801b2f6323ab094d37893a4098b4f7`.
 
 ## Internal identifiers kept on purpose
 

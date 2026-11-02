@@ -2,6 +2,8 @@
 
 MarufYT runs entirely inside your YouTube app.
 
+Maintainer: [arifular1f](https://github.com/arifular1f). This document describes the tweak's reviewed behaviour; physical-device verification remains pending.
+
 **MarufYT does not have:**
 
 - analytics, telemetry, crash reporting or tracking;
@@ -21,7 +23,7 @@ MarufYT runs entirely inside your YouTube app.
 | AiSList lists (`raw.githubusercontent.com/Override92/AiSList`) | When the AI-channel list feature is on | A standard download of the public lists; nothing about you |
 | AiSList report (`api.aisloplist.com`) | Only when you tap "Report as AI channel" | The channel handle, video link, and the reporter name you set (default: "MarufYT") |
 
-MarufYT does not contact any other server. In particular, there are no connections to arifular1f, GitHub (other than the public AiSList lists above) or the upstream YTKACE author.
+The table lists the fixed service destinations identified in the reviewed source. Media and artwork hosts can also come from service responses, and redirect destinations have not been captured on a device. No maintainer-operated activation or analytics endpoint was found. YouTube itself has its own network behaviour and privacy policy; this statement does not describe or control all host-app traffic.
 
 ## Data stored on your device
 
@@ -29,7 +31,7 @@ MarufYT does not contact any other server. In particular, there are no connectio
 | --- | --- | --- |
 | Settings | App preferences (sandbox) | Backups you create include only `YTKACE.Preference.*` settings |
 | Downloads | `Documents/YTKACE` | Visible in the Files app by design, so you can manage them |
-| Diagnostics log | `Library/Application Support/YTKACE/Logs` | Size-limited; excluded from device backup; tokens and URL query strings redacted; clearable in the log viewer (long-press About → Version) |
+| Diagnostics log | `Library/Application Support/YTKACE/Logs` | Size-limited; backup exclusion/file protection are requested; selected bearer-token, URL-query and `key=value` patterns are redacted; clearable in the log viewer (long-press About → Version). Arbitrary JSON/header formats and backup behaviour are not certified without runtime tests |
 | SponsorBlock user ID | App preferences | Random; used only for SponsorBlock votes and submissions; not included in settings backups |
 | Caches (player solver, lists, artwork) | `Library/Caches` | Can be removed by iOS at any time |
 
@@ -41,4 +43,4 @@ MarufYT does not request location, contacts, camera, microphone or tracking perm
 
 ## Third-party services
 
-SponsorBlock and DeArrow data is provided by the SponsorBlock project under CC BY-NC-SA 4.0. Its privacy terms apply: https://sponsor.ajay.app/. AiSList is a community project with its own terms.
+SponsorBlock and DeArrow data is provided by the SponsorBlock project under CC BY-NC-SA 4.0. Its [privacy terms](https://sponsor.ajay.app/) apply. AiSList is a community project with its own terms.

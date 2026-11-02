@@ -13,3 +13,20 @@ DerivedData/
 __pycache__/
 *.pyc
 tmp/
+
+# Local signing material and credentials must never enter the source repository.
+.env
+.env.*
+*.p8
+*.p12
+*.pfx
+*.mobileprovision
+*.pem
+*.cer
+*.der
+*.crt
+*.key
+*.keystore
+*.jks
+.netrc
+credentials.json

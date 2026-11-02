@@ -6,6 +6,7 @@ usage: marufyt_secret_scan.py [REPORT.json]   (exit 1 on any finding)
 Copyright (c) 2026 arifular1f. MIT License; see LICENSE.
 """
 import json
+import hashlib
 import math
 import re
 import subprocess
@@ -31,7 +32,7 @@ PATTERNS = {
     'URL with credentials': re.compile(rb'https?://[^/\s:@"\']{3,}:[^/\s:@"\']{6,}@'),
 }
 SENSITIVE_FILES = re.compile(r'(?i)(\.p12|\.pfx|\.mobileprovision|\.cer|\.der|\.pem|\.key|\.keystore|\.jks|'
-                             r'\.ipa|id_rsa|id_ed25519|\.env(\..*)?|credentials\.json|\.netrc|\.npmrc)$')
+                             r'\.ipa|\.p8|id_rsa|id_ed25519|\.env(\..*)?|credentials\.json|\.netrc|\.npmrc)$')
 # Known-safe matches (reviewed): placeholders and documentation examples.
 ALLOW = [
     re.compile(rb'(?i)password["\']\s*:\s*["\']\s*["\']'),
@@ -47,17 +48,57 @@ def entropy(token):
     return -sum(c / len(token) * math.log2(c / len(token)) for c in counts.values())
 
 
-def main():
-    refs = [r for r in git('for-each-ref', '--format=%(refname)').decode().split() if r]
-    objects = git('rev-list', '--objects', '--all').decode().splitlines()
-    commits = int(git('rev-list', '--all', '--count').decode().strip())
+def scan_bytes(data, paths, **metadata):
+    """Return locations/fingerprints only: never include matched credential bytes."""
+    findings = []
+    for label, pattern in PATTERNS.items():
+        for match in pattern.finditer(data):
+            text = match.group(0)
+            if any(a.search(text) for a in ALLOW):
+                continue
+            if label == 'Generic secret assignment':
+                value = re.findall(rb'["\']([^"\']+)["\']', text)[-1]
+                if entropy(value) < 3.5 or re.match(rb'^[A-Za-z .]+$', value):
+                    continue
+            findings.append({'type': label, 'paths': sorted(paths), **metadata,
+                             'byteOffset': match.start(),
+                             'matchSHA256': hashlib.sha256(text).hexdigest()})
+    return findings
+
+
+def collect_blob_paths():
+    # rev-list --objects supplies only one representative name for a shared
+    # object. Inspect every unique committed tree so benign content committed
+    # again as .env or a certificate cannot evade the filename check.
+    trees = set(git('log', '--all', '--format=%T').decode().split())
     blobs = {}
-    for line in objects:
-        parts = line.split(' ', 1)
-        if len(parts) == 2:
-            blobs.setdefault(parts[0], set()).add(parts[1])
-    types = git('cat-file', '--batch-check', input='\n'.join(blobs).encode()).decode().splitlines()
-    blob_ids = [t.split()[0] for t in types if t.split()[1] == 'blob']
+    for tree in trees:
+        for entry in git('ls-tree', '-r', '-z', tree).split(b'\0'):
+            if not entry:
+                continue
+            metadata, name = entry.split(b'\t', 1)
+            _, kind, oid = metadata.split()
+            if kind == b'blob':
+                blobs.setdefault(oid.decode(), set()).add(name.decode('utf-8', 'surrogateescape'))
+    # Include staged versions, even when they differ from the working file.
+    for entry in git('ls-files', '--stage', '-z').split(b'\0'):
+        if not entry:
+            continue
+        metadata, name = entry.split(b'\t', 1)
+        _, oid, _ = metadata.split()
+        if set(oid) != {48}:  # intent-to-add has no object yet
+            blobs.setdefault(oid.decode(), set()).add(name.decode('utf-8', 'surrogateescape'))
+    return blobs
+
+
+def main():
+    if git('rev-parse', '--is-shallow-repository').strip() != b'false':
+        print('ERROR: full-history scan requires a non-shallow checkout (fetch-depth: 0).')
+        return 2
+    refs = [r for r in git('for-each-ref', '--format=%(refname)').decode().split() if r]
+    commits = int(git('rev-list', '--all', '--count').decode().strip())
+    blobs = collect_blob_paths()
+    blob_ids = sorted(blobs)
     findings, scanned, sizes = [], 0, 0
     for name_set in (blobs[b] for b in blob_ids):
         for name in name_set:
@@ -73,22 +114,36 @@ def main():
         proc.stdout.read(1)
         scanned += 1
         sizes += size
-        if b'\0' in data[:8000]:
-            continue  # binary (static libraries, images)
-        for label, pattern in PATTERNS.items():
-            for match in pattern.finditer(data):
-                text = match.group(0)
-                if any(a.search(text) for a in ALLOW):
-                    continue
-                if label == 'Generic secret assignment':
-                    value = re.findall(rb'["\']([^"\']+)["\']', text)[-1]
-                    if entropy(value) < 3.5 or re.match(rb'^[A-Za-z .]+$', value):
-                        continue
-                findings.append({'type': label, 'blob': blob, 'paths': sorted(blobs[blob]),
-                                 'match': text[:60].decode('utf-8', 'replace') + ('…' if len(text) > 60 else '')})
+        findings.extend(scan_bytes(data, blobs[blob], blob=blob, scope='history-or-index'))
     proc.stdin.close()
     proc.wait()
+    proc.stdout.close()
+    if proc.returncode:
+        raise RuntimeError('Git blob reader failed; scan coverage is incomplete')
+    # Scan visible working files as well as committed/staged versions. Never
+    # follow symlinks to private files outside the checkout.
+    visible = set(git('ls-files', '-z').split(b'\0')) | set(git('ls-files', '--others', '--exclude-standard', '-z').split(b'\0'))
+    working_count = 0
+    for raw in sorted(visible):
+        if not raw:
+            continue
+        name = raw.decode('utf-8', 'surrogateescape')
+        path = ROOT / name
+        if path.is_symlink():
+            findings.append({'type': 'unscanned symlink', 'path': name, 'scope': 'working-tree'})
+            continue
+        if not path.is_file():
+            continue
+        if SENSITIVE_FILES.search(name):
+            findings.append({'type': 'sensitive file name', 'path': name, 'scope': 'working-tree'})
+        findings.extend(scan_bytes(path.read_bytes(), [name], scope='working-tree'))
+        working_count += 1
     report = {'refs': refs, 'commits': commits, 'blobsScanned': scanned, 'bytesScanned': sizes,
+              'workingFilesScanned': working_count, 'binaryContentScanned': True,
+              'reportsContainSecretValues': False,
+              # DEBs are not credentials. Track artifact-policy evidence
+              # separately; upstream gh-pages refs can legitimately contain them.
+              'packageArtifactPaths': sorted({p for paths in blobs.values() for p in paths if p.lower().endswith('.deb')}),
               'patterns': list(PATTERNS) + ['sensitive file names'], 'findings': findings}
     if len(sys.argv) > 1:
         Path(sys.argv[1]).write_text(json.dumps(report, indent=1), encoding='utf-8')

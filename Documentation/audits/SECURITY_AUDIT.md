@@ -1,5 +1,7 @@
 # Security audit: MarufYT (branch `phase2`)
 
+Follow-up: [COMPLETION_AUDIT.md](COMPLETION_AUDIT.md) qualifies this earlier report's scanner coverage, default-branch/Dependabot claims, runtime redaction assurance and licence-distribution conclusions. The original native release is unchanged.
+
 Date: 2026-11-02. Auditor: Claude for arifular1f.
 
 **Scope:**

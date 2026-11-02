@@ -23,7 +23,7 @@ Date: 2026-11-02.
 
 **FFmpeg rebuild path:** `Scripts/build-ffmpeg.sh` now requires a verified `FFMPEG_SHA256` (see BUILD_INSTRUCTIONS §3).
 
-**Licence compliance:** FFmpeg is linked statically under LGPL. The FFmpeg licence texts are in `Vendor/FFmpeg/`, and the build script is provided so the libraries can be relinked or rebuilt.
+**Licence evidence:** FFmpeg is linked statically; the LGPL texts and build script are present. This alone does not establish complete distribution compliance. Corresponding-source availability and a usable modification/relink path need to be documented for the exact vendored binaries. See `LICENSE_DISTRIBUTION_REVIEW.md`; no blanket compliance certification is made.
 
 ## Runtime
 
@@ -44,6 +44,6 @@ There is no MarufYT-operated service.
 
 ## Update policy
 
-- **Actions:** Dependabot weekly pull requests, reviewed manually.
+- **Actions:** weekly updates are configured on `phase2` but inactive while `.github/dependabot.yml` is absent from the default branch. Repository security alerts are a separate setting. Keep manual review until a default-branch change is explicitly authorized.
 - **Theos:** move it deliberately by updating `THEOS_COMMIT` and `THEOS_INSTALLER_SHA256` together.
 - **Upstream YTKACE:** merge tagged releases or reviewed `main` commits into a branch. Run `Tools/marufyt_checks.py`, `Tools/marufyt_secret_scan.py` and `Tools/marufyt_host_audit.py` before releasing.
