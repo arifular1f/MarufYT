@@ -71,6 +71,9 @@ BOOL MarufYTGlassPreferenceEnabled(NSString *key) {
         CAShapeLayer *mask = [CAShapeLayer layer];
         mask.fillRule = kCAFillRuleEvenOdd;
         layer.mask = mask;
+        // A masked layer needs an offscreen pass; its content only changes on
+        // layout/theme changes, so cache it as a bitmap instead of every frame.
+        layer.shouldRasterize = YES;
         _appliedStyle = UIUserInterfaceStyleUnspecified;
     }
     return self;
@@ -108,6 +111,7 @@ BOOL MarufYTGlassPreferenceEnabled(NSString *key) {
         self.capsuleRadius = radius;
     }
     self.layer.shadowOpacity = (float)opacity;
+    self.layer.rasterizationScale = MAX(1.0, bar.traitCollection.displayScale);
     self.appliedStyle = style;
     [CATransaction commit];
 }
