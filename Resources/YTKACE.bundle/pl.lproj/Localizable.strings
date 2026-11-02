@@ -1024,3 +1024,15 @@ Licensed under CC BY-NC-SA 4.0." = "YTKACE korzysta z danych SponsorBlock.\nLice
 "Also removes YTKACE's download from this menu." = "Usuwa też pobieranie YTKACE z tego menu.";
 "Open Links Directly" = "Otwieraj linki bezpośrednio";
 "Skips YouTube's redirect page when you open a link from a description or comment." = "Pomija stronę przekierowania YouTube przy otwieraniu linku z opisu lub komentarza.";
+/* MarufYT */
+"ALERTS" = "POWIADOMIENIA";
+"SKIPPING" = "POMIJANIE";
+"SEGMENT COLORS" = "KOLORY SEGMENTÓW";
+"Repository" = "Repozytorium";
+"Version" = "Wersja";
+"Package" = "Pakiet";
+"Floating Tab Bar Depth" = "Głębia pływającego paska kart";
+"Soft shadow under the floating glass tab bar." = "Delikatny cień pod pływającym szklanym paskiem kart.";
+"YTKACE Sleep Timer" = "YTKACE: wyłącznik czasowy";
+"YTKACE SponsorBlock" = "YTKACE: SponsorBlock";
+"YTKACE Transcript" = "YTKACE: transkrypcja";

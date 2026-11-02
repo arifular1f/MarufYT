@@ -1042,3 +1042,15 @@ Licensed under CC BY-NC-SA 4.0." = "YTKACE использует данные Spo
 "Also removes YTKACE's download from this menu." = "Также убирает загрузку YTKACE из этого меню.";
 "Open Links Directly" = "Открывать ссылки напрямую";
 "Skips YouTube's redirect page when you open a link from a description or comment." = "Пропускает страницу перенаправления YouTube при открытии ссылки из описания или комментария.";
+/* MarufYT */
+"ALERTS" = "УВЕДОМЛЕНИЯ";
+"SKIPPING" = "ПРОПУСК";
+"SEGMENT COLORS" = "ЦВЕТА СЕГМЕНТОВ";
+"Repository" = "Репозиторий";
+"Version" = "Версия";
+"Package" = "Пакет";
+"Floating Tab Bar Depth" = "Глубина плавающей панели вкладок";
+"Soft shadow under the floating glass tab bar." = "Мягкая тень под плавающей стеклянной панелью вкладок.";
+"YTKACE Sleep Timer" = "YTKACE: таймер сна";
+"YTKACE SponsorBlock" = "YTKACE: SponsorBlock";
+"YTKACE Transcript" = "YTKACE: расшифровка";

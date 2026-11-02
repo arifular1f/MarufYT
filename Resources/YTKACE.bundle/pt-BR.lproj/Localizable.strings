@@ -997,3 +997,15 @@
 "Also removes YTKACE's download from this menu." = "Também remove o download do YTKACE deste menu.";
 "Open Links Directly" = "Abrir links diretamente";
 "Skips YouTube's redirect page when you open a link from a description or comment." = "Pula a página de redirecionamento do YouTube ao abrir um link de uma descrição ou comentário.";
+/* MarufYT */
+"ALERTS" = "ALERTAS";
+"SKIPPING" = "PULAR";
+"SEGMENT COLORS" = "CORES DOS SEGMENTOS";
+"Repository" = "Repositório";
+"Version" = "Versão";
+"Package" = "Pacote";
+"Floating Tab Bar Depth" = "Profundidade da barra de abas flutuante";
+"Soft shadow under the floating glass tab bar." = "Sombra suave sob a barra de abas de vidro flutuante.";
+"YTKACE Sleep Timer" = "Timer de suspensão do YTKACE";
+"YTKACE SponsorBlock" = "SponsorBlock do YTKACE";
+"YTKACE Transcript" = "Transcrição do YTKACE";

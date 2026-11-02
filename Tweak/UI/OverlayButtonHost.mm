@@ -2,6 +2,7 @@
 #import "../YTKACE.h"
 #import "../Runtime/Hooking.h"
 #import "../Runtime/Preferences.h"
+#import "../Runtime/Localization.h"
 
 #import <math.h>
 #import <objc/runtime.h>
@@ -284,7 +285,10 @@ UIButton *YTKACEOverlayButton(UIStackView *stack,
 
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     button.accessibilityIdentifier = identifier;
-    button.accessibilityLabel = identifier;
+    // MarufYT: VoiceOver reads a localized, branded name ("MarufYT PiP") instead
+    // of the internal identifier, which stays unchanged for own-view detection.
+    button.accessibilityLabel = YTKACELocalized(identifier);
+    button.accessibilityTraits = UIAccessibilityTraitButton;
     button.tintColor = UIColor.whiteColor;
     if (@available(iOS 13.0, *)) {
         UIImageSymbolConfiguration *configuration =

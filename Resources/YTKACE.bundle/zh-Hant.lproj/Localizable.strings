@@ -1042,3 +1042,15 @@ Licensed under CC BY-NC-SA 4.0." = "YTKACE 使用 SponsorBlock 資料。
 "Also removes YTKACE's download from this menu." = "也會從此選單移除 YTKACE 的下載。";
 "Open Links Directly" = "直接開啟連結";
 "Skips YouTube's redirect page when you open a link from a description or comment." = "開啟說明或留言中的連結時略過 YouTube 的跳轉頁面。";
+/* MarufYT */
+"ALERTS" = "提示";
+"SKIPPING" = "略過";
+"SEGMENT COLORS" = "片段顏色";
+"Repository" = "程式碼庫";
+"Version" = "版本";
+"Package" = "套件";
+"Floating Tab Bar Depth" = "浮動標籤列立體感";
+"Soft shadow under the floating glass tab bar." = "在浮動玻璃標籤列下方顯示柔和陰影。";
+"YTKACE Sleep Timer" = "YTKACE 睡眠計時器";
+"YTKACE SponsorBlock" = "YTKACE SponsorBlock";
+"YTKACE Transcript" = "YTKACE 文字記錄";

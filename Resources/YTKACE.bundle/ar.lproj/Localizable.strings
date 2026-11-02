@@ -1042,3 +1042,15 @@ Licensed under CC BY-NC-SA 4.0." = "يستخدم YTKACE بيانات SponsorBloc
 "Also removes YTKACE's download from this menu." = "يزيل أيضًا تنزيل YTKACE من هذه القائمة.";
 "Open Links Directly" = "فتح الروابط مباشرة";
 "Skips YouTube's redirect page when you open a link from a description or comment." = "يتخطى صفحة إعادة التوجيه في يوتيوب عند فتح رابط من الوصف أو تعليق.";
+/* MarufYT */
+"ALERTS" = "التنبيهات";
+"SKIPPING" = "التخطي";
+"SEGMENT COLORS" = "ألوان المقاطع";
+"Repository" = "المستودع";
+"Version" = "الإصدار";
+"Package" = "الحزمة";
+"Floating Tab Bar Depth" = "عمق شريط التبويب العائم";
+"Soft shadow under the floating glass tab bar." = "ظل ناعم أسفل شريط التبويب الزجاجي العائم.";
+"YTKACE Sleep Timer" = "مؤقت النوم YTKACE";
+"YTKACE SponsorBlock" = "SponsorBlock في YTKACE";
+"YTKACE Transcript" = "نص الفيديو YTKACE";

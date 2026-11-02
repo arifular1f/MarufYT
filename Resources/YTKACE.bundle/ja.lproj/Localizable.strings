@@ -1042,3 +1042,15 @@ CC BY-NC-SA 4.0 でライセンスされています。";
 "Also removes YTKACE's download from this menu." = "このメニューからYTKACEのダウンロードも削除します。";
 "Open Links Directly" = "リンクを直接開く";
 "Skips YouTube's redirect page when you open a link from a description or comment." = "説明やコメントのリンクを開くときにYouTubeのリダイレクトページをスキップします。";
+/* MarufYT */
+"ALERTS" = "通知";
+"SKIPPING" = "スキップ";
+"SEGMENT COLORS" = "セグメントの色";
+"Repository" = "リポジトリ";
+"Version" = "バージョン";
+"Package" = "パッケージ";
+"Floating Tab Bar Depth" = "フローティングタブバーの奥行き";
+"Soft shadow under the floating glass tab bar." = "フローティングのガラスタブバーの下にやわらかい影を表示します。";
+"YTKACE Sleep Timer" = "YTKACE スリープタイマー";
+"YTKACE SponsorBlock" = "YTKACE SponsorBlock";
+"YTKACE Transcript" = "YTKACE 文字起こし";

@@ -1042,3 +1042,15 @@ Cấp phép theo CC BY-NC-SA 4.0.";
 "Also removes YTKACE's download from this menu." = "Cũng xóa mục tải xuống của YTKACE khỏi menu này.";
 "Open Links Directly" = "Mở liên kết trực tiếp";
 "Skips YouTube's redirect page when you open a link from a description or comment." = "Bỏ qua trang chuyển hướng của YouTube khi bạn mở liên kết từ mô tả hoặc bình luận.";
+/* MarufYT */
+"ALERTS" = "THÔNG BÁO";
+"SKIPPING" = "BỎ QUA";
+"SEGMENT COLORS" = "MÀU PHÂN ĐOẠN";
+"Repository" = "Kho mã nguồn";
+"Version" = "Phiên bản";
+"Package" = "Gói";
+"Floating Tab Bar Depth" = "Độ sâu thanh tab nổi";
+"Soft shadow under the floating glass tab bar." = "Bóng mờ nhẹ bên dưới thanh tab kính nổi.";
+"YTKACE Sleep Timer" = "Hẹn giờ ngủ YTKACE";
+"YTKACE SponsorBlock" = "SponsorBlock YTKACE";
+"YTKACE Transcript" = "Bản chép lời YTKACE";

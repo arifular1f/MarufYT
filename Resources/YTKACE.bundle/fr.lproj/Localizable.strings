@@ -1042,3 +1042,15 @@ Sous licence CC BY-NC-SA 4.0.";
 "Also removes YTKACE's download from this menu." = "Retire aussi le téléchargement YTKACE de ce menu.";
 "Open Links Directly" = "Ouvrir les liens directement";
 "Skips YouTube's redirect page when you open a link from a description or comment." = "Évite la page de redirection de YouTube quand tu ouvres un lien depuis une description ou un commentaire.";
+/* MarufYT */
+"ALERTS" = "ALERTES";
+"SKIPPING" = "SAUT";
+"SEGMENT COLORS" = "COULEURS DES SEGMENTS";
+"Repository" = "Dépôt";
+"Version" = "Version";
+"Package" = "Paquet";
+"Floating Tab Bar Depth" = "Profondeur de la barre d’onglets flottante";
+"Soft shadow under the floating glass tab bar." = "Ombre douce sous la barre d’onglets en verre flottante.";
+"YTKACE Sleep Timer" = "Minuterie de veille YTKACE";
+"YTKACE SponsorBlock" = "SponsorBlock YTKACE";
+"YTKACE Transcript" = "Transcription YTKACE";

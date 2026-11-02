@@ -1042,3 +1042,15 @@ CC BY-NC-SA 4.0 ile lisanslanmıştır.";
 "Also removes YTKACE's download from this menu." = "YTKACE indirmesini de bu menüden kaldırır.";
 "Open Links Directly" = "Bağlantıları doğrudan aç";
 "Skips YouTube's redirect page when you open a link from a description or comment." = "Açıklama veya yorumdaki bir bağlantıyı açarken YouTube'un yönlendirme sayfasını atlar.";
+/* MarufYT */
+"ALERTS" = "UYARILAR";
+"SKIPPING" = "ATLAMA";
+"SEGMENT COLORS" = "SEGMENT RENKLERİ";
+"Repository" = "Depo";
+"Version" = "Sürüm";
+"Package" = "Paket";
+"Floating Tab Bar Depth" = "Yüzen Sekme Çubuğu Derinliği";
+"Soft shadow under the floating glass tab bar." = "Yüzen cam sekme çubuğunun altında yumuşak gölge.";
+"YTKACE Sleep Timer" = "YTKACE Uyku Zamanlayıcısı";
+"YTKACE SponsorBlock" = "YTKACE SponsorBlock";
+"YTKACE Transcript" = "YTKACE Transkript";

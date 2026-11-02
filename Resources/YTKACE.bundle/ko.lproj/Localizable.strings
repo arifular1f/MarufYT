@@ -1042,3 +1042,15 @@ CC BY-NC-SA 4.0 라이선스가 적용됩니다.";
 "Also removes YTKACE's download from this menu." = "이 메뉴에서 YTKACE 다운로드도 삭제됩니다.";
 "Open Links Directly" = "링크 바로 열기";
 "Skips YouTube's redirect page when you open a link from a description or comment." = "설명이나 댓글의 링크를 열 때 YouTube 리디렉션 페이지를 건너뜁니다.";
+/* MarufYT */
+"ALERTS" = "알림";
+"SKIPPING" = "건너뛰기";
+"SEGMENT COLORS" = "구간 색상";
+"Repository" = "저장소";
+"Version" = "버전";
+"Package" = "패키지";
+"Floating Tab Bar Depth" = "떠 있는 탭 바 깊이";
+"Soft shadow under the floating glass tab bar." = "떠 있는 글래스 탭 바 아래에 부드러운 그림자를 표시합니다.";
+"YTKACE Sleep Timer" = "YTKACE 취침 타이머";
+"YTKACE SponsorBlock" = "YTKACE SponsorBlock";
+"YTKACE Transcript" = "YTKACE 스크립트";
