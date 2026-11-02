@@ -9,3 +9,4 @@ FOUNDATION_EXPORT void YTKACEClearCapturedRequests(void);
 FOUNDATION_EXPORT void YTKACESABRClearRequestState(void);
 FOUNDATION_EXPORT void YTKACEClearPlaylistAuthorization(void);
 FOUNDATION_EXPORT void MarufYTPurgeLegacyRequestFiles(NSURL *root);
+FOUNDATION_EXPORT void MarufYTInstallAccountBoundaryHook(Class cls, NSString *selectorName);

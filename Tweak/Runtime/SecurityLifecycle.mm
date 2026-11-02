@@ -63,10 +63,11 @@ static BOOL BoundaryChanged(id receiver, NSString *name, id value) {
     @synchronized (receiver) {
         NSNumber *previous = objc_getAssociatedObject(receiver, AccountBoundaryKey);
         objc_setAssociatedObject(receiver, AccountBoundaryKey, @(identity), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        return previous == nil || previous.unsignedLongLongValue != identity;
+        // First assignment initializes a picker; it is not an account change.
+        return previous != nil && previous.unsignedLongLongValue != identity;
     }
 }
-static void InstallBoundaryHook(Class cls, NSString *selectorName) {
+void MarufYTInstallAccountBoundaryHook(Class cls, NSString *selectorName) {
     SEL selector = NSSelectorFromString(selectorName);
     Method method = class_getInstanceMethod(cls, selector);
     if (!method) return;
@@ -105,16 +106,16 @@ void MarufYTInstallSecurityLifecycle(void) {
                 [NSUserDefaults.standardUserDefaults setInteger:2 forKey:@"YTKACE.Security.LogFormatVersion"];
             }
         });
-        // Bounded once at initialization; no polling, auth replacement or token logging.
-        unsigned count = 0; Class *classes = objc_copyClassList(&count);
-        for (unsigned i = 0; i < count; ++i) {
-            NSString *name = NSStringFromClass(classes[i]);
-            if (![name hasPrefix:@"SSO"] && ![name hasPrefix:@"YT"]) continue;
-            for (NSString *sel in @[@"signOut", @"signOutWithCompletion:", @"removeAccount:completion:",
-                                    @"removeAccountWithID:", @"setActiveAccount:", @"setSelectedIdentity:"]) {
-                InstallBoundaryHook(classes[i], sel);
-            }
+        // Exact sign-out/picker owners are present in both supplied host binaries.
+        // Optional removal variants are ABI/existence guarded. No class-list scan.
+        for (NSArray<NSString *> *target in @[
+            @[@"YTIdentityControllerImpl", @"signOut"],
+            @[@"SSODefaultAccountListViewController", @"setSelectedIdentity:"],
+            @[@"SSOService", @"removeAccount:completion:"],
+            @[@"SSOServiceInternal", @"removeAccount:completion:"],
+            @[@"SSOAccountServiceBase", @"removeAccountWithID:"]]) {
+            Class cls = NSClassFromString(target[0]);
+            if (cls) MarufYTInstallAccountBoundaryHook(cls, target[1]);
         }
-        free(classes);
     });
 }

@@ -24,10 +24,12 @@ BOOL YTKACEInstallInstanceHook(NSString *className, NSString *selectorName, IMP 
 @interface SSOSecurityFixture : NSObject
 - (void)signOut;
 - (void)removeAccount:(id)account completion:(void (^)(void))completion;
+- (void)setSelectedIdentity:(id)identity;
 @end
 @implementation SSOSecurityFixture
 - (void)signOut { ++signedOut; }
 - (void)removeAccount:(id)account completion:(void (^)(void))completion { (void)account; ++signedOut; if (completion) completion(); }
+- (void)setSelectedIdentity:(id)identity { (void)identity; }
 @end
 static NSMutableURLRequest *Request(NSString *url) {
     return [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -77,12 +79,20 @@ int main(void) { @autoreleasepool {
     CHECK([NSFileManager.defaultManager fileExistsAtPath:[root URLByAppendingPathComponent:@"keep.mp4"].path]);
     [NSFileManager.defaultManager removeItemAtURL:root error:nil];
     MarufYTInstallSecurityLifecycle();
+    MarufYTInstallAccountBoundaryHook(SSOSecurityFixture.class, @"signOut");
+    MarufYTInstallAccountBoundaryHook(SSOSecurityFixture.class, @"removeAccount:completion:");
+    MarufYTInstallAccountBoundaryHook(SSOSecurityFixture.class, @"setSelectedIdentity:");
     unsigned before = cleared; NSUInteger prior = MarufYTSecurityGeneration();
     [[SSOSecurityFixture new] signOut];
     CHECK(signedOut == 1 && cleared >= before + 3 && MarufYTSecurityGeneration() > prior);
     __block BOOL completed = NO;
     [[SSOSecurityFixture new] removeAccount:@"fixture" completion:^{ completed = YES; }];
     CHECK(signedOut == 2 && completed);
+    SSOSecurityFixture *picker = [SSOSecurityFixture new];
+    NSObject *first = [NSObject new], *second = [NSObject new]; before = cleared;
+    [picker setSelectedIdentity:first]; [picker setSelectedIdentity:first];
+    CHECK(cleared == before);
+    [picker setSelectedIdentity:second]; CHECK(cleared >= before + 3);
     dispatch_semaphore_t done = dispatch_semaphore_create(0); __block BOOL rejected = NO;
     NSURLSessionDataTask *task = [MarufYTNetwork.sharedClient dataTaskWithURL:[NSURL URLWithString:@"http://example.invalid"] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         rejected = data == nil && response == nil && error.code == NSURLErrorUnsupportedURL; dispatch_semaphore_signal(done);
