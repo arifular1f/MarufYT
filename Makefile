@@ -4,10 +4,13 @@ THEOS_PACKAGE_SCHEME ?= rootless
 
 include $(THEOS)/makefiles/common.mk
 
-LIBRARY_NAME = YTKACE
+LIBRARY_NAME = MarufYT
 
-YTKACE_FILES = \
+MarufYT_FILES = \
 	Tweak/Entry.mm \
+	Tweak/MarufYT/MarufYTBranding.mm \
+	Tweak/MarufYT/MarufYTDesign.mm \
+	Tweak/MarufYT/MarufYTCreditsController.mm \
 	Tweak/Runtime/Hooking.mm \
 	Tweak/Runtime/Preferences.mm \
 	Tweak/Runtime/Localization.mm \
@@ -86,28 +89,28 @@ YTKACE_FILES = \
 	Tweak/Settings/YTKACETabEditorController.mm \
 	Tweak/Settings/YTKACEDownloadsController.mm
 
-YTKACE_CFLAGS = -fobjc-arc -Wall -Wextra -Werror=return-type
-YTKACE_CFLAGS += -DYTKACE_COMBINED_SABR=1
-YTKACE_CFLAGS += -DYTKACE_VERSION_STRING=\"$(shell awk '/^Version:/ {print $$2}' $(THEOS_PROJECT_DIR)/control)\"
-YTKACE_CFLAGS += -Wno-module-import-in-extern-c
-YTKACE_CFLAGS += -I$(THEOS_PROJECT_DIR)/Vendor/FFmpeg/include
-YTKACE_CCFLAGS = -std=c++17
-YTKACE_FRAMEWORKS = Foundation UIKit JavaScriptCore AVFoundation AVKit AudioToolbox Photos QuartzCore MediaPlayer Security SystemConfiguration UniformTypeIdentifiers VideoToolbox CoreMedia
-YTKACE_LIBRARIES = z
-YTKACE_LDFLAGS = -Wl,-install_name,@rpath/YTKACE.dylib
-YTKACE_LDFLAGS += $(THEOS_PROJECT_DIR)/Vendor/FFmpeg/lib/libavformat.a
-YTKACE_LDFLAGS += $(THEOS_PROJECT_DIR)/Vendor/FFmpeg/lib/libavcodec.a
-YTKACE_LDFLAGS += $(THEOS_PROJECT_DIR)/Vendor/FFmpeg/lib/libavutil.a
-YTKACE_LDFLAGS += $(THEOS_PROJECT_DIR)/Vendor/FFmpeg/lib/libswscale.a
-YTKACE_INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries
+MarufYT_CFLAGS = -fobjc-arc -Wall -Wextra -Werror=return-type
+MarufYT_CFLAGS += -DYTKACE_COMBINED_SABR=1
+MarufYT_CFLAGS += -DYTKACE_VERSION_STRING=\"$(shell awk '/^Version:/ {print $$2}' $(THEOS_PROJECT_DIR)/control)\"
+MarufYT_CFLAGS += -Wno-module-import-in-extern-c
+MarufYT_CFLAGS += -I$(THEOS_PROJECT_DIR)/Vendor/FFmpeg/include
+MarufYT_CCFLAGS = -std=c++17
+MarufYT_FRAMEWORKS = Foundation UIKit JavaScriptCore AVFoundation AVKit AudioToolbox Photos QuartzCore MediaPlayer Security SystemConfiguration UniformTypeIdentifiers VideoToolbox CoreMedia
+MarufYT_LIBRARIES = z
+MarufYT_LDFLAGS = -Wl,-install_name,@rpath/MarufYT.dylib
+MarufYT_LDFLAGS += $(THEOS_PROJECT_DIR)/Vendor/FFmpeg/lib/libavformat.a
+MarufYT_LDFLAGS += $(THEOS_PROJECT_DIR)/Vendor/FFmpeg/lib/libavcodec.a
+MarufYT_LDFLAGS += $(THEOS_PROJECT_DIR)/Vendor/FFmpeg/lib/libavutil.a
+MarufYT_LDFLAGS += $(THEOS_PROJECT_DIR)/Vendor/FFmpeg/lib/libswscale.a
+MarufYT_INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries
 
 include $(THEOS_MAKE_PATH)/library.mk
 
 after-all::
 	@mkdir -p "$(THEOS_PROJECT_DIR)/dist"
-	@cp "$(THEOS_OBJ_DIR)/YTKACE.dylib" "$(THEOS_PROJECT_DIR)/dist/YTKACE.dylib"
+	@cp "$(THEOS_OBJ_DIR)/MarufYT.dylib" "$(THEOS_PROJECT_DIR)/dist/MarufYT.dylib"
 
 after-stage::
 	@mkdir -p "$(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries"
 	@cp -R "$(THEOS_PROJECT_DIR)/Resources/YTKACE.bundle" "$(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries/YTKACE.bundle"
-	@cp "$(THEOS_PROJECT_DIR)/YTKACE.plist" "$(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries/YTKACE.plist"
+	@cp "$(THEOS_PROJECT_DIR)/MarufYT.plist" "$(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries/MarufYT.plist"

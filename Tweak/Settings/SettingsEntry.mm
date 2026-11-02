@@ -3,6 +3,7 @@
 #import "../Features/Interface/NavigationVisibility.h"
 #import "../UI/Assets.h"
 #import "YTKACERootOptionsController.h"
+#import "../MarufYT/MarufYTBranding.h"
 
 #import <objc/runtime.h>
 
@@ -130,7 +131,7 @@ static void YTKACERightButtonsLayoutSubviews(UIView *receiver, SEL selector) {
     [button setImage:[YTKACEGearImage()
         imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
              forState:UIControlStateNormal];
-    button.accessibilityLabel = @"YTKACE Settings";
+    button.accessibilityLabel = MarufYTBrandedString(@"YTKACE Settings");
     [button addTarget:YTKACESettingsPresenter.sharedPresenter
                action:@selector(openSettings)
      forControlEvents:UIControlEventTouchUpInside];

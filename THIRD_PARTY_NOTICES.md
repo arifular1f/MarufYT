@@ -1,5 +1,12 @@
 # Third-Party Notices
 
+MarufYT is a modified version of **YTKACE** by itzzace (https://github.com/itzzace/ytkace), MIT licensed.
+The upstream copyright notice is kept in `LICENSE`. MarufYT changes are listed in `CHANGELOG.md` and
+`Documentation/SOURCE_PROVENANCE.md`.
+
+The sections below are the upstream notices, unchanged. "YTKACE" in them refers to the upstream project,
+whose code MarufYT includes.
+
 YTKACE source is licensed under MIT. The following components and services have separate terms.
 
 ## FFmpeg

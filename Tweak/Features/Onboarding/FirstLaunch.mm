@@ -2,6 +2,7 @@
 #import "../../UI/Notice.h"
 #import "../../Runtime/Localization.h"
 
+#import "../../MarufYT/MarufYTBranding.h"
 #import <UIKit/UIKit.h>
 
 static NSString * const YTKACEOnboardingKey = @"YTKACE.Preference.Onboarding.Shown";
@@ -72,7 +73,7 @@ static UIViewController *YTKACEFirstLaunchPresenter(void) {
     }
     [NSUserDefaults.standardUserDefaults setBool:YES forKey:YTKACEOnboardingKey];
     if (YTKACEShowYouTubeDialog(
-        @"YTKACE",
+        MarufYTProductName,
         YTKACELocalized(@"To change these, open the YTKACE tab and use the gear icon above."))) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC),
             dispatch_get_main_queue(), ^{

@@ -4,6 +4,8 @@
 #import "../../Settings/YTKACEDownloadsController.h"
 #import "../../UI/Assets.h"
 #import "../Interface/NavigationVisibility.h"
+#import "../../MarufYT/MarufYTBranding.h"
+#import "../../MarufYT/MarufYTDesign.h"
 
 #import <UIKit/UIKit.h>
 #import <objc/message.h>
@@ -65,7 +67,7 @@ static id YTKACEMakePivotItem(void) {
             rendererClass,
             factory,
             YTKACEPivotIdentifier,
-            @"YTKACE",
+            MarufYTProductName,
             77
         );
         id item = YTKACEValue(renderer, @"pivotBarItemRenderer");
@@ -95,7 +97,7 @@ static id YTKACEMakePivotItem(void) {
     id title = ((id (*)(id, SEL, id))objc_msgSend)(
         formattedClass,
         formattedSelector,
-        @"YTKACE"
+        MarufYTProductName
     );
     YTKACESetValue(itemRenderer, @"setTitle:", title);
 
@@ -928,7 +930,8 @@ static void YTKACEApplyDownloadIcon(UIView *view) {
     NSString *token = YTKACETabToken(view);
     NSString *text = nativeLabel.text ?: @"";
     BOOL exactIdentifier = [token isEqualToString:@"feytkace"];
-    BOOL exactLabel = [text caseInsensitiveCompare:@"YTKACE"] == NSOrderedSame;
+    BOOL exactLabel = [text caseInsensitiveCompare:MarufYTProductName] == NSOrderedSame ||
+        [text caseInsensitiveCompare:MarufYTUpstreamName] == NSOrderedSame;
     BOOL associated = [objc_getAssociatedObject(
         view,
         YTKACETabAssociation
@@ -959,7 +962,7 @@ static void YTKACEApplyDownloadIcon(UIView *view) {
     if (label == nil) {
         label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.tag = 0x59414347;
-        label.text = @"YTKACE";
+        label.text = MarufYTProductName;
         label.font = nativeLabel.font ?: [UIFont systemFontOfSize:10.0];
         label.textAlignment = NSTextAlignmentCenter;
         label.autoresizingMask = UIViewAutoresizingFlexibleWidth |
@@ -1365,12 +1368,12 @@ static id YTKACEInfoObject(NSBundle *self, SEL _cmd, NSString *key) {
 
 __attribute__((constructor)) static void YTKACEInstallLiquidGlassDesign(void) {
     if (NSClassFromString(@"UIGlassEffect") == Nil) return;
-    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
     BOOL any = NO;
     for (NSString *key in @[@"YTKACE.Preference.Tabs.Glass", @"YTKACE.Preference.Glass.TopBar",
                             @"YTKACE.Preference.Glass.Menus", @"YTKACE.Preference.Glass.Notices",
                             @"YTKACE.Preference.Glass.Player"]) {
-        if ([defaults boolForKey:key]) any = YES;
+        // MarufYT: may run before defaults are registered, so apply the preset here too.
+        if (MarufYTGlassPreferenceEnabled(key)) any = YES;
     }
     if (!any) return;
     id info = (__bridge id)CFBundleGetInfoDictionary(CFBundleGetMainBundle());
@@ -2998,6 +3001,7 @@ static BOOL YTKACEApplyPivotBarGlass(UIView *receiver, UIView *blur) {
                                      OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             objc_setAssociatedObject(receiver, YTKACEPivotBarGlassAssociation, nil,
                                      OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            MarufYTRemoveTabCapsuleDecoration(receiver);
             blur.hidden = NO;
             for (UIView *view in YTKACEPivotFadedViews(receiver).allObjects) view.alpha = 1.0;
             [YTKACEPivotFadedViews(receiver) removeAllObjects];
@@ -3017,7 +3021,8 @@ static BOOL YTKACEApplyPivotBarGlass(UIView *receiver, UIView *blur) {
     UIView *ownPill = objc_getAssociatedObject(receiver, YTKACEPivotBarPillAssociation);
     UIView *ownLens = objc_getAssociatedObject(receiver, YTKACEPivotBarLensAssociation);
     for (UIView *sibling in receiver.subviews) {
-        if (sibling == glass || sibling == ownPill || sibling == ownLens) continue;
+        if (sibling == glass || sibling == ownPill || sibling == ownLens ||
+            MarufYTIsDecorationView(sibling)) continue;
         if (YTKACEViewContainsPivotItem(sibling)) {
             sibling.opaque = NO;
             sibling.backgroundColor = UIColor.clearColor;
@@ -3089,6 +3094,7 @@ static BOOL YTKACEApplyPivotBarGlass(UIView *receiver, UIView *blur) {
         for (UIView *item in YTKACESortedPivotItems(receiver)) YTKACEApplyPivotItemPresentation(item);
     }
     glass.alpha = 1.0;
+    MarufYTDecorateTabCapsule(receiver, glass);
     YTKACELayoutItemsInGlass(receiver, fullFrame);
     UIImageView *miniIcon = objc_getAssociatedObject(receiver, YTKACEPivotBarMiniIconAssociation);
     if (miniIcon != nil && !miniIcon.hidden && current != nil) {

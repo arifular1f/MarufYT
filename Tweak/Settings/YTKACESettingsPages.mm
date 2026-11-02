@@ -14,6 +14,8 @@
 #import "../Features/SponsorBlock/SponsorPreferences.h"
 #import "../Features/SponsorBlock/DeArrow.h"
 
+#import "../MarufYT/MarufYTBranding.h"
+
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
@@ -1167,7 +1169,7 @@ didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls {
     if (_backupRunning) return;
     __weak YTKACEOptionsController *weakSelf = self;
     BOOL shown = YTKACEShowYouTubeConfirmation(
-        @"YTKACE",
+        MarufYTProductName,
         YTKACELocalized(@"Do you want to create a backup?"),
         YTKACELocalized(@"Create"),
         ^{
@@ -1292,7 +1294,7 @@ void YTKACEStartupDestinations(NSArray<NSString *> * _Nullable * _Nullable outTi
         @[@"subscriptions", YTKACELocalized(@"Subscriptions"), @"YTKACE.Preference.Tabs.Hidden.Subscriptions"],
         @[@"shorts", YTKACELocalized(@"Shorts"), @"YTKACE.Preference.Tabs.Hidden.Shorts"],
         @[@"library", YTKACELocalized(@"You"), @"YTKACE.Preference.Tabs.Hidden.Library"],
-        @[@"ytkace", @"YTKACE", @"YTKACE.Preference.Tabs.Hidden.YTKACETab"],
+        @[@"ytkace", MarufYTProductName, @"YTKACE.Preference.Tabs.Hidden.YTKACETab"],
         @[@"create", YTKACELocalized(@"Create"), @"YTKACE.Preference.Tabs.Hidden.Create"],
         @[@"music", YTKACELocalized(@"Music"), @"YTKACE.Preference.Tabs.Hidden.Music"],
         @[@"live", YTKACELocalized(@"Live"), @"YTKACE.Preference.Tabs.Hidden.Live"],
@@ -1666,6 +1668,7 @@ static NSDictionary *YTKACEGlassOptionsDefinition(void) {
             YTKACEToggle(@"Player Buttons", @"YTKACE.Preference.Glass.Player", @"", @"")
         ],
         @[
+            YTKACEToggle(@"Floating Tab Bar Depth", @"YTKACE.Preference.Glass.DepthShadow", @"", @""),
             YTKACEToggle(@"Shrink Tab Bar When Scrolling", @"YTKACE.Preference.Tabs.GlassMinimize", @"", @""),
             YTKACEPicker(@"Selected Tab Color", @"YTKACE.Preference.Tabs.SelectedTint",
                          @[YTKACELocalized(@"Off"), YTKACELocalized(@"Text Only"), YTKACELocalized(@"Text and Icon")],
@@ -1861,21 +1864,6 @@ NSArray<NSDictionary *> *YTKACEAllPageDefinitions(void) {
 }
 
 UIViewController *YTKACEMakeCreditsController(void) {
-    UILabel *label = [UILabel new];
-    label.text = YTKACELocalized(@"YTKACE\nClean-room implementation\nMIT licensed code\nBuilt by Epic");
-    label.numberOfLines = 0;
-    label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = UIColor.secondaryLabelColor;
-    UIViewController *controller = [UIViewController new];
-    controller.title = YTKACELocalized(@"Credits");
-    controller.view.backgroundColor = YTKACESettingsBackground();
-    label.translatesAutoresizingMaskIntoConstraints = NO;
-    [controller.view addSubview:label];
-    [NSLayoutConstraint activateConstraints:@[
-        [label.centerXAnchor constraintEqualToAnchor:controller.view.centerXAnchor],
-        [label.centerYAnchor constraintEqualToAnchor:controller.view.centerYAnchor],
-        [label.leadingAnchor constraintGreaterThanOrEqualToAnchor:controller.view.leadingAnchor constant:24.0],
-        [label.trailingAnchor constraintLessThanOrEqualToAnchor:controller.view.trailingAnchor constant:-24.0]
-    ]];
-    return controller;
+    // MarufYT: the credits page lists the upstream project and every licence.
+    return MarufYTMakeCreditsController();
 }

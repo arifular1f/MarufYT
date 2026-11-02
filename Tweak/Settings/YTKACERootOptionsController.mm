@@ -8,6 +8,7 @@
 #import "../UI/Assets.h"
 #import "../UI/Notice.h"
 #import "../Features/Downloads/DownloadLog.h"
+#import "../MarufYT/MarufYTBranding.h"
 
 #import <objc/runtime.h>
 #import <stdlib.h>
@@ -256,7 +257,8 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
     if (recognizer.state != UIGestureRecognizerStateBegan) return;
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:
         [recognizer locationInView:self.tableView]];
-    if (indexPath.section == 3 && indexPath.row == 0) {
+    // Hidden download log: long-press the Developer row (row 1 since MarufYT).
+    if (indexPath.section == 3 && indexPath.row == 1) {
         [self showDownloadLog];
     }
 }
@@ -338,7 +340,7 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
 
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(56.0, 55.0, width - 112.0, 34.0)];
     title.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    title.text = @"YTKACE";
+    title.text = MarufYTProductName;
     title.font = [UIFont systemFontOfSize:28.0 weight:UIFontWeightBold];
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = UIColor.labelColor;
@@ -468,7 +470,7 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
         case 1: return 4;
         case 2: return 5;
         case 3: return YTKACELiquidGlassAvailable() ? 3 : 2;
-        case 4: return 2;
+        case 4: return 4; // MarufYT: Repository, Developer, Credits, device info
         default: return 0;
     }
 }
@@ -506,7 +508,7 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
     if (self.searchResults != nil) return 62.0;
     indexPath = [NSIndexPath indexPathForRow:indexPath.row
                                    inSection:indexPath.section + 1];
-    if (indexPath.section == 4 && indexPath.row == 1) {
+    if (indexPath.section == 4 && indexPath.row == 3) {
         return 92.0;
     }
     return 62.0;
@@ -658,7 +660,7 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
         return cell;
     }
 
-    if (indexPath.row == 1) {
+    if (indexPath.row == 3) {
         UITableViewCell *cell = [self baseCellForTableView:tableView style:UITableViewCellStyleDefault];
         cell.textLabel.text = [self deviceInformationText];
         cell.textLabel.textColor = UIColor.secondaryLabelColor;
@@ -668,10 +670,19 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
         return cell;
     }
 
+    // MarufYT About rows: Repository, Developer, Credits.
     UITableViewCell *cell = [self baseCellForTableView:tableView style:UITableViewCellStyleValue1];
-    cell.textLabel.text = YTKACELocalized(@"itzzace");
-    cell.detailTextLabel.text = @"YTKACE";
-    cell.imageView.image = YTKACEAssetImage(@"YTKIco", @"person.crop.circle");
+    NSArray<NSString *> *titles = @[YTKACELocalized(@"Repository"), MarufYTDeveloperName,
+                                    YTKACELocalized(@"Credits")];
+    NSArray<NSString *> *details = @[MarufYTProductName, YTKACELocalized(@"Developer"),
+                                     [NSString stringWithFormat:@"%@ · MIT", MarufYTUpstreamName]];
+    NSArray<NSString *> *symbols = @[@"chevron.left.forwardslash.chevron.right",
+                                     @"person.crop.circle", @"heart.text.square"];
+    NSUInteger row = MIN((NSUInteger)indexPath.row, titles.count - 1);
+    cell.textLabel.text = titles[row];
+    cell.detailTextLabel.text = details[row];
+    [self configureImageForCell:cell asset:@"" symbol:symbols[row]];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     return cell;
 }
@@ -685,10 +696,15 @@ UIViewController *YTKACEMakeDownloadLogController(void) {
         return;
     }
     const NSInteger group = indexPath.section + 1;
-    if (group == 4 && indexPath.row == 0) {
-        NSURL *URL = [NSURL URLWithString:@"https://github.com/itzzace/ytkace"];
-        [UIApplication.sharedApplication openURL:URL options:@{}
-                               completionHandler:nil];
+    if (group == 4) {
+        if (indexPath.row == 0) {
+            MarufYTOpenURLString(MarufYTRepositoryURLString);
+        } else if (indexPath.row == 1) {
+            MarufYTOpenURLString(MarufYTDeveloperURLString);
+        } else if (indexPath.row == 2) {
+            [self.navigationController setNavigationBarHidden:NO animated:NO];
+            [self.navigationController pushViewController:MarufYTMakeCreditsController() animated:YES];
+        }
         return;
     }
     UIViewController *controller = nil;

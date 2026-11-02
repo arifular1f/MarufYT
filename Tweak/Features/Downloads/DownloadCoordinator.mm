@@ -7,6 +7,8 @@
 #import "FFmpegMuxer.h"
 #import "SABRDownloader.h"
 #import "DirectDownloader.h"
+#import "../../MarufYT/MarufYTBranding.h"
+
 #import <VideoToolbox/VideoToolbox.h>
 #import "StreamResolver.h"
 #import "../../Runtime/Preferences.h"
@@ -631,7 +633,7 @@ void YTKACESaveVideoToPhotosFile(NSURL *url,
         self.playerResponse = currentResponse;
     }
     if (self.playerResponse == nil) {
-        [self showAlertWithTitle:@"YTKACE" message:YTKACELocalized(@"No active video was found.")];
+        [self showAlertWithTitle:MarufYTProductName message:YTKACELocalized(@"No active video was found.")];
         return;
     }
     self.downloadSourceView = anchor;
@@ -942,7 +944,7 @@ void YTKACESaveVideoToPhotosFile(NSURL *url,
 - (void)presentShortsDownloadMenuFromView:(UIView *)sourceView
                                   response:(id)response {
     if (!YTKACEDownloadsEnabled() || response == nil) {
-        [self showAlertWithTitle:@"YTKACE" message:YTKACELocalized(@"No active Short was found.")];
+        [self showAlertWithTitle:MarufYTProductName message:YTKACELocalized(@"No active Short was found.")];
         return;
     }
     self.playerResponse = response;

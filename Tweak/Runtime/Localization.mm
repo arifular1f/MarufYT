@@ -1,6 +1,7 @@
 #import "Localization.h"
 #import "Preferences.h"
 #import "../UI/Assets.h"
+#import "../MarufYT/MarufYTBranding.h"
 
 #import <UIKit/UIKit.h>
 
@@ -70,7 +71,15 @@ static NSDictionary<NSString *, NSString *> *YTKACEStringsForLanguage(NSString *
         path = [bundle.resourcePath stringByAppendingPathComponent:
             [NSString stringWithFormat:@"%@.lproj/Localizable.strings", code]];
     }
-    return [NSDictionary dictionaryWithContentsOfFile:path];
+    NSDictionary<NSString *, NSString *> *strings = [NSDictionary dictionaryWithContentsOfFile:path];
+    if (strings == nil) return nil;
+    // MarufYT: rebrand values once per language load; keys stay upstream.
+    NSMutableDictionary<NSString *, NSString *> *branded =
+        [NSMutableDictionary dictionaryWithCapacity:strings.count];
+    [strings enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, __unused BOOL *stop) {
+        branded[key] = [value isKindOfClass:NSString.class] ? MarufYTBrandedString(value) : value;
+    }];
+    return branded;
 }
 
 static NSDictionary<NSString *, NSString *> *YTKACEActiveStrings;
@@ -89,5 +98,5 @@ NSString *YTKACELocalized(NSString *key) {
         YTKACEActiveStrings = YTKACEStringsForLanguage(language);
     }
     NSString *value = YTKACEActiveStrings[key];
-    return value.length != 0 ? value : key;
+    return value.length != 0 ? value : MarufYTBrandedString(key);
 }

@@ -1,10 +1,14 @@
-name: Deb
+name: Build
+
+# Builds the MarufYT ROOTLESS package. No YouTube IPA is downloaded or
+# published here; IPAs are assembled locally from a user-supplied decrypted
+# YouTube (see BUILD_INSTRUCTIONS.md).
 
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
-  workflow_call:
 
 permissions:
   contents: read
@@ -14,20 +18,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Test
+      - name: Upstream packaging tests
         run: python3 -m unittest discover -s Tests -v
+      - name: MarufYT source checks
+        run: python3 Tools/marufyt_checks.py
 
   build:
     needs: test
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - scheme: rootless
-            suffix: rootless
-          - scheme: roothide
-            suffix: roothide
     env:
       THEOS: ${{ github.workspace }}/.theos
       CI: true
@@ -41,31 +39,29 @@ jobs:
           path: ${{ github.workspace }}/.theos
           key: roothide-theos-${{ runner.os }}-v1
 
-      - name: Setup
+      - name: Setup Theos
         if: steps.cache-theos.outputs.cache-hit != 'true'
         run: bash -c "$(curl -fsSL https://raw.githubusercontent.com/roothide/theos/master/bin/install-theos)"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build
+      - name: Build ROOTLESS package
         run: |
           make clean
-          make package FINALPACKAGE=1 \
-            THEOS_PACKAGE_SCHEME="${{ matrix.scheme }}" \
-            DISABLE_ROOTLESS_COMPAT_WARNING=1
+          make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless \
+            DISABLE_ROOTLESS_COMPAT_WARNING=1 2>&1 | tee build.log
 
-      - name: Name package
-        id: name
+      - name: Collect artifacts
         run: |
-          deb="$(ls packages/*.deb | head -1)"
           version="$(awk '/^Version:/ {print $2}' control)"
-          output="com.itzzace.ytkace_${version}_${{ matrix.suffix }}.deb"
           mkdir -p artifacts
-          cp "$deb" "artifacts/$output"
-          echo "deb=artifacts/$output" >> "$GITHUB_OUTPUT"
+          cp "$(ls packages/*.deb | head -1)" "artifacts/com.arifular1f.marufyt_${version}_rootless.deb"
+          cp dist/MarufYT.dylib artifacts/
+          cp build.log artifacts/
+          (cd artifacts && sha256sum * > SHA256SUMS.txt && cat SHA256SUMS.txt)
 
       - uses: actions/upload-artifact@v7
         with:
-          name: YTKACE-deb-${{ matrix.suffix }}
-          path: ${{ steps.name.outputs.deb }}
+          name: MarufYT-rootless
+          path: artifacts/
           if-no-files-found: error

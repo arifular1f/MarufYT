@@ -1,6 +1,7 @@
 #import "Preferences.h"
 #import "Localization.h"
 #import "../Features/Downloads/SABRDownloader.h"
+#import "../MarufYT/MarufYTDesign.h"
 
 #import <UIKit/UIKit.h>
 
@@ -148,6 +149,9 @@ void YTKACERegisterDefaults(void) {
         @"YTKACE.Preference.Tabs.Hidden.WatchLater": @YES,
         @"YTKACE.Preference.Tabs.Order": @[@"home", @"shorts", @"subscriptions", @"library", @"ytkace"]
     }];
+    // MarufYT design preset (Liquid Glass on by default where supported).
+    // registerDefaults never overrides a value the user has set.
+    [YTKACEDefaults() registerDefaults:MarufYTPreferenceDefaults()];
     if (!hasPlacement && [legacyDownloadButton boolValue]) {
         [YTKACEDefaults() setInteger:1
                               forKey:@"YTKACE.Preference.Downloads.Placement"];

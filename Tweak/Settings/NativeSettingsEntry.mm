@@ -6,6 +6,7 @@
 #import "../Runtime/Hooking.h"
 #import "../UI/Assets.h"
 #import "../YTKACE.h"
+#import "../MarufYT/MarufYTBranding.h"
 
 #import <UIKit/UIKit.h>
 #import <objc/message.h>
@@ -46,7 +47,9 @@ static NSArray<NSDictionary *> *YTKACENativeLayout(void) {
         @{@"kind": @"row", @"title": @"Liquid Glass"},
         @{@"kind": @"row", @"title": @"Other"},
         @{@"kind": @"header", @"title": @"ABOUT"},
-        @{@"kind": @"row", @"title": @"itzzace", @"developer": @YES},
+        @{@"kind": @"row", @"title": @"Repository"},
+        @{@"kind": @"row", @"title": @"arifular1f", @"developer": @YES},
+        @{@"kind": @"row", @"title": @"Credits"},
         @{@"kind": @"footer"}
     ];
 }
@@ -77,7 +80,7 @@ static NSArray *YTKACEOrderedSettingsGroups(id receiver, SEL selector) {
 }
 
 static NSString *YTKACESettingsGroupTitle(id receiver, SEL selector, NSUInteger type) {
-    if (type == YTKACENativeSettingsGroup) return @"YTKACE";
+    if (type == YTKACENativeSettingsGroup) return MarufYTProductName;
     return OriginalSettingsGroupTitle == NULL ? nil :
         ((id (*)(id, SEL, NSUInteger))OriginalSettingsGroupTitle)(receiver, selector, type);
 }
@@ -104,7 +107,9 @@ static NSString *YTKACENativeSettingsSubtitle(NSString *title) {
             @"Tabs": @"Choose and reorder bottom tabs",
             @"Gestures": @"Brightness, volume, hold and tap to seek",
             @"Other": @"OLED, startup, sharing, layout and prompts",
-            @"itzzace": @"Developer"
+            @"Repository": @"MarufYT on GitHub",
+            @"arifular1f": @"Developer",
+            @"Credits": @"YTKACE by itzzace and third-party licences"
         };
     });
     NSString *value = subtitles[title];
@@ -205,7 +210,9 @@ static UIImage *YTKACENativeSettingsIconImage(NSString *title) {
             @"Wi-Fi Quality": @"wifi",
             @"Cellular Quality": @"antenna.radiowaves.left.and.right",
             @"Other": @"ellipsis.circle",
-            @"itzzace": @"person.crop.circle"
+            @"Repository": @"chevron.left.forwardslash.chevron.right",
+            @"arifular1f": @"person.crop.circle",
+            @"Credits": @"heart.text.square"
         };
     });
     NSString *symbol = symbols[title];
@@ -431,12 +438,15 @@ static void YTKACEUpdateNativeSettingsSection(id receiver, SEL selector,
         @"Wi-Fi Quality": [^UIViewController *{ return YTKACEMakeWiFiQualityController(); } copy],
         @"Cellular Quality": [^UIViewController *{ return YTKACEMakeCellularQualityController(); } copy],
         @"Other": [^UIViewController *{ return YTKACEMakeMiscOptionsController(); } copy],
-        @"itzzace": [^UIViewController *{
-            NSURL *URL = [NSURL URLWithString:@"https://github.com/itzzace/ytkace"];
-            [UIApplication.sharedApplication openURL:URL options:@{}
-                                   completionHandler:nil];
+        @"Repository": [^UIViewController *{
+            MarufYTOpenURLString(MarufYTRepositoryURLString);
             return nil;
-        } copy]
+        } copy],
+        @"arifular1f": [^UIViewController *{
+            MarufYTOpenURLString(MarufYTDeveloperURLString);
+            return nil;
+        } copy],
+        @"Credits": [^UIViewController *{ return MarufYTMakeCreditsController(); } copy]
     };
 
     NSMutableArray *items = [NSMutableArray array];
@@ -479,10 +489,10 @@ static void YTKACEUpdateNativeSettingsSection(id receiver, SEL selector,
             ((void (*)(id, SEL, NSInteger))objc_msgSend)(icon, setIconType, 44);
         }
         ((void (*)(id, SEL, id, NSUInteger, id, id, id, BOOL))objc_msgSend)(
-            settingsController, modern, items, category, @"YTKACE", icon, nil, NO);
+            settingsController, modern, items, category, MarufYTProductName, icon, nil, NO);
     } else if ([settingsController respondsToSelector:legacy]) {
         ((void (*)(id, SEL, id, NSUInteger, id, id, BOOL))objc_msgSend)(
-            settingsController, legacy, items, category, @"YTKACE", nil, NO);
+            settingsController, legacy, items, category, MarufYTProductName, nil, NO);
     }
 }
 

@@ -7,6 +7,8 @@
 #import "../Runtime/Localization.h"
 #import "../UI/Assets.h"
 
+#import "../MarufYT/MarufYTBranding.h"
+
 #import <objc/runtime.h>
 
 static const void *YTKACETabSwitchKey = &YTKACETabSwitchKey;
@@ -126,7 +128,7 @@ static NSString *YTKACETintHexFromColor(UIColor *color) {
         [self tab:@"shorts" title:YTKACELocalized(@"Shorts") symbol:@"play.rectangle" key:@"YTKACE.Preference.Tabs.Hidden.Shorts"],
         [self tab:@"subscriptions" title:YTKACELocalized(@"Subscriptions") symbol:@"rectangle.stack" key:@"YTKACE.Preference.Tabs.Hidden.Subscriptions"],
         [self tab:@"library" title:YTKACELocalized(@"Library") symbol:@"person.circle" key:@"YTKACE.Preference.Tabs.Hidden.Library"],
-        [self tab:@"ytkace" title:@"YTKACE" symbol:@"arrow.down.circle" key:@"YTKACE.Preference.Tabs.Hidden.YTKACETab"],
+        [self tab:@"ytkace" title:MarufYTProductName symbol:@"arrow.down.circle" key:@"YTKACE.Preference.Tabs.Hidden.YTKACETab"],
         [self tab:@"create" title:YTKACELocalized(@"Create") symbol:@"plus.circle" key:@"YTKACE.Preference.Tabs.Hidden.Create"],
         [self tab:@"music" title:YTKACELocalized(@"Music") symbol:@"music.note" key:@"YTKACE.Preference.Tabs.Hidden.Music"],
         [self tab:@"live" title:YTKACELocalized(@"Live") symbol:@"dot.radiowaves.left.and.right" key:@"YTKACE.Preference.Tabs.Hidden.Live"],

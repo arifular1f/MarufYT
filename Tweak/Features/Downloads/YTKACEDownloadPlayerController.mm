@@ -12,6 +12,8 @@
 #import "../../UI/Assets.h"
 #import "../../UI/OverlayButtonHost.h"
 
+#import "../../MarufYT/MarufYTBranding.h"
+
 #import <AVFoundation/AVFoundation.h>
 #import <objc/message.h>
 #import <AVKit/AVKit.h>
@@ -735,7 +737,7 @@ static void YTKACEStoreCompleted(NSURL *URL, NSTimeInterval duration,
     }
     NSMutableDictionary *info = [NSMutableDictionary dictionary];
     info[MPMediaItemPropertyTitle] =
-        self.currentURL.lastPathComponent.stringByDeletingPathExtension ?: @"YTKACE";
+        self.currentURL.lastPathComponent.stringByDeletingPathExtension ?: MarufYTProductName;
     NSTimeInterval duration = CMTimeGetSeconds(self.player.currentItem.duration);
     NSTimeInterval elapsed = CMTimeGetSeconds(self.player.currentTime);
     if (isfinite(duration) && duration > 0.0) info[MPMediaItemPropertyPlaybackDuration] = @(duration);
