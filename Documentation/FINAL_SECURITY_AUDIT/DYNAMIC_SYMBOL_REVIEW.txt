@@ -1,0 +1,5 @@
+libavcodec.a/videotoolboxenc.o contains _dlsym in the preserved vendor archive.
+Corresponding FFmpeg 8.1.2 source, libavcodec/videotoolboxenc.c:
+146: CFStringRef* handle = (CFStringRef*)dlsym(RTLD_DEFAULT, #symbol);   \
+157: (getParameterSetAtIndex)dlsym(
+Source inspection identifies runtime VideoToolbox symbol lookup; no shell path is established.

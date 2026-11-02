@@ -1,0 +1,26 @@
+test_binary_content_is_detected_without_disclosure (Tests.test_secret_scan.SecretScanTests.test_binary_content_is_detected_without_disclosure) ... ok
+test_history_alias_and_index_are_not_missed (Tests.test_secret_scan.SecretScanTests.test_history_alias_and_index_are_not_missed) ... ok
+test_private_key_and_embedded_token_locations (Tests.test_secret_scan.SecretScanTests.test_private_key_and_embedded_token_locations) ... ok
+test_sensitive_extensions (Tests.test_secret_scan.SecretScanTests.test_sensitive_extensions) ... ok
+test_is_idempotent (Tests.test_macho_inject.MachOInjectTests.test_is_idempotent) ... ok
+test_rejects_missing_slack (Tests.test_macho_inject.MachOInjectTests.test_rejects_missing_slack) ... ok
+test_replaces_legacy_load (Tests.test_macho_inject.MachOInjectTests.test_replaces_legacy_load) ... ok
+test_preserves_background_modes (Tests.test_sanitize_plist.SanitizePlistTests.test_preserves_background_modes) ... ok
+test_preserves_icons_and_enables_file_access (Tests.test_sanitize_plist.SanitizePlistTests.test_preserves_icons_and_enables_file_access) ... ok
+test_artwork_cache_is_bounded (Tests.test_concurrency_invariants.ArtworkIOTests.test_artwork_cache_is_bounded) ... ok
+test_no_synchronous_artwork_read_on_main_paths (Tests.test_concurrency_invariants.ArtworkIOTests.test_no_synchronous_artwork_read_on_main_paths) ... ok
+test_network_waits_have_timeouts (Tests.test_concurrency_invariants.BlockingWaitTests.test_network_waits_have_timeouts) ... ok
+test_wait_inventory_is_reviewed (Tests.test_concurrency_invariants.BlockingWaitTests.test_wait_inventory_is_reviewed) ... ok
+test_waits_are_inside_background_dispatch_files (Tests.test_concurrency_invariants.BlockingWaitTests.test_waits_are_inside_background_dispatch_files) ... ok
+test_block_observers_are_installed_once (Tests.test_concurrency_invariants.ObserverLifecycleTests.test_block_observers_are_installed_once) ... ok
+test_instance_observers_are_removed_in_dealloc (Tests.test_concurrency_invariants.ObserverLifecycleTests.test_instance_observers_are_removed_in_dealloc) ... ok
+test_no_strong_self_in_block_observers (Tests.test_concurrency_invariants.ObserverLifecycleTests.test_no_strong_self_in_block_observers) ... ok
+test_observer_inventory_is_reviewed (Tests.test_concurrency_invariants.ObserverLifecycleTests.test_observer_inventory_is_reviewed) ... ok
+test_private_lookup_is_opt_in (Tests.test_concurrency_invariants.SponsorPrivateLookupTests.test_private_lookup_is_opt_in) ... ok
+test_private_mode_never_sends_the_video_id (Tests.test_concurrency_invariants.SponsorPrivateLookupTests.test_private_mode_never_sends_the_video_id) ... ok
+test_sponsor_hash (Tests.test_native_sponsor_hash.NativeSponsorHashTests.test_sponsor_hash) ... skipped 'no C compiler available'
+
+----------------------------------------------------------------------
+Ran 21 tests in 1.698s
+
+OK (skipped=1)

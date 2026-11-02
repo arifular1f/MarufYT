@@ -17,7 +17,8 @@ NSURLRequest *MarufYTRedirectRequest(NSURLRequest *previous, NSURLRequest *next,
     NSMutableURLRequest *result = [next mutableCopy];
     if (!sameOrigin || media) {
         for (NSString *key in result.allHTTPHeaderFields.allKeys) {
-            if (!MarufYTReplayHeaderAllowed(key.UTF8String)) [result setValue:nil forHTTPHeaderField:key];
+            BOOL allowed = media ? MarufYTReplayHeaderAllowed(key.UTF8String) : MarufYTPublicRedirectHeaderAllowed(key.UTF8String);
+            if (!allowed) [result setValue:nil forHTTPHeaderField:key];
         }
     }
     return result;

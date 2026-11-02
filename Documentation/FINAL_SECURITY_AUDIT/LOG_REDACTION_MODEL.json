@@ -1,0 +1,56 @@
+{
+  "method": "Static source review with Python regex approximation; not ICU/Foundation execution",
+  "sourceFiles": {
+    "Downloads/DownloadLog.mm": {
+      "sha256": "79100e3d51a24192e30e27c5ddfbb23c54c0247f2529f2e51dc7f4ad9c7f515e"
+    },
+    "Downloads/PlaylistDownloader.mm": {
+      "sha256": "fefff57372c82f9a9d9428527ae0b20fa18f365c32937ae429ce47e32b525cc0"
+    },
+    "Downloads/YTKACEBackupManager.mm": {
+      "sha256": "6e03feaeafa9cd081bc63214467e2ff9b9fe607f01a22336b1cd927a1c8f7bcd"
+    },
+    "Playback/ChallengeSolver.mm": {
+      "sha256": "a617d0713e5d8c0732496626759f8a2de8bbfd042f17f6d8c04f21faa9b2a4dd"
+    },
+    "Compatibility/SideloadCompatibility.mm": {
+      "sha256": "61a144ef870fc61bfbe8debefda230462abd8e5653d0d5fa81288a7bd41481ab"
+    },
+    "SponsorBlock/SponsorClient.mm": {
+      "sha256": "a9f92419e307d211d3c4a99cf6c02be6609f4c90a0391bd3e4b667a20ffa93ee"
+    }
+  },
+  "logPatternCoverageModel": [
+    {
+      "case": "bearer",
+      "syntheticValueRemoved": true,
+      "reviewedExpectedCoverage": true
+    },
+    {
+      "case": "url-query",
+      "syntheticValueRemoved": true,
+      "reviewedExpectedCoverage": true
+    },
+    {
+      "case": "key-value",
+      "syntheticValueRemoved": true,
+      "reviewedExpectedCoverage": true
+    },
+    {
+      "case": "json-field",
+      "syntheticValueRemoved": false,
+      "reviewedExpectedCoverage": false
+    },
+    {
+      "case": "cookie-header",
+      "syntheticValueRemoved": false,
+      "reviewedExpectedCoverage": false
+    }
+  ],
+  "knownUncoveredFormatsRemain": true,
+  "identifierRedactionProven": false,
+  "redirectCredentialPolicyRuntimeVerified": false,
+  "backupAndKeychainRuntimeVerified": false,
+  "parserFuzzingPerformed": false,
+  "iPhoneRuntimeTestingPerformed": false
+}

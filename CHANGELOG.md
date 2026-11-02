@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.4+marufyt.8 (2026-11-03): coordinated security and repository update
+
+- F-01: stop persisting authenticated request seeds; purge legacy seeds/dumps; keep request state in memory with inactivity expiry and ABI-guarded account-boundary cleanup. Active SABR work is cancelled at a boundary; normal sign-in/account methods still call their originals.
+- F-02: validate initial/custom/HTTP redirect destinations and strictly limit SABR media hosts and replay headers.
+- F-03: HTTPS/default TLS for MarufYT network tasks; reject unsafe remote URLs without changing local file imports or YouTube host sessions.
+- F-04: opt-in diagnostics, opaque-object omission and stronger credential/URL/identifier redaction; remove the old log once during migration.
+- Focused source contracts and actual macOS Foundation policy/lifecycle tests in CI.
+- Current README, install/build/compatibility/security/privacy/index and release documentation updated; historical reports and earlier packages retained.
+- No UI redesign, new external service or entitlement bypass. Physical iPhone runtime validation remains NOT TESTED.
+
 ## 1.1.4+marufyt.7 (2026-11-02): Phase 4.1 responsiveness and optional private SponsorBlock lookup
 
 - **Artwork off the main thread:** the mini player, audio player and Now Playing info no longer read artwork files or parse media metadata on the main thread. A small bounded cache (8 images, about 16 MB) is shared.

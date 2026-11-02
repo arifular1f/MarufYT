@@ -72,3 +72,7 @@ These keep their upstream names:
 - the backup format
 
 Renaming them would wipe users' settings and break the tweak's own-view detection.
+
+## Coordinated security update (.8)
+
+Based on Phase 4.1 `657aed1`, branch `final-update-security`. Original MIT changes by arifular1f: Runtime URLPolicy/NetworkRules/SecurityLifecycle; request-seed removal, expiry/account-boundary cleanup, SABR URL/header policy, generic HTTPS client/redirect handling, diagnostic minimization, focused source and Foundation fixtures. Existing integrations use the policy client; no new external service or vendored binary is added. Existing upstream notices, FFmpeg source locks and LGPL material remain unchanged. See FINAL_UPDATE/FINAL_UPDATE_REPORT.md for exact commits and limits.

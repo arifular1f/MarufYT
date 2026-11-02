@@ -1,0 +1,482 @@
+diff --git "a/Documentation\\FINAL_SECURITY_AUDIT\\FINAL_SECURITY_REPORT.md" "b/Documentation\\FINAL_SECURITY_AUDIT\\FINAL_SECURITY_REPORT.md"
+new file mode 100644
+index 0000000..3175071
+--- /dev/null
++++ "b/Documentation\\FINAL_SECURITY_AUDIT\\FINAL_SECURITY_REPORT.md"
+@@ -0,0 +1,476 @@
++# MarufYT Phase 4.1 — final IPA security audit
++
++Date: 2026-11-03, Asia/Kuala_Lumpur. Developer: arifular1f.
++Repository source reviewed: `657aed1`, branch `phase4.1-performance-ui`;
++compiled implementation: `1bd5c82221fb494ccb7aab75345c6875eb2a9917`.
++Phase 4 baseline: source `c044eb4`, package `1.1.4+marufyt.6`.
++Target supplied by user: iPhone 15 Pro Max, iOS 27.2; no device connected.
++
++## 1. Executive summary
++
++Both existing `1.1.4+marufyt.7` ROOTLESS IPAs were inspected in place, including
++their native binaries, XML entitlements, Info.plist, resources and credential-pattern
++candidates. Source network/storage/authentication paths and the complete Phase 4.1
++source diff were reviewed. No app code, settings, workflow or build was changed.
++
++**No Critical or High vulnerability was confirmed in this static scope. Findings
++were identified:** unfiltered playback request material is persisted in a
++Files-visible directory (Medium); credential-capable SABR requests lack an explicit
++destination boundary across application-level redirects (Medium hardening weakness);
++some media requests still accept HTTP (Low); and diagnostics retain viewing data
++with incomplete generic redaction (Low). All four issues are inherited from Phase 4,
++not introduced by the `.7` changes. Actual stolen tokens, an exploited redirect or
++an observed cleartext transfer were **not** demonstrated.
++
++The prior statement that authentication material is never stored is too broad:
++the code indiscriminately serializes native headers/body; what credentials are
++actually present in those objects needs controlled device testing. No credentials
++or matching API-key values are reproduced in this report or evidence files.
++
++Static regression checks found **no new permissions, imports, linked libraries,
++literal URL hosts, executable files or host tracking components** versus `.6`.
++This is not proof of runtime safety, exhaustive endpoint discovery or absence of
++malware in proprietary/third-party code. No automatic fixes were made because no
++confirmed Critical issue was found, consistent with the audit-only instruction.
++
++## 2. Separate package findings and provenance
++
++The following exact paths were discovered, not assumed; all paths below are
++relative to `C:\Users\oriyan\Desktop\ios App\`:
++
++| Build | Exact IPA path | SHA256 |
++| --- | --- | --- |
++| Latest | `release/MarufYT-Phase4.1/Latest-YouTube-21.43.5/MarufYT-1.1.4+marufyt.7-YouTube-21.43.5-ROOTLESS-signing-required.ipa` | `a71af6720ff67ef36d304f5902136f80314cb85fc7cf313d2b7b4ad2a7a6515a` |
++| Stable | `release/MarufYT-Phase4.1/Stable-YouTube-21.39.4/MarufYT-1.1.4+marufyt.7-YouTube-21.39.4-ROOTLESS-signing-required.ipa` | `6e28622c4c6a0983bbc6d6ac1919c5bb760d48c6a17b5298d64971d92343ec7b` |
++
++Both identify as `com.google.ios.youtube` with their respective host versions.
++Both embed the identical `MarufYT.dylib`, SHA256
++`a9beeafb04fc7b08ec69e6ff994c501dbe35150f730309ec955a6a760f374f84`.
++Both folder DEBs identify as `com.arifular1f.marufyt` version `.7`, SHA256
++`ba8c76df659f7f153cf279f2f5b50333a99f49cdbaee34840d662a669837349f`.
++Each IPA's dylib equals its loose dylib and `/var/jb/Library/MobileSubstrate/`
++`DynamicLibraries/MarufYT.dylib` in the DEB. The filter targets only this host.
++
++**Latest:** nine native binary paths: YouTube; Intents, NotificationContent,
++NotificationService, Share and WidgetKit extensions; Widevine; Swift compatibility
++library; MarufYT. All parsed slices are ARM64-family, with an additional ARM64-family
++slice in the fat Swift compatibility library. All recorded encryption commands
++have `cryptid=0`. The extensions and compatibility library are unchanged from `.6`.
++
++**Stable:** three native binary paths: YouTube, Widevine and MarufYT, all ARM64-family.
++Recorded encryption commands have `cryptid=0`. Stable has no extra extensions or
++Swift compatibility library present in Latest. This is an inherited host difference,
++not a new injected component. Findings F-01 through F-04 apply equally to both builds.
++
++Both ZIP CRC checks pass. Original host Mach-O section hashes match each supplied
++original IPA. The existing per-host 40/40 packaging receipts were read as prior
++evidence; this audit independently rechecked identity, architecture, sections,
++entitlements, package membership and hashes rather than rerunning that script over
++and overwriting its old output. Three recorded manifest entries per host pass.
++
++## 3. Permissions, entitlements and privacy manifests
++
++Both host Info.plists contain these usage descriptions, byte-unchanged from `.6`:
++`NSContactsUsageDescription`, `NSPhotoLibraryUsageDescription`,
++`NSCameraUsageDescription`, `NSMicrophoneUsageDescription`,
++`NSLocationWhenInUseUsageDescription`, `NSAppleMusicUsageDescription`,
++`NSBluetoothPeripheralUsageDescription`, `NSLocalNetworkUsageDescription`,
++`NSUserTrackingUsageDescription`. These declarations permit permission requests;
++they do not prove a grant, collection or transmission occurred.
++
++`UIFileSharingEnabled` and `LSSupportsOpeningDocumentsInPlace` are true.
++`UIBackgroundModes` includes `audio`, `remote-notification`, `fetch`,
++`external-accessory`. They are identical in both builds and to Phase 4.
++
++The host's embedded XML entitlement metadata includes Google application identity,
++three Google keychain groups, three application groups, production APNs,
++associated domains/webcredentials, multicast, Wi-Fi info, user-assigned device name,
++Siri, group sessions, notification communication/time-sensitive, declared-age-range,
++StoreKit request data and alternate video decoder selection. No broad Keychain or
++filesystem entitlement was added by MarufYT. The tweak has no XML entitlement blob
++of its own; it executes with its host process's effective privileges.
++
++**Signing limitation:** these are signing-required IPAs. Retained Code Signature
++load commands/embedded entitlement blobs are not validated effective entitlements.
++DER entitlement blobs were detected but not decoded independently. No Apple
++signature-chain, provisioning or installation validation was possible on Windows.
++No embedded provisioning profile was found. Re-signing can change identity, groups,
++push capability and SSO behavior; it requires a fresh signed-artifact/device review.
++
++No `PrivacyInfo.xcprivacy` file was found in either archive (or either Phase 4 IPA).
++That absence is a transparency/distribution review item (Informational), not evidence
++that no personal data or required-reason APIs are used, nor a legal compliance verdict.
++
++**Photos declaration review item (Informational):** the dedicated
++`NSPhotoLibraryAddUsageDescription` key is absent, while
++`DownloadCoordinator.mm:295` and `PostImageSaver.mm:53` request add-only access.
++The host's broader photo-library description is present. Fresh-permission handling,
++prompt/denial/termination behavior and whether that declaration is sufficient on the
++target OS were not tested; no crash is asserted from static evidence alone.
++
++## 4. Device-access capabilities
++
++Capabilities are shared within a process; a dylib is not a separate permission sandbox.
++The observations below describe reviewed calls, not a claim that an injected library
++could never use other host-granted APIs or that jailbroken-device isolation is intact.
++
++| Capability | MarufYT evidence and actual access boundary |
++| --- | --- |
++| Contacts | No direct contact-store API call found in `Tweak/`; host declares contact access and explicitly describes sending contacts to YouTube. Grant/use/transmission NOT TESTED |
++| Photos/media library | Actual saving paths: `DownloadCoordinator.mm:267–298`, `PostImageSaver.mm:23–56`, `ProfilePictureViewer.mm:345`, `YTKACEDownloadsController.mm:1601`; Photos framework/imports confirm capability, not that a permission was granted. Host can also request broader photo/music access |
++| Camera | Host purpose string/API surface; no capture-device/session use found in tweak source. Actual host camera use NOT TESTED |
++| Microphone | Host purpose string; tweak uses playback audio sessions (`PiPControls.mm:282`, download player) and reads output volume, not a reviewed recording path. AVFoundation presence alone does not prove recording |
++| GPS/location | Host location declaration; no direct CLLocationManager use found in tweak. IP geolocation remains possible for every contacted service |
++| Clipboard | Explicit copy actions write to general pasteboard: `CopyCommentHooks.mm:222`, `TranscriptExport.mm:572`, `PostImageSaver.mm:281`, `DownloadCoordinator.mm:792/803`, diagnostics viewer `YTKACERootOptionsController.mm:198`. No continuous clipboard-reading path identified; host capabilities remain separate |
++| Files/documents | Actual sandbox reads/writes, media import/export, backup/restore, Files-visible downloads and request seeds. User-selected document URLs may grant additional scoped access. No unrestricted device filesystem access demonstrated |
++| Device metadata | `SABRDownloader.mm:520–541` constructs actual device model/OS, locale/region, screen size/scale and timezone fields for media requests. These are fingerprinting attributes, not a unique hardware identifier. Other clients use constant model/OS identities. No direct IDFA/IDFV/UDID collector found in tweak |
++| Keychain/credentials | Dummy-item access-group discovery and host SSO access-group hooks; host authorizer token access for playlist requests. See section 8. No device-wide Keychain dump found |
++| Notifications | Host APNs metadata/background mode and notification extensions; tweak NSNotificationCenter observers are local process events, not proof of push registration. Signing/user permission determine effective notification access |
++| Background activity | Actual network/media work and timers can outlive a screen; audio/PiP and download callbacks remain. No new background-session daemon/updater found. Actual suspension, fetch/push and background traffic NOT TESTED |
++
++## 5. Network endpoints and transmitted data
++
++This table covers fixed request destinations and dynamic request families identified
++in the tweak. It is not an observed packet trace. Dynamic CDN, artwork/caption and
++redirect destinations cannot be exhaustively enumerated statically. All remote
++services also receive ordinary transport metadata such as IP and request timing.
++
++| Endpoint / family | Trigger, sent data and received data | Source evidence |
++| --- | --- | --- |
++| `https://sponsor.ajay.app/api/skipSegments` GET | SponsorBlock enabled: full watched video ID and JSON category list; receives skip times, categories, UUIDs. No Google token or SponsorBlock user ID explicitly added | `SponsorClient.mm:53–104` |
++| Same path plus `/<4-hex-prefix>` GET | Private Lookup enabled: SHA-256 prefix and categories only; receives multiple matching videos, exact local ID filter. IP/timing still visible | `SponsorClient.mm:72–134`; `MarufYTSponsorHash.h:124–147` |
++| `https://sponsor.ajay.app/api/voteOnSponsorTime` POST | User vote: segment UUID, locally generated persistent SponsorBlock user ID, vote type; receives status/body | `SponsorMenu.mm:24–33,87–118` |
++| `https://sponsor.ajay.app/api/skipSegments` POST | User segment submission: full video ID, persistent user ID, segment times/category/action and client identity fields; Private Lookup does not anonymize this action | `SponsorMenu.mm:160–175` |
++| `https://sponsor.ajay.app/api/branding?videoID=…` | DeArrow enabled: full video ID; receives title/thumbnail branding | `DeArrow.mm:378–386` |
++| `https://dearrow-thumb.ajay.app/api/v1/getThumbnail?videoID=…&time=…` | DeArrow thumbnail replacement: full ID and timestamp; receives image. Private Lookup does not cover it | `DeArrow.mm:250–276` |
++| `https://raw.githubusercontent.com/Override92/AiSList/main/AiSList/{aislist_blocklist,aislist_warnlist}.txt` | Enabled AI-channel filters refresh public lists, four-hour freshness policy. No video/account field explicitly added; receives channel/handle lists | `AiSList.mm:6–11,53–100`; `ContentVisibilityHooks.mm:1119–1121` |
++| `https://api.aisloplist.com` POST | Explicit report confirmation: channel handle, full video link and reporter name (default MarufYT); response status | `AiSListReport.mm:80–115` |
++| `https://www.youtube.com/oembed` | Queue metadata / AiSList report lookup: video URL/ID; receives title/channel metadata | `QueueHooks.mm:283`; `AiSListReport.mm:40–65` |
++| `https://youtubei.googleapis.com/youtubei/v1/guide` | Playback/download clients bootstrap visitor data; sends client context; receives visitor identifier | `TVClient.mm:85–110`, `HLSPlayback.mm:86–116`, `DirectDownloader.mm:152–188` |
++| Same base `/player` (`alt=proto` / `prettyPrint=false`) | Playback/download work: video ID, visitor ID, client/locale/device context and request parameters; receives stream URLs/config and metadata | `TVClient.mm:203`, `HLSPlayback.mm:164`, `DirectDownloader.mm:206` |
++| Same base `/browse` | User playlist download: playlist ID/continuation, client context, visitor ID, optional on-behalf-of user value and Google Authorization bearer header; receives authorized playlist pages | `PlaylistDownloader.mm:572–659` |
++| `https://www.youtube.com/iframe_api` and `/s/player/<id>/player_ias.vflset/en_US/base.js` | Stream challenge helper fetch: player/version path; receives player script, locally parsed/executed by solver | `TVClient.mm:138–162`, `ChallengeSolver.mm:20–77` |
++| `https://i.ytimg.com/vi/<id>/<size>.jpg` | Queue/playlist thumbnails; full ID and requested size; receives images | `QueueHooks.mm:557`, `PlaylistDownloader.mm:500/528/552/951` |
++| Response-supplied media URLs, commonly Google video CDN; SABR redirect URLs | Downloads/HLS/native playback: signed URL parameters, protobuf bodies, video/stream IDs, visitor/PoToken/session context, and copied native headers where applicable; receives media/stream control data. Exact hosts/data depend on runtime objects | `StreamResolver.mm:155–165`, `SABRDownloader.mm:1013–1064,1476–1482`, `DownloadCoordinator.mm:2220–2224` |
++| Response-supplied avatar/post/caption/artwork URLs | User save/export or thumbnail display: selected content URL/query parameters; receives images/subtitles. Explicit HTTPS guards exist for avatar/post/caption fetches, not every generic download route | `ProfilePictureViewer.mm:503`, `PostImageSaver.mm`, `TranscriptExport.mm:412`, `DownloadProgressView.mm:430`, `DownloadCoordinator.mm:974` |
++| `github.com/arifular1f[/MarufYT]` | Explicit developer/repository link opens system URL handling; no periodic source/update check found | `MarufYTBranding.mm:15–17,48` |
++| `youtube.com/{watch,shorts,clip,channel,post,playlist}` / `youtu.be` | Generated sharing/report links; constructing/copying a URL is not itself a network request | `NativeShareHooks.mm:117–129`, `AiSListReport.mm:83` |
++
++The entire tweak binary's URL-host literal set is recorded in
++`SECURITY_REGRESSION_EVIDENCE.json`. Additional literals `aomedia.org`,
++`streams.videolan.org`, `www.w3.org` occur in bundled code/data; no corresponding
++tweak request call site was identified. A string alone does not establish contact.
++No maintainer-operated activation/account/analytics/crash-reporting service or
++WebSocket implementation was identified in the reviewed tweak source.
++
++**TLS/redirects:** reviewed fixed service URLs use HTTPS and Foundation trust
++handling. No custom server-trust acceptance, certificate-validation bypass or
++challenge override was found in `Tweak/`. This does not establish negotiated TLS
++version, certificate pinning, HTTPS enforcement after redirects, or cookie/header
++handling on a phone. Several clients use shared/default sessions; only specific
++clients use ephemeral sessions. Playlist cookies are explicitly disabled.
++
++The host ATS allows local networking and insecure HTTP exceptions for
++`cpid.ddt.telenor.io`, `nwp.t-mobile.com`, `vaspbon-int.msg.t-mobile.com`,
++`vaspbonstg-int.msg.t-mobile.com`; no global arbitrary-load exception was found.
++These are inherited exceptions, not evidence that those hosts were contacted.
++The image/caption HTTPS predicate validates scheme/host only, not redirects or a
++destination allowlist. F-02/F-03 explain remaining boundaries.
++
++**Original host traffic, separate from tweak traffic:** both YouTube binaries
++retain advertising/tracking purpose declarations and literal hosts including
++`app-analytics-services.com`, `app-analytics-services-att.com`,
++`firebaseinstallations.googleapis.com`, `pubads.g.doubleclick.net`,
++`www.googleadservices.com` and Firebase documentation/console URLs. They are
++unchanged from `.6`; literal presence is not observed telemetry. Original Google
++login, analytics, ads, crash reporting, redirects and all constructed host endpoints
++were not fully reverse engineered. Ad filtering is not a guarantee of zero host
++telemetry. Full host literal-host candidates are in each package inventory JSON.
++
++## 6. Integration defaults and Private Lookup review
++
++Fresh-default source behavior, **not** a read of the user's installed preferences:
++
++| Integration | Fresh default | Background/automatic behavior after opt-in |
++| --- | --- | --- |
++| SponsorBlock | OFF: no true default for its Enabled key; bool lookup yields false | Automatic lookup per relevant video without another tap |
++| Private Lookup | OFF, separately opt-in | Changes lookup route only; votes/submissions and DeArrow still expose full context |
++| DeArrow titles / thumbnail replacement | OFF / mode 0 | Visible feed content can cause branding/thumbnail requests |
++| AiSList hiding filters | OFF (both preference flags absent/false) | List refresh on activation/staleness; does not send the watched ID in list-download requests |
++| AiSList reporting | Explicit user action and confirmation | Channel metadata lookup may precede submission confirmation; submission sends handle/link/name |
++| Playback/download helpers | Individual settings/user activity control paths; background audio default ON, download button default OFF | Native request capture/restoration hooks are installed independently of the download-button toggle |
++
++Evidence: `Preferences.mm:43–150,280–286`, `SponsorHooks.mm:41–44`,
++`SponsorPreferences.mm:53–76`, `SponsorClient.mm:12,72`, `DeArrow.mm:51–75`,
++`ContentVisibilityHooks.mm:1119–1121`, `Entry.mm:15–41`. Restored/imported settings
++override fresh defaults. No claim that the user's current integrations are disabled.
++
++Private Lookup validates an 11-character allowed-character video ID, performs one
++SHA-256 round, and sends the first four lowercase hex characters (16 bits) in the
++path plus category JSON. Invalid IDs return before sending; no full-ID fallback.
++The response must be an array; the exact case-sensitive matching video ID is
++selected locally. Segment category, numeric/finite/ordered times and action checks
++are retained; unexpected entries are ignored. A 1 MiB check occurs **after** a data
++task accumulates the response, so it is not a streaming download-size cap.
++Private Lookup reduces request specificity; it does not anonymize IP/timing,
++related requests or this enumerable video-ID space. No additional live API requests
++were sent for this audit. Objective-C response parsing and service behavior remain
++untested on the target device.
++
++## 7. Binary, dependency and executable review
++
++`MarufYT.dylib` imports 23 system framework/library dependencies besides its own
++install name: Objective-C, Foundation/CoreFoundation/UIKit, JavaScriptCore,
++AVFoundation/AVKit/AVFAudio/AudioToolbox, Photos, QuartzCore, MediaPlayer, Security,
++SystemConfiguration, UniformTypeIdentifiers, VideoToolbox, CoreMedia/CoreVideo,
++CoreGraphics/ImageIO, zlib, libc++ and libSystem. All dependency install names are
++system paths; no newly linked external dylib or missing new dependency was found.
++The full import/load/rpath inventory covers every native component in the JSON files.
++
++No `system`, `popen`, `posix_spawn[p]`, `execve/execv/execl`, `fork`, `dlopen` or
++`ptrace` import was found in the tweak's undefined-symbol table, and no corresponding
++source execution path was identified. File APIs (`open`, `unlink`, NSFileManager),
++environment access, ObjC message dispatch/method replacement and JavaScriptCore
++are present and expected. This is an import/source check, not proof against
++obfuscated, indirect or host-mediated execution.
++
++`dladdr` and `dlsym` **are** imported. The former has source uses in `UI/Assets.mm:9`,
++`Features/Streaming/StreamingHooks.mm:203` and `Features/Interface/MiscellaneousHooks.mm:115`
++for image/address inspection. The latter is present in the existing
++`Vendor/FFmpeg/lib/libavcodec.a` member `videotoolboxenc.o`; the preserved FFmpeg
++8.1.2 source `libavcodec/videotoolboxenc.c:146,157` resolves VideoToolbox symbols
++with it. See DYNAMIC_SYMBOL_REVIEW.txt. Absence of `dlopen` must not be restated as
++absence of all runtime symbol lookup.
++
++Runtime code processing **does exist**: `ChallengeSolver.mm:20–77` loads bundled
++minified solver libraries and player-derived/preprocessed script into JavaScriptCore,
++with cache files and error handling. It is not shell execution. The minified solver
++and statically linked FFmpeg are third-party attack surfaces; no full code audit,
++CVE sweep, sanitizer/fuzzer run or exploitability assessment was performed. Build
++configuration (`Scripts/build-ffmpeg.sh:81–90`) disables FFmpeg networking and
++enables the local file protocol; application networking still uses Foundation.
++
++Widevine is an opaque existing Google DRM component, and Latest additionally has
++the original Swift compatibility binary/extensions. No new unexplained native
++executable or executable script was added by `.7`. JavaScript wrappers and
++`gRPCCertificates.bundle/roots.pem` are existing host resources; the two solver JS
++files are existing tweak resources. The PEM resource contains trust certificates,
++not a signing credential. No P12/PFX/private signing key/profile was found in the
++reviewed package paths. Opaque dependencies are not certified safe by this finding.
++
++Credential-pattern scan: Latest has 18 Google API-key-pattern candidates and one
++private-key marker candidate; Stable has 16 and one. Every candidate's path, offset
++and SHA256 fingerprint is identical to its Phase 4 counterpart. Google-client API
++keys in a shipped app are not automatically private server secrets; restrictions
++and abuse potential were not validated. The private-key marker in YouTube has no
++complete PEM key at the matching location. No confirmed new credential exposure
++was established; only categories/fingerprints, never values, are saved. Binary-only
++or encrypted/assembled secrets can escape these patterns.
++
++## 8. Authentication, storage and deletion
++
++The host's executable sections and Google SSO URL schemes are retained, but
++**the tweak does intentionally hook SSO compatibility**, not merely leave all
++authentication behavior untouched. `SideloadCompatibility.mm:27–60,261–330` probes
++attributes of a dummy generic-password item to discover its allowed access group,
++maps SSO keychain-group methods to that group, adjusts Safari-sign-in configuration,
++handles URL-delegate routing and supplies application-group fallback locations.
++It also reports App Store environment flags through Google utilities. Those hooks
++are unchanged from Phase 4. They do not grant arbitrary Keychain groups or prove
++Google login/account switching works after signing.
++
++`PlaylistDownloader.mm:572–659` obtains an access token from the host authorizer
++or an authorized probe request and attaches it to a hard-coded Google browse
++request, with an ephemeral cookie-disabled session. No explicit Google-password
++collector or Google-token addition to SponsorBlock/DeArrow/AiSList requests was
++identified. Redirect credential stripping, native cookie state and token lifetime
++are NOT TESTED; SABR raw-header replay/persistence are separate concerns below.
++
++Storage reviewed:
++
++- Settings, DeArrow branding/video IDs, visitor IDs and a random persistent
++  SponsorBlock contributor ID reside in ordinary sandbox preferences/caches.
++  They are not a Keychain token vault. The new artwork cache is bounded and in memory.
++- `YTKACEApplicationSupportDirectory()` actually returns `Documents/YTKACE`;
++  media and request seeds share this Files-visible tree. F-01 documents the impact.
++- `DownloadLog.mm:7–51,98–150` separately places diagnostics in real Application
++  Support (Caches/temp fallback), requests backup exclusion and
++  CompleteUntilFirstUserAuthentication protection, and limits/trims the log.
++  These calls' success and fallback behavior are not device-verified.
++- `SABRDownloader.mm:886–890` writes a raw outgoing protobuf diagnostic to temp
++  independently of the debug-log toggle. Scratch purge (`:717–752`) can remove
++  `ytkace-*.pb` dumps; it is not assured immediate secure deletion.
++- Clear Cache (`YTKACESettingsPages.mm:1935–1952`) removes a Cache subdirectory,
++  download scratch and system caches, not all request seeds at the root.
++  A stale restored player seed has a deletion path (`DownloadHooks.mm:865–877`),
++  but no comprehensive account-sign-out/session-change purge was identified for
++  both persisted seed types. Host token revocation must be checked separately.
++- Explicit backups filter settings to `YTKACE.Preference.*` and enumerate the
++  Downloads subdirectory (`YTKACEBackupManager.mm:96–120,363–391`), not arbitrary
++  Keychain contents/root seeds. Restore normalizes/restricts archive paths, stored
++  entry format and CRC (`:479–520`). This is source evidence, not fuzzing or proof
++  of safe handling of every malformed/oversized backup. Ordinary device/iCloud
++  backup of Documents and exclusion/protection of seeds remain unverified.
++
++## 9. Findings and severity
++
++Severity denotes the reviewed weakness/impact, not proof that an attack occurred.
++All following source paths are relative to `Tweak/` unless otherwise noted.
++
++### F-01 — Medium: unfiltered request material in Files-visible persistent storage
++
++**Confirmed:** `Runtime/Preferences.mm:403–449` returns Documents/YTKACE despite
++its helper name. `Features/Downloads/SABRDownloader.mm:36–64,136–155` serializes
++native request body and all headers without a sensitive-header filter to
++`sabr-seed.plist`. `DownloadHooks.mm:368–379,541–551,833–849` serializes the native
++player request to `player-request.pb`. `Tools/marufyt_package.py:197–198` enables
++Files sharing. Entry.mm restores seeds on startup. These capture paths do not
++require clicking Download and are not gated by the debug-log toggle.
++
++**Impact:** anyone/app given access to this Documents tree or a copied device backup
++can obtain session-bearing request material if those runtime objects contain it;
++there is also viewing/account-context retention. No secret values were extracted
++from a phone, so the presence of a live Authorization/Cookie token is conditional,
++not claimed proven. Root seeds lack explicit expiry/sign-out purge and dedicated
++backup exclusion/protection at these write sites. Same issue exists in Phase 4.
++
++**Minimal recommendation, not applied:** stop persisting credential-bearing headers
++and opaque authenticated request bodies; rebuild ephemeral state when needed. If a
++nonsecret seed is essential, use an explicit field allowlist, actual private
++Application Support, requested file protection/backup exclusion, bounded expiry
++and sign-out purge, with migration/deletion of old seeds. Keep media in Documents.
++Review/suppress the unconditional raw outgoing protobuf dump as part of this change.
++
++### F-02 — Medium: no explicit destination boundary for native-header SABR replay
++
++**Confirmed control gap:** `Features/Downloads/SABRDownloader.mm:1013–1049`
++accepts `self.serverURL` and copies native headers except six content/host headers;
++Authorization/Cookie are not excluded. `:1476–1482` accepts a protobuf redirect
++string into that URL without scheme/host validation. The next request is built
++with headers again. This is an application-level redirect, so Foundation stripping
++Authorization on an ordinary cross-origin HTTP redirect does not resolve it.
++
++**Impact conditions:** a malicious/compromised stream response or otherwise
++attacker-controlled serverURL could direct available session headers/body to an
++unintended destination. No attacker control, populated credential header, or actual
++exfiltration was demonstrated. HTTPS/system TLS still protects normal trusted
++responses. This is an inherited missing trust boundary, not evidence of a backdoor.
++
++**Minimal recommendation, not applied:** validate initial and redirected media
++destinations against the verified scheme/origin policy; explicitly restrict header
++replay to the appropriate trusted origin and exclude authentication cookies/tokens
++elsewhere. Validate custom protobuf redirects as well as Foundation redirects.
++
++### F-03 — Low: HTTPS enforcement is incomplete for generic media requests
++
++**Confirmed:** `Features/Downloads/StreamResolver.mm:155–164` accepts a scheme
++starting with `http`, including HTTP; `DownloadCoordinator.mm:2220–2224` creates a
++download task from its URL without an explicit HTTPS check. SABR URL handling has
++the gap in F-02. In contrast, the Phase 4 avatar/post/caption guard remains intact.
++The host's four inherited ATS HTTP exceptions mean ATS is not a universal
++HTTPS-only policy. No observed HTTP transfer or general ATS bypass is claimed.
++
++**Recommendation, not applied:** require HTTPS and a valid host on all remote fetch
++paths and redirects, while distinguishing legitimate local-file operations.
++
++### F-04 — Low: diagnostics retain viewing context and redact only selected formats
++
++**Confirmed:** `Features/Downloads/DownloadLog.mm:78–86` writes regular diagnostic
++messages regardless of the DebugLogs preference; only `YTKACEDebugLog` is opt-in.
++Call sites include video IDs, paths, request sizes and errors (for example
++`DownloadHooks.mm:1348–1349,1396` and `SABRDownloader.mm:889`). Regexes at
++`:98–119` cover bearer strings, URL queries and selected key=value fields, not
++arbitrary JSON or Cookie header formats. The existing synthetic Python approximation
++removes three covered fixtures and leaves two uncovered fixtures, as expected.
++
++**Impact/limits:** local viewing/diagnostic information persists until cleared or
++trimmed; arbitrary future/raw error payloads are not guaranteed secret-free. No
++real token in a log was observed. Location/protection is better than Documents,
++and no log-upload path was found. This is not a remote exfiltration finding.
++**Recommendation, not applied:** minimize routine per-video logs and use structured
++allowlisted fields; never pass raw credentials, headers, bodies or server responses
++to a generic regex redactor. Verify native ICU/Foundation behavior before claiming
++redaction guarantees.
++
++### Informational observations and remaining review items
++
++- **I-01:** full video IDs go to opted-in normal SponsorBlock/DeArrow; Private Lookup
++  protects lookup route only. This is documented service behavior, not a newly found
++  vulnerability. Defaults and disclosures are in sections 5–6.
++- **I-02:** host permissions, tracking-related literals, broad capability surface,
++  ATS exceptions, missing privacy manifests and signing-dependent entitlements are
++  inherited; none should be mistaken for zero-permission/zero-tracking operation.
++- **I-03:** add-only Photos declaration needs target-OS validation (section 3).
++- **I-04:** `YTKACEMediaImporter.mm:98,110` has unbounded muxer/artwork completion
++  waits on worker paths. The prior Low availability concern remains; no remote
++  denial-of-service exploit demonstrated. No sanitizer/fuzz result is available.
++- **I-05:** whole-host Google API-key patterns and a non-complete private-key marker
++  are baseline candidates, not confirmed leaked private credentials (section 7).
++
++## 10. Tests and security regression evidence
++
++| Performed check | Result and scope |
++| --- | --- |
++| Relevant existing unittest modules: scanner, Mach-O injector, plist sanitizer, concurrency/source invariants, native Sponsor hash wrapper | 21 cases: 20 passed, 1 skipped because no local C compiler; overall exit 0. File-level concurrency assertions do not prove all execution paths run on background queues |
++| Existing `Tools/marufyt_checks.py` | 136 source checks PASS; assertions/static contracts, not native execution |
++| Existing `Tools/runtime_security_review.py` | Completed: five synthetic regex cases, three removed/two intentionally uncovered; Python approximation, not native Foundation execution |
++| Existing `Tools/marufyt_secret_scan.py` | 31 refs / 193 reachable commits / 1711 blobs, zero findings; repository/history scan scope, not a claim that the host has zero API keys |
++| Existing CI provenance | [41434077642](https://github.com/arifular1f/MarufYT/actions/runs/41434077642) at `1bd5c82`: success retrieved; existing native tests/build evidence reused, no new CI or rebuild. No native/source/tooling difference to `657aed1` in reviewed paths |
++| Current and baseline IPA parsing/CRC/credential-pattern review | All four archives readable; current exact hashes above, full native/import/entitlement/resource inventories retained |
++| Current SHA256 manifests and package membership | 3 entries per host verified; IPA dylib = loose dylib = ROOTLESS DEB dylib, expected bundle filter |
++| Current host code versus original input | Mach-O section hashes identical for each host; host authentication code sections not patched by `.7` |
++| `.6` to `.7` archive member comparison | Exactly 17 changed files per host: MarufYT.dylib + 16 locale tables; no added/deleted paths. Everything else byte-identical, including Info.plist, host/extension/third-party code and embedded signing metadata |
++| `.6` to `.7` tweak dependencies/imports/host literals | No added or removed undefined imports; linked libraries and literal URL-host sets identical; no risky execution imports identified |
++| Credential-pattern regression | Candidate paths/offsets/fingerprints identical per host; no new candidate or private signing material found |
++| Source diff `c044eb4..657aed1` | Reviewed private lookup, artwork async/cache changes, lifecycle guards, locale/settings/docs, version and CI filter. No new permissions, service hosts or tracker client introduced |
++| Preservation verification | All 56 pre-existing files in Phase 4 and Phase 4.1 release directories rehashed after review; result saved in PRESERVATION_AFTER.json |
++
++Prior findings: Phase 4 S-01 guards remain; S-02 now has opt-in reduced-exposure lookup;
++S-03 redirect behavior remains unverified, with additional F-02 custom-redirect gap;
++S-04 restore guards remain; S-05 dummy Keychain probe is as described but does not
++cover F-01 request retention; S-06 no reviewed shell/TLS-bypass path remains true
++for the tweak, not every host component; S-07 local diagnostics is not a remote
++backdoor; S-08 Files exposure also affects root seeds; S-09 client metadata includes
++actual SABR device/locale data, not exclusively constants; S-10 source call paths
++were reviewed previously but file-level assertions are not runtime proof; S-11
++memory safety remains untested; S-12 zero repository findings does not mean no
++Google-client keys in the proprietary IPA. Earlier audit coverage is not treated
++as a blanket security pass.
++
++## 11. Tests still requiring an iPhone
++
++On each separately signed host, inspect permission prompts/denials/revocation;
++verify add-only Photos behavior; test Google login, account switching, logout/token
++revocation and Keychain groups under actual signing. With a controlled test account,
++inspect seed/header/body retention and Files visibility before/after logout, Clear
++Cache, restart, backup/restore and locked-device transitions, without publishing tokens.
++
++Capture consented network traffic in normal/private SponsorBlock, DeArrow, AiSList,
++downloads/playback and background/suspended modes. Verify actual endpoints, TLS,
++HTTP and custom protobuf redirects, origin-bound credentials/cookies, telemetry,
++private-prefix request/response handling, invalid IDs and malformed/oversized replies.
++Use controlled synthetic redirects rather than sending live credentials elsewhere.
++Profile long playback/download sessions and failed muxer callbacks. Native parser,
++image/media/FFmpeg/backup fuzzing, sanitizers and memory-safety analysis remain open.
++No such device/runtime result is claimed here.
++
++## 12. Exact limitations and evidence
++
++This audit neither installed nor executed an IPA/DEB. It did not rebuild, change
++behavior, modify protected branches, merge, push, or perform live third-party API
++tests. It did not establish a reproducible source-to-binary proof, independently
++review all Google/DRM/FFmpeg/JS code, decode DER entitlements, verify signing chains,
++measure actual data collection, or enumerate runtime-generated/obfuscated endpoints.
++The local native Sponsor test was skipped; historical CI is identified as historical.
++Pattern/import/string absence and archive equality cannot establish absence of
++malicious logic, memory corruption, host-mediated calls or encrypted secrets.
++
++Evidence alongside this report: four sanitized package inventory JSON files;
++`PHASE4_BINARY_COMPARISON.json`; `SECURITY_REGRESSION_EVIDENCE.json`;
++`SOURCE_API_INDEX.txt`; `RELEVANT_TESTS.txt`; `SOURCE_CHECKS.txt`;
++`LOG_REDACTION_MODEL.json`; `REPOSITORY_SECRET_SCAN.json`;
++`EXISTING_CI_EVIDENCE.json`; preservation before/after files and audit checksum list.
++`inspect_packages.py` records the read-only inspection method; it is an audit utility,
++not a new app feature or a large test suite. Git diff/status review is saved separately.
++
++**Conclusion: Findings identified, with severity and evidence.**

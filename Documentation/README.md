@@ -2,6 +2,9 @@
 
 | Document | Contents |
 | --- | --- |
+| [FINAL_UPDATE/FINAL_UPDATE_REPORT.md](FINAL_UPDATE/FINAL_UPDATE_REPORT.md) | Current coordinated .8 fixes, release/test/CI evidence and device limitations |
+| [INSTALLATION.md](INSTALLATION.md) | Current signing, migration and rollback instructions |
+| [FINAL_SECURITY_AUDIT/FINAL_SECURITY_REPORT.md](FINAL_SECURITY_AUDIT/FINAL_SECURITY_REPORT.md) | Historical pre-fix .7 audit; findings addressed by .8 with runtime limitations |
 | [BUILD_INSTRUCTIONS.md](BUILD_INSTRUCTIONS.md) | Build environment, CI, IPA assembly |
 | [MODULES.md](MODULES.md) | Source layout by module |
 | [SOURCE_PROVENANCE.md](SOURCE_PROVENANCE.md) | What is upstream YTKACE and what MarufYT changed |

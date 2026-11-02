@@ -13,7 +13,7 @@ Push to `phase2` or `main` (or run **Actions → Build → Run workflow**). The 
 
 **Updating pins:** review action SHA changes manually while default-branch Dependabot configuration remains inactive. Update `Tools/toolchain.lock.json` deliberately, including Theos gitlinks, compiler/SDK versioned URLs, sizes and measured hashes; validate using an audit-only run. This is not a fully immutable hosted-runner image.
 
-**Audit without rebuilding releases:** `gh workflow run build.yml --repo arifular1f/MarufYT --ref phase2 -f audit_only=true`. The existing registered dispatch workflow permits selecting Phase 2; this runs tooling/relink checks and skips release compilation/packaging. See `Documentation/audits/DEFAULT_BRANCH_AUTOMATION.md` for the no-main-change limitation.
+**Audit without rebuilding releases:** `gh workflow run build.yml --repo arifular1f/MarufYT --ref final-update-security -f audit_only=true`. The existing registered dispatch workflow permits selecting the working branch; this runs tooling/relink checks and skips release compilation/packaging (the lightweight Foundation security job still runs). See `Documentation/audits/DEFAULT_BRANCH_AUTOMATION.md` for the no-main-change limitation.
 
 **Verifying an artifact:** run `sha256sum -c SHA256SUMS.txt` inside the extracted artifact.
 
@@ -29,12 +29,12 @@ make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
 
 ## 2. IPA (local only)
 
-You supply a decrypted YouTube IPA; this repository never stores or downloads one. Branch `phase2` targets YouTube **21.43.5** (and still supports 21.39.4). Before adopting any other YouTube version, run `Tools/marufyt_host_audit.py CURRENT.ipa NEW.ipa report.md`.
+You supply a decrypted YouTube IPA; this repository never stores or downloads one. The current update targets YouTube **21.43.5** (and still supports 21.39.4). Before adopting any other YouTube version, run `Tools/marufyt_host_audit.py CURRENT.ipa NEW.ipa report.md`.
 
 ```sh
 python3 Tools/marufyt_package.py \
   --youtube com.google.ios.youtube_v21.43.5-decrypted.ipa \
-  --deb com.arifular1f.marufyt_1.1.4+marufyt.2_rootless.deb \
+  --deb com.arifular1f.marufyt_1.1.4+marufyt.8_rootless.deb \
   --output MarufYT-21.43.5.ipa
 ```
 
@@ -62,3 +62,15 @@ FFMPEG_SHA256=$(sha256sum ffmpeg-8.1.2.tar.xz | cut -d' ' -f1) bash Scripts/buil
 ```
 
 Before running the script, place the verified archive in its build directory, or let the script download it. The script stops if the SHA-256 does not match.
+
+## Security checks for this update
+
+Linux CI runs all existing Python tests and both portable native C suites, source checks and a full reachable-history credential scan. A macOS job compiles and executes the shipped Foundation URL/redirect, redaction and lifecycle helpers using controlled fixtures (no live Google credentials or external API requests). The ROOTLESS build waits for both jobs. Hosted runners/apt packages remain moving components; action and Theos/compiler/SDK pins remain unchanged.
+
+To dispatch explicitly:
+
+```sh
+gh workflow run build.yml --repo arifular1f/MarufYT --ref final-update-security
+```
+
+Package Latest and Stable separately using the same verified host-adaptive .8 DEB and the respective original host IPA. Use new versioned output paths; never overwrite an input or old release. These IPAs remain local and signing-required. See [INSTALLATION.md](INSTALLATION.md) and [FINAL_UPDATE/FINAL_UPDATE_REPORT.md](FINAL_UPDATE/FINAL_UPDATE_REPORT.md).

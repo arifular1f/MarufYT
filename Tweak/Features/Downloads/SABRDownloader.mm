@@ -27,7 +27,6 @@ static NSMutableDictionary<NSString *, NSDictionary<NSString *, NSString *> *> *
 static NSMutableDictionary<NSString *, NSData *> *YTKACESABRBodiesByVideo;
 static NSMutableDictionary<NSData *, NSDictionary<NSString *, NSString *> *> *YTKACESABRHeadersByConfig;
 static NSMutableDictionary<NSData *, NSData *> *YTKACESABRBodiesByConfig;
-static NSString *YTKACEPBFieldSummary(NSData *data);
 static BOOL YTKACESABRIsPlaybackBody(NSData *data);
 static NSData *YTKACEPBDataField(NSData *data, NSUInteger wanted);
 
@@ -371,30 +370,6 @@ static BOOL YTKACESABRIsPlaybackBody(NSData *data) {
     return YTKACEPBDataField(data, 1).length != 0 &&
         YTKACEPBDataField(data, 5).length != 0 &&
         YTKACEPBDataField(data, 19).length != 0;
-}
-
-static NSString *YTKACEPBFieldSummary(NSData *data) {
-    if (data.length == 0) return @"empty";
-    NSMutableArray<NSString *> *fields = [NSMutableArray array];
-    NSUInteger offset = 0;
-    while (offset < data.length && fields.count < 40) {
-        uint64_t key = 0;
-        if (!YTKACEPBReadVarint(data, &offset, &key)) break;
-        NSUInteger field = (NSUInteger)(key >> 3);
-        uint8_t wire = (uint8_t)(key & 7);
-        if (wire == 2) {
-            uint64_t length = 0;
-            if (!YTKACEPBReadVarint(data, &offset, &length) || offset + length > data.length) break;
-            [fields addObject:[NSString stringWithFormat:@"%lu:%llu",
-                (unsigned long)field, length]];
-            offset += (NSUInteger)length;
-        } else {
-            [fields addObject:[NSString stringWithFormat:@"%lu/w%u",
-                (unsigned long)field, wire]];
-            if (!YTKACEPBSkip(data, &offset, wire)) break;
-        }
-    }
-    return fields.count != 0 ? [fields componentsJoinedByString:@","] : @"unparsed";
 }
 
 static NSString *YTKACEPBStringField(NSData *data, NSUInteger field) {

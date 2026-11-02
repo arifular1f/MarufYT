@@ -1,0 +1,60 @@
+{
+  "21.43.5": {
+    "manifestFilesVerified": 3,
+    "manifestValid": true,
+    "dylibDebIpaIdentical": true,
+    "originalHostSectionHashesIdentical": true,
+    "filterText": "{ Filter = { Bundles = ( \"com.google.ios.youtube\" ); }; }\n",
+    "newImports": [],
+    "removedImports": [],
+    "linkedLibrariesIdentical": true,
+    "suspiciousExecutionImports": [],
+    "tweakLiteralHostsIdentical": true,
+    "tweakLiteralURLHosts": [
+      "aomedia.org",
+      "api.aisloplist.com",
+      "dearrow-thumb.ajay.app",
+      "github.com",
+      "i.ytimg.com",
+      "raw.githubusercontent.com",
+      "sponsor.ajay.app",
+      "streams.videolan.org",
+      "www.w3.org",
+      "www.youtube.com",
+      "youtu.be",
+      "youtube.com",
+      "youtubei.googleapis.com"
+    ],
+    "credentialPatternFingerprintsIdentical": true,
+    "hostEntitlementsIdentical": true
+  },
+  "21.39.4": {
+    "manifestFilesVerified": 3,
+    "manifestValid": true,
+    "dylibDebIpaIdentical": true,
+    "originalHostSectionHashesIdentical": true,
+    "filterText": "{ Filter = { Bundles = ( \"com.google.ios.youtube\" ); }; }\n",
+    "newImports": [],
+    "removedImports": [],
+    "linkedLibrariesIdentical": true,
+    "suspiciousExecutionImports": [],
+    "tweakLiteralHostsIdentical": true,
+    "tweakLiteralURLHosts": [
+      "aomedia.org",
+      "api.aisloplist.com",
+      "dearrow-thumb.ajay.app",
+      "github.com",
+      "i.ytimg.com",
+      "raw.githubusercontent.com",
+      "sponsor.ajay.app",
+      "streams.videolan.org",
+      "www.w3.org",
+      "www.youtube.com",
+      "youtu.be",
+      "youtube.com",
+      "youtubei.googleapis.com"
+    ],
+    "credentialPatternFingerprintsIdentical": true,
+    "hostEntitlementsIdentical": true
+  }
+}

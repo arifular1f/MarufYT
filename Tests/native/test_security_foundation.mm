@@ -47,10 +47,12 @@ int main(void) { @autoreleasepool {
     NSMutableURLRequest *source = Request(@"https://example.invalid/a"), *next = Request(@"https://cdn.invalid/b");
     [next setValue:@"fixture" forHTTPHeaderField:@"Authorization"];
     [next setValue:@"fixture" forHTTPHeaderField:@"Cookie"];
+    [next setValue:@"fixture" forHTTPHeaderField:@"X-Goog-Visitor-Id"];
     [next setValue:@"bytes=0-1" forHTTPHeaderField:@"Range"];
     NSURLRequest *clean = MarufYTRedirectRequest(source, next, NO);
     CHECK(clean && ![clean valueForHTTPHeaderField:@"Authorization"] && ![clean valueForHTTPHeaderField:@"Cookie"]);
     CHECK([[clean valueForHTTPHeaderField:@"Range"] isEqual:@"bytes=0-1"]);
+    CHECK(![clean valueForHTTPHeaderField:@"X-Goog-Visitor-Id"]);
     source.HTTPMethod = @"POST"; source.HTTPBody = [@"fixture" dataUsingEncoding:NSUTF8StringEncoding];
     CHECK(!MarufYTRedirectRequest(source, next, NO));
     CHECK(!MarufYTRedirectRequest(source, Request(@"http://example.invalid/a"), NO));

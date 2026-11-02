@@ -23,3 +23,10 @@ static inline bool MarufYTReplayHeaderAllowed(const char *name) {
         if (strcasecmp(name, allowed[i]) == 0) return true;
     return false;
 }
+static inline bool MarufYTPublicRedirectHeaderAllowed(const char *name) {
+    if (!name) return false;
+    const char *allowed[] = {"user-agent", "range", "accept", "accept-encoding", "accept-language"};
+    for (size_t i = 0; i < sizeof allowed / sizeof allowed[0]; ++i)
+        if (strcasecmp(name, allowed[i]) == 0) return true;
+    return false;
+}

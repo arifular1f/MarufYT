@@ -2,60 +2,30 @@
 
 MarufYT is maintained by [arifular1f](https://github.com/arifular1f).
 
-## Reporting a vulnerability
+## Report privately
 
-Report security problems **privately** through GitHub's private vulnerability reporting:
-**[Open a private security report](https://github.com/arifular1f/MarufYT/security/advisories/new)**
+Use [GitHub private vulnerability reporting](https://github.com/arifular1f/MarufYT/security/advisories/new). Include the exact tweak/YouTube versions, signing/install method, reproduction and redacted evidence. Never post live tokens, passwords, signing keys or account/session dumps. Upstream YTKACE issues should also be reported privately to the upstream maintainer.
 
-Please do not open a public issue for a vulnerability. Include:
+## Current revision and older builds
 
-- the affected version (MarufYT settings → About → Version);
-- the YouTube version;
-- the install method;
-- reproduction steps.
+The coordinated update is **1.1.4+marufyt.8** on `final-update-security`, based on Phase 4.1 `657aed1`. `main`, `phase2` and preserved release branches are not promoted or rewritten. Older builds remain available for reproducibility/rollback and retain their historical findings; no backport or runtime-safety guarantee is implied. See the [pre-fix .7 audit](Documentation/FINAL_SECURITY_AUDIT/FINAL_SECURITY_REPORT.md) and [current evidence](Documentation/FINAL_UPDATE/FINAL_UPDATE_REPORT.md).
 
-You will get an acknowledgement as soon as possible.
+## Current controls
 
-**Upstream issues:** a problem that also affects upstream YTKACE should also be reported to [the upstream project](https://github.com/itzzace/ytkace).
+- **F-01:** no authenticated request seed or raw outgoing protobuf dump is intentionally persisted by the patched paths. Exact legacy files are purged on initialization/account boundaries; in-memory state has inactivity expiry and boundary cleanup. This does not erase copies already made or revoke Google credentials.
+- **F-02:** SABR destinations and both HTTP/protobuf redirects are restricted to HTTPS Google video media origins. Native header replay is allowlisted and excludes Authorization/Cookie. Generic cross-origin redirects discard sensitive/unrecognized headers and reject request-body replay.
+- **F-03:** MarufYT remote task construction rejects non-HTTPS URLs, URL userinfo and nonstandard ports; local filesystem/media imports remain separate. This policy does not globally override YouTube's own sessions. The original host still has ATS local-network/carrier exceptions.
+- **F-04:** diagnostics are opt-in; opaque object values/raw server payloads are not interpolated. Known credentials, URL/email/video-ID formats are omitted, log identifiers are constrained, and line breaks are normalized. No generic filter guarantees arbitrary text is free of personal data.
+- **Accounts:** Google authentication remains the host's implementation with existing sideload compatibility hooks. New cleanup wrappers call original native methods and clear only MarufYT state. Real login/logout/account switching and the coverage of private methods require iPhone testing.
+- **Storage:** media/settings remain in the app sandbox/Files-visible download tree. Diagnostics separately request protected Application Support storage and backup exclusion. OS protection, fallback paths, signing entitlements and existing backups require runtime verification.
+- **Code:** Objective-C runtime hooks and JavaScriptCore player-script processing exist. Neither name guards nor a clean import list proves safe execution of all proprietary/third-party code.
 
-## Supported versions
+## Build and repository integrity
 
-| Version | Branch | Supported |
-| --- | --- | --- |
-| 1.1.4+marufyt.x | `phase2` | Yes (current development) |
-| 1.1.1+marufyt.1 | `main`, `stable-21.39.4` | Security fixes only, until `phase2` is promoted |
+Actions use full SHA pins, a read-only token and non-persisted checkout credentials. No repository secrets are required. The Theos/compiler/SDK integrity lock remains in `Tools/toolchain.lock.json`; fresh tooling is used with hash-verified archive caching. Hosted images/apt packages are moving residuals. CI runs existing tests, focused source contracts, actual macOS Foundation security fixtures, full reachable-history secret scanning and the ROOTLESS build. Native policy tests do not run YouTube or an iPhone.
 
-## What this repository never contains
+No original YouTube IPA/DEB, signer credential or live token is committed. Generated host IPAs remain local. Verify artifact SHA256 manifests against the exact source/run; do not rely on an unrelated latest/default-branch build. Dependabot schedule/default-branch limitations remain documented in the historical audits; no default-branch change is implied.
 
-- No YouTube or other Google application binaries (decrypted or not). IPAs are assembled locally from a copy you supply.
-- No signing certificates, provisioning profiles, private keys, API keys or tokens.
-  - The `phase2` workflow checks its checkout with `Tools/marufyt_secret_scan.py` (full reachable history, index and visible working files, including binary content). Findings contain locations and hashes, never matched credential text.
-  - GitHub secret scanning and push protection are enabled.
+## Limits
 
-## Build integrity
-
-- **GitHub Actions (`phase2` workflow):**
-  - every action is pinned to a full commit SHA;
-  - the workflow token is read-only, and credentials are not persisted on the runner;
-  - no repository secrets are used;
-  - untrusted event data is never interpolated into shell commands.
-- **Theos (`phase2`):** a fresh detached checkout and reviewed submodule gitlinks are installed directly. Versioned compiler/SDK archives are size/hash checked before extraction or execution. The moving installer is not run. See `Tools/toolchain.lock.json` and the toolchain audit; hosted image and apt packages remain explicitly recorded residuals.
-- **Dependabot:** repository alerts/security updates are enabled. Weekly action-update configuration is prepared on `phase2`, but is not active while it is absent from the default branch. `main` is intentionally unchanged; no default-branch change or promotion is implied.
-- **Artifact checksums:** every CI artifact ships with `SHA256SUMS.txt`. Verify downloaded files against it.
-
-## Runtime security design
-
-| Area | Behaviour |
-| --- | --- |
-| Network | HTTPS only. No custom certificate or trust handling and no App Transport Security exceptions; iOS validates TLS normally |
-| Accounts | Google sign-in is YouTube's own; MarufYT has no Google-password form. Playlist code uses the host's authorization in memory for HTTPS requests to `youtubei.googleapis.com`, over an ephemeral session without cookies. No credential persistence was found in that path; redirect and session behaviour still require device testing |
-| Keychain | One non-secret marker item, used only to read the app's Keychain access group so sideloaded sign-in works |
-| Code execution | Player script evaluation uses a JavaScriptCore context; no native bridge was found in the reviewed code. This is in the app process, not a separately verified sandbox or resource-limit boundary |
-| Storage | Settings in the app sandbox. Downloads in `Documents/YTKACE` (visible in Files by design). Diagnostics log in Application Support: excluded from backup, file-protected, with tokens and URL query strings redacted |
-| Hooks | Objective-C runtime hooks are installed by name; a missing class or selector is skipped instead of crashing |
-
-## Known limitations
-
-See `Documentation/audits/COMPLETION_AUDIT.md` for the follow-up findings and `Documentation/audits/SECURITY_AUDIT.md` for the earlier audit. Neither static checks nor a clean credential scan certify that all runtime logging formats are redacted. JSON token fields, cookie headers, log identifiers and redirects need separate runtime coverage. The frozen `main` workflow retains its older configuration; its action tags may conflict with the repository's SHA-pinning policy. No branch was promoted to address this.
-
-Current disposition: `Documentation/audits/FINDING_DISPOSITION.md`. Audit-only branch dispatch validates tooling and isolated relinking without a release rebuild. Exact signed FFmpeg source and corresponding-source/relink documentation are recorded separately; a source signature is not a claim of vulnerability-free code or historical bit reproducibility.
+Device traffic/TLS capture, signing/provisioning validation, Google session behavior, permission prompts, backup/file-protection checks, malformed-response/media fuzzing and memory-safety profiling remain open unless separately evidenced. New policy guards may reject an unsupported CDN or require a download retry rather than forwarding session material unsafely. The project does not claim 100% security or zero host tracking. [PRIVACY.md](PRIVACY.md) details data flows; [installation](Documentation/INSTALLATION.md) covers migration.

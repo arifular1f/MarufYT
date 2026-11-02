@@ -1,0 +1,52 @@
+{
+  "21.43.5": {
+    "addedPaths": [],
+    "removedPaths": [],
+    "changedPaths": [
+      "Payload/YouTube.app/Frameworks/MarufYT.dylib",
+      "Payload/YouTube.app/YTKACE.bundle/ar.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/ckb.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/de.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/en.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/es.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/fr.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/it.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/ja.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/ko.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/pl.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/pt-BR.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/ru.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/tr.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/vi.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/zh-Hans.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/zh-Hant.lproj/Localizable.strings"
+    ],
+    "infoPlistIdentical": true,
+    "privacyManifestsIdentical": true
+  },
+  "21.39.4": {
+    "addedPaths": [],
+    "removedPaths": [],
+    "changedPaths": [
+      "Payload/YouTube.app/Frameworks/MarufYT.dylib",
+      "Payload/YouTube.app/YTKACE.bundle/ar.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/ckb.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/de.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/en.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/es.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/fr.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/it.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/ja.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/ko.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/pl.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/pt-BR.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/ru.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/tr.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/vi.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/zh-Hans.lproj/Localizable.strings",
+      "Payload/YouTube.app/YTKACE.bundle/zh-Hant.lproj/Localizable.strings"
+    ],
+    "infoPlistIdentical": true,
+    "privacyManifestsIdentical": true
+  }
+}
