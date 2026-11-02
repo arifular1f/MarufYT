@@ -1,3 +1,4 @@
+#import "../../Runtime/URLPolicy.h"
 #import "DownloadCoordinator.h"
 #import "../../UI/OverlayButtonHost.h"
 #import "../../YTKACE.h"
@@ -301,6 +302,14 @@ void YTKACESaveVideoToPhotosFile(NSURL *url,
 }
 
 @implementation YTKACEDownloadCoordinator
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+    willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request
+    completionHandler:(void (^)(NSURLRequest *))completionHandler {
+    (void)session; (void)response;
+    completionHandler(MarufYTRedirectRequest(task.currentRequest ?: task.originalRequest, request, NO));
+}
+
 
 + (instancetype)sharedCoordinator {
     static YTKACEDownloadCoordinator *coordinator;
@@ -971,7 +980,7 @@ void YTKACESaveVideoToPhotosFile(NSURL *url,
         return;
     }
     __weak YTKACEDownloadCoordinator *weakSelf = self;
-    NSURLSessionDataTask *task = [NSURLSession.sharedSession dataTaskWithURL:url
+    NSURLSessionDataTask *task = [MarufYTNetwork.sharedClient dataTaskWithURL:url
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             (void)response;
             UIImage *image = error == nil ? [UIImage imageWithData:data] : nil;
@@ -1911,7 +1920,7 @@ void YTKACESaveVideoToPhotosFile(NSURL *url,
     if (job.thumbnailURL == nil) return;
     NSURL *imageURL = [base URLByAppendingPathExtension:@"jpg"];
     NSString *identifier = job.identifier;
-    NSURLSessionDataTask *task = [NSURLSession.sharedSession
+    NSURLSessionDataTask *task = [MarufYTNetwork.sharedClient
         dataTaskWithURL:job.thumbnailURL completionHandler:^(NSData *data,
             NSURLResponse *response, NSError *error) {
         (void)response;
@@ -2040,7 +2049,7 @@ void YTKACESaveVideoToPhotosFile(NSURL *url,
         handler(nil);
         return;
     }
-    NSURLSessionDataTask *task = [NSURLSession.sharedSession
+    NSURLSessionDataTask *task = [MarufYTNetwork.sharedClient
         dataTaskWithURL:job.thumbnailURL
       completionHandler:^(NSData *data, __unused NSURLResponse *response,
                           __unused NSError *error) {
@@ -2221,6 +2230,10 @@ void YTKACESaveVideoToPhotosFile(NSURL *url,
 - (void)startDownload:(NSURL *)url
               category:(NSString *)category
              extension:(NSString *)extension {
+    if (!MarufYTIsSecureURL(url)) {
+        YTKACEShowNotice(YTKACELocalized(@"Unsupported remote URL."));
+        return;
+    }
     NSURLSessionDownloadTask *task = [self.session downloadTaskWithURL:url];
     YTKACEDownloadJob *job = [YTKACEDownloadJob new];
     job.task = task;

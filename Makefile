@@ -14,6 +14,8 @@ MarufYT_FILES = \
 	Tweak/Runtime/Hooking.mm \
 	Tweak/Runtime/Availability.mm \
 	Tweak/Runtime/Preferences.mm \
+	Tweak/Runtime/URLPolicy.mm \
+	Tweak/Runtime/SecurityLifecycle.mm \
 	Tweak/Runtime/Localization.mm \
 	Tweak/UI/Assets.mm \
 	Tweak/UI/Notice.mm \

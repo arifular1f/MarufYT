@@ -76,7 +76,12 @@ void YTKACESetDebugLogsEnabled(BOOL enabled) {
 static void YTKACEWriteLogLine(NSString *identifier, NSString *message);
 
 void YTKACEDownloadLog(NSString *identifier, NSString *format, ...) {
-    if (format.length == 0) return;
+    if (format.length == 0 || !YTKACEDebugLogsEnabled()) return;
+    // Keep an event template, never interpolate opaque objects, raw payloads or C strings.
+    if ([format containsString:@"%@"] || [format containsString:@"%s"] || [format containsString:@"%p"]) {
+        YTKACEWriteLogLine(identifier, format);
+        return;
+    }
     va_list arguments;
     va_start(arguments, format);
     NSString *message = [[NSString alloc] initWithFormat:format arguments:arguments];
@@ -86,6 +91,11 @@ void YTKACEDownloadLog(NSString *identifier, NSString *format, ...) {
 
 void YTKACEDebugLog(NSString *identifier, NSString *format, ...) {
     if (format.length == 0 || !YTKACEDebugLogsEnabled()) return;
+    // Keep an event template, never interpolate opaque objects, raw payloads or C strings.
+    if ([format containsString:@"%@"] || [format containsString:@"%s"] || [format containsString:@"%p"]) {
+        YTKACEWriteLogLine(identifier, format);
+        return;
+    }
     va_list arguments;
     va_start(arguments, format);
     NSString *message = [[NSString alloc] initWithFormat:format arguments:arguments];
@@ -95,35 +105,40 @@ void YTKACEDebugLog(NSString *identifier, NSString *format, ...) {
 
 // MarufYT security: never persist bearer tokens, URL query strings (stream
 // signatures, keys, client IPs) or token-like parameters, even in debug logs.
-static NSString *YTKACERedactLogMessage(NSString *message) {
+NSString *YTKACERedactLogMessage(NSString *message) {
+    // Do not try to extract arbitrary secrets out of server JSON/headers.
+    NSString *lower = message.lowercaseString;
+    for (NSString *marker in @[@"authorization", @"bearer", @"cookie", @"token", @"password", @"secret", @"api_key", @"api-key", @"apikey", @"signature", @"session=", @"key=", @"pot=", @"{", @"}", @"response=", @"body=", @"/var/", @"/private/", @"/users/"]) {
+        if ([lower containsString:marker]) return @"[sensitive diagnostic omitted]";
+    }
     static NSArray<NSRegularExpression *> *patterns;
     static NSArray<NSString *> *templates;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSRegularExpressionOptions options = NSRegularExpressionCaseInsensitive;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
         patterns = @[
-            [NSRegularExpression regularExpressionWithPattern:@"(Bearer\\s+)[A-Za-z0-9._~+/=-]+" options:options error:nil],
-            [NSRegularExpression regularExpressionWithPattern:@"(https?://[^\\s?#\"']+)\\?[^\\s\"']*" options:options error:nil],
-            [NSRegularExpression regularExpressionWithPattern:
-                @"\\b(access_token|refresh_token|token|key|sig|signature|pot|password|cookie)=[^&\\s\"']+"
-                                                      options:options error:nil]
+            [NSRegularExpression regularExpressionWithPattern:@"https?://[^\\s]+" options:NSRegularExpressionCaseInsensitive error:nil],
+            [NSRegularExpression regularExpressionWithPattern:@"[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}" options:NSRegularExpressionCaseInsensitive error:nil],
+            [NSRegularExpression regularExpressionWithPattern:@"(?<![A-Za-z0-9_-])[A-Za-z0-9_-]{11}(?![A-Za-z0-9_-])" options:0 error:nil]
         ];
-        templates = @[@"$1[redacted]", @"$1?[redacted]", @"$1=[redacted]"];
+        templates = @[@"[URL omitted]", @"[email omitted]", @"[identifier omitted]"];
     });
     NSMutableString *redacted = [message mutableCopy];
-    for (NSUInteger i = 0; i < patterns.count; i++) {
-        [patterns[i] replaceMatchesInString:redacted options:0
-                                      range:NSMakeRange(0, redacted.length) withTemplate:templates[i]];
+    for (NSUInteger i = 0; i < patterns.count; ++i) {
+        [patterns[i] replaceMatchesInString:redacted options:0 range:NSMakeRange(0, redacted.length) withTemplate:templates[i]];
     }
+    [redacted replaceOccurrencesOfString:@"\n" withString:@" " options:0 range:NSMakeRange(0, redacted.length)];
+    [redacted replaceOccurrencesOfString:@"\r" withString:@" " options:0 range:NSMakeRange(0, redacted.length)];
     return redacted;
 }
 
 static void YTKACEWriteLogLine(NSString *identifier, NSString *message) {
     message = YTKACERedactLogMessage(message);
     if (message.length > 4096) message = [message substringToIndex:4096];
+    if (identifier.length == 0 || [identifier rangeOfCharacterFromSet:NSCharacterSet.lowercaseLetterCharacterSet.invertedSet].location != NSNotFound) identifier = @"download";
     NSString *line = [NSString stringWithFormat:@"%@ [%@] %@\n",
         NSDate.date, identifier.length == 0 ? @"download" : identifier, message];
     dispatch_async(YTKACEDownloadLogQueue(), ^{
+        if (!YTKACEDebugLogsEnabled()) return;
         NSURL *URL = YTKACEDownloadLogURL();
         // Append only; the file is rewritten (trimmed) once it passes the limit.
         NSData *bytes = [line dataUsingEncoding:NSUTF8StringEncoding];

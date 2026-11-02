@@ -1,3 +1,4 @@
+#import "Runtime/SecurityLifecycle.h"
 #import "YTKACE.h"
 #import "Features/Downloads/SABRDownloader.h"
 #import "Features/Downloads/DownloadLog.h"
@@ -35,8 +36,7 @@ static void YTKACEInstallModules(void) {
     YTKACEInstallPiPHooks();
     YTKACEInstallPlaybackFixHooks();
     YTKACEInstallDownloadHooks();
-    YTKACESABRRestoreSeed();
-    YTKACERestorePlayerRequest();
+    MarufYTInstallSecurityLifecycle();
     YTKACEInstallPlaylistDownloaderHooks();
     YTKACEInstallFeedDownloadHooks();
     YTKACEInstallQueueHooks();

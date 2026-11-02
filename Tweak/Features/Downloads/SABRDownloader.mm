@@ -1,3 +1,6 @@
+#import "../../Runtime/SecurityLifecycle.h"
+#import "../../Runtime/NetworkRules.h"
+#import "../../Runtime/URLPolicy.h"
 #import "SABRDownloader.h"
 #import "DownloadLog.h"
 #import "StreamResolver.h"
@@ -13,6 +16,8 @@
 #define YTKACE_COMBINED_SABR 0
 #endif
 
+static NSHashTable *YTKACESecuritySessions;
+static void YTKACECancelSessionsForSecurity(void);
 static NSString *const YTKACESABRErrorDomain = @"YTKACESABR";
 static NSData *YTKACESABRPoToken;
 static NSDictionary<NSString *, NSString *> *YTKACESABRNativeHeaders;
@@ -33,57 +38,16 @@ void YTKACESABRSetCurrentVideoID(NSString *videoID) {
     }
 }
 
-static NSURL *YTKACESABRSeedURL(void) {
-    NSURL *directory = YTKACEApplicationSupportDirectory();
-    return [directory URLByAppendingPathComponent:@"sabr-seed.plist"];
-}
-
-static void YTKACESABRPersistSeed(NSData *body, NSDictionary *headers) {
-    static NSTimeInterval lastWrite;
-    static BOOL wroteWithHeaders;
-    NSTimeInterval now = NSDate.date.timeIntervalSinceReferenceDate;
-    BOOL upgrade = headers.count != 0 && !wroteWithHeaders;
-    if (!upgrade && now - lastWrite < 30.0) return;
-    if (headers.count != 0) wroteWithHeaders = YES;
-    if (body.length == 0) {
-        YTKACEDownloadLog(@"resolve", @"seed skip body=0");
-        return;
-    }
-    lastWrite = now;
-    NSDictionary *seed = headers.count != 0
-        ? @{@"body": body, @"headers": headers} : @{@"body": body};
-    NSError *error = nil;
-    NSData *encoded = [NSPropertyListSerialization dataWithPropertyList:seed
-        format:NSPropertyListBinaryFormat_v1_0 options:0 error:&error];
-    NSURL *url = YTKACESABRSeedURL();
-    BOOL wrote = encoded.length != 0 &&
-        [encoded writeToURL:url atomically:YES];
-    YTKACEDownloadLog(@"resolve",
-        @"seed write ok=%d bytes=%lu headers=%lu error=%@ path=%@",
-        wrote, (unsigned long)encoded.length, (unsigned long)headers.count,
-        error.localizedDescription ?: @"none", url.path);
-}
-
-void YTKACESABRRestoreSeed(void) {
+// Request state is memory-only. Legacy restoration entry point is retained for compatibility.
+void YTKACESABRRestoreSeed(void) {}
+void YTKACESABRClearRequestState(void) {
     @synchronized (YTKACESABRDownloader.class) {
-        if (YTKACESABRNativeBody.length != 0) return;
+        YTKACESABRPoToken = nil; YTKACESABRNativeHeaders = nil; YTKACESABRNativeBody = nil;
+        YTKACESABRCurrentVideoID = nil;
+        YTKACESABRHeadersByVideo = nil; YTKACESABRBodiesByVideo = nil;
+        YTKACESABRHeadersByConfig = nil; YTKACESABRBodiesByConfig = nil;
     }
-    NSData *encoded = [NSData dataWithContentsOfURL:YTKACESABRSeedURL()];
-    if (encoded.length == 0) return;
-    NSDictionary *seed = [NSPropertyListSerialization
-        propertyListWithData:encoded options:NSPropertyListImmutable
-                      format:NULL error:NULL];
-    NSData *body = seed[@"body"];
-    NSDictionary *headers = seed[@"headers"];
-    if (![body isKindOfClass:NSData.class]) return;
-    @synchronized (YTKACESABRDownloader.class) {
-        YTKACESABRNativeBody = [body copy];
-        if ([headers isKindOfClass:NSDictionary.class] && headers.count != 0) {
-            YTKACESABRNativeHeaders = [headers copy];
-        }
-    }
-    YTKACEDownloadLog(@"resolve", @"restored sabr seed body=%lu headers=%lu",
-        (unsigned long)body.length, (unsigned long)headers.count);
+    YTKACECancelSessionsForSecurity();
 }
 
 NSString *YTKACESABRCurrentVideoIDValue(void) {
@@ -94,15 +58,6 @@ NSString *YTKACESABRCurrentVideoIDValue(void) {
 
 void YTKACESABRSetNativeHeaders(NSDictionary<NSString *, NSString *> *headers) {
     if (headers.count == 0) return;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        NSData *body = nil;
-        NSDictionary *current = nil;
-        @synchronized (YTKACESABRDownloader.class) {
-            body = [YTKACESABRNativeBody copy];
-            current = [headers copy];
-        }
-        if (body.length != 0) YTKACESABRPersistSeed(body, current);
-    });
     @synchronized (YTKACESABRDownloader.class) {
         YTKACESABRNativeHeaders = [headers copy];
         if (YTKACESABRCurrentVideoID.length != 0) {
@@ -121,6 +76,7 @@ void YTKACESABRSetNativeHeaders(NSDictionary<NSString *, NSString *> *headers) {
 
 static NSDictionary<NSString *, NSString *> *YTKACESABRCurrentNativeHeaders(
     NSString *videoID, NSData *config) {
+    MarufYTExpireRequestStateIfNeeded();
     @synchronized (YTKACESABRDownloader.class) {
         NSDictionary *matched = config.length != 0
             ? YTKACESABRHeadersByConfig[config] : nil;
@@ -133,7 +89,9 @@ static NSDictionary<NSString *, NSString *> *YTKACESABRCurrentNativeHeaders(
 }
 
 void YTKACESABRSetNativeRequest(NSURLRequest *request) {
-    if (request == nil) return;
+    if (request == nil || !MarufYTIsSecureURL(request.URL)) return;
+    MarufYTExpireRequestStateIfNeeded();
+    MarufYTNoteRequestActivity();
     BOOL usable = YTKACESABRIsPlaybackBody(request.HTTPBody);
     if (!usable) {
         return;
@@ -148,11 +106,6 @@ void YTKACESABRSetNativeRequest(NSURLRequest *request) {
             YTKACESABRBodiesByVideo[YTKACESABRCurrentVideoID] = [request.HTTPBody copy];
         }
         NSData *config = YTKACEPBDataField(request.HTTPBody, 5);
-        NSData *seedBody = [request.HTTPBody copy];
-        NSDictionary *seedHeaders = [YTKACESABRNativeHeaders copy];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-            YTKACESABRPersistSeed(seedBody, seedHeaders);
-        });
         if (config.length != 0) {
             if (YTKACESABRBodiesByConfig == nil) {
                 YTKACESABRBodiesByConfig = [NSMutableDictionary dictionary];
@@ -231,6 +184,7 @@ void YTKACESABRSetPoToken(id token) {
 }
 
 NSUInteger YTKACESABRPoTokenLength(void) {
+    MarufYTExpireRequestStateIfNeeded();
     @synchronized (YTKACESABRDownloader.class) {
         return YTKACESABRPoToken.length;
     }
@@ -579,6 +533,7 @@ static NSData *YTKACESABRClientInfo(void) {
 @end
 
 @interface YTKACESABRSession : NSObject <NSURLSessionDataDelegate>
+@property(nonatomic, assign) NSUInteger securityGeneration;
 @property(nonatomic, strong) id playerResponse;
 @property(nonatomic, strong) id streamingData;
 @property(nonatomic, strong) NSData *ustreamerConfig;
@@ -641,6 +596,15 @@ static NSData *YTKACESABRClientInfo(void) {
 @end
 
 @implementation YTKACESABRSession
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+    willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request
+    completionHandler:(void (^)(NSURLRequest *))completionHandler {
+    (void)session; (void)response;
+    if (self.securityGeneration != MarufYTSecurityGeneration()) { completionHandler(nil); return; }
+    completionHandler(MarufYTRedirectRequest(task.currentRequest ?: task.originalRequest, request, YES));
+}
+
 
 - (NSError *)error:(NSString *)message code:(NSInteger)code {
     return [NSError errorWithDomain:YTKACESABRErrorDomain code:code
@@ -883,13 +847,6 @@ NSUInteger YTKACEPurgeDownloadScratch(BOOL includeActive) {
     YTKACEPBBytes(request, 19, context);
     [self clearRound:self.video];
     [self clearRound:self.audio];
-    if (self.requestNumber == 0) {
-        NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:@"ytkace-outgoing.pb"];
-        [request writeToFile:path atomically:YES];
-        YTKACEDownloadLog(self.identifier, @"request fields native=%lu outgoing=%lu summary=%@ dump=%@",
-            (unsigned long)nativeBody.length, (unsigned long)request.length,
-            YTKACEPBFieldSummary(request), path);
-    }
     return request;
 }
 
@@ -982,8 +939,13 @@ NSUInteger YTKACEPurgeDownloadScratch(BOOL includeActive) {
     NSOperationQueue *queue = [NSOperationQueue new];
     queue.maxConcurrentOperationCount = 1;
     queue.qualityOfService = NSQualityOfServiceUtility;
+    self.securityGeneration = MarufYTSecurityGeneration();
     self.session = [NSURLSession sessionWithConfiguration:configuration
         delegate:self delegateQueue:queue];
+    @synchronized (YTKACESABRDownloader.class) {
+        if (!YTKACESecuritySessions) YTKACESecuritySessions = [NSHashTable weakObjectsHashTable];
+        [YTKACESecuritySessions addObject:self];
+    }
     NSString *serverHost = [NSURL URLWithString:self.serverURL].host ?: @"unknown";
     YTKACEDownloadLog(self.identifier,
         @"SABR start video=%ld audio=%ld server=%@ mode=%@ connections=%ld native=%d",
@@ -1015,10 +977,15 @@ NSUInteger YTKACEPurgeDownloadScratch(BOOL includeActive) {
     if (self.finished) return;
     (void)nativeRequest;
     (void)nativeRequestNumber;
+    MarufYTExpireRequestStateIfNeeded();
+    if (self.securityGeneration != MarufYTSecurityGeneration()) {
+        [self fail:[self error:@"Account/session state changed; retry the download." code:2]];
+        return;
+    }
     NSInteger logicalRequestNumber = self.requestNumber;
     NSInteger wireRequestNumber = logicalRequestNumber;
     NSURL *baseURL = [NSURL URLWithString:self.serverURL];
-    if (baseURL == nil) {
+    if (!MarufYTIsTrustedMediaURL(baseURL)) {
         [self fail:[self error:@"SABR setup did not provide a request URL." code:2]];
         return;
     }
@@ -1034,12 +1001,7 @@ NSUInteger YTKACEPurgeDownloadScratch(BOOL includeActive) {
         : YTKACESABRCurrentNativeHeaders(self.videoID, self.ustreamerConfig);
     for (NSString *key in nativeHeaders) {
         NSString *lower = key.lowercaseString;
-        if ([lower isEqualToString:@"host"] ||
-            [lower isEqualToString:@"content-length"] ||
-            [lower isEqualToString:@"content-encoding"] ||
-            [lower isEqualToString:@"content-type"] ||
-            [lower isEqualToString:@"accept"] ||
-            [lower isEqualToString:@"accept-encoding"]) continue;
+        if (!MarufYTReplayHeaderAllowed(lower.UTF8String)) continue;
         [request setValue:nativeHeaders[key] forHTTPHeaderField:key];
     }
     [request setValue:nil forHTTPHeaderField:@"Content-Length"];
@@ -1475,6 +1437,10 @@ NSUInteger YTKACEPurgeDownloadScratch(BOOL includeActive) {
 
 - (void)handleRedirect:(NSData *)data {
     NSString *redirect = YTKACEPBStringField(data, 1);
+    if (!MarufYTIsTrustedMediaURL([NSURL URLWithString:redirect])) {
+        [self fail:[self error:@"Unsupported media redirect." code:2]];
+        return;
+    }
     if (redirect.length != 0) {
         self.serverURL = redirect;
         YTKACEDownloadLog(self.identifier, @"redirect host=%@",
@@ -1892,3 +1858,9 @@ NSUInteger YTKACEPurgeDownloadScratch(BOOL includeActive) {
 }
 
 @end
+
+static void YTKACECancelSessionsForSecurity(void) {
+    NSArray *sessions;
+    @synchronized (YTKACESABRDownloader.class) { sessions = YTKACESecuritySessions.allObjects; }
+    for (YTKACESABRSession *session in sessions) [session.session invalidateAndCancel];
+}

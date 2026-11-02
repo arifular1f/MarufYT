@@ -1,3 +1,4 @@
+#import "../../Runtime/URLPolicy.h"
 #import "SponsorClient.h"
 #import "SponsorPreferences.h"
 #import "../../MarufYT/Privacy/MarufYTSponsorHash.h"
@@ -37,7 +38,7 @@ static NSString * const YTKACESponsorPrivateLookupKey = @"YTKACE.Preference.Spon
         configuration.timeoutIntervalForRequest = 10.0;
         configuration.timeoutIntervalForResource = 15.0;
         configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-        _session = [NSURLSession sessionWithConfiguration:configuration];
+        _session = MarufYTMakeSecureSession(configuration);
     }
     return self;
 }

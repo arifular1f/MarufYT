@@ -50,8 +50,27 @@ jobs:
       - name: Secret scan (all history reachable from this checkout)
         run: python3 Tools/marufyt_secret_scan.py
 
+  foundation-security:
+    runs-on: macos-15
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      - name: Execute shipped Foundation security policy and lifecycle fixtures
+        run: |
+          set -euo pipefail
+          xcrun clang++ -std=c++17 -fobjc-arc -fblocks -Wall -Wextra \
+            -I Tweak/Runtime -I Tweak/Features/Downloads \
+            Tests/native/test_security_foundation.mm Tweak/Runtime/URLPolicy.mm \
+            Tweak/Runtime/SecurityLifecycle.mm Tweak/Features/Downloads/DownloadLog.mm \
+            -framework Foundation -o /tmp/marufyt-security
+          /tmp/marufyt-security
+
   build:
-    needs: test
+    needs: [test, foundation-security]
     # Theos' installer needs the libxml2 apt package, which Ubuntu 26.04
     # (ubuntu-latest since 2026-10) renamed.
     runs-on: ubuntu-24.04

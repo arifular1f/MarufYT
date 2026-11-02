@@ -1,3 +1,4 @@
+#import "../../Runtime/URLPolicy.h"
 #import "StreamResolver.h"
 #import "DownloadLog.h"
 #import "../../Runtime/Localization.h"
@@ -157,7 +158,7 @@ static id YTKACEStreamingData(id playerResponse) {
 
 static YTKACEStreamOption *YTKACEOptionFromFormat(id format, BOOL adaptive) {
     NSURL *url = YTKACEURLValue(YTKACEStreamObject(format, @[@"URL", @"url"]));
-    if (url != nil && ![url.scheme.lowercaseString hasPrefix:@"http"]) {
+    if (url != nil && !MarufYTIsSecureURL(url)) {
         url = nil;
     }
 

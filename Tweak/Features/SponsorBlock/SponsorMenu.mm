@@ -1,3 +1,4 @@
+#import "../../Runtime/URLPolicy.h"
 #import "SponsorPreferences.h"
 #import "../Downloads/DownloadLog.h"
 #import "../Interface/AiSList.h"
@@ -92,7 +93,7 @@ static void YTKACESponsorPost(NSString *path, NSDictionary *body, NSString *what
     request.timeoutInterval = 20.0;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     request.HTTPBody = [NSJSONSerialization dataWithJSONObject:body options:0 error:nil];
-    [[NSURLSession.sharedSession dataTaskWithRequest:request
+    [[MarufYTNetwork.sharedClient dataTaskWithRequest:request
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSInteger status = [response isKindOfClass:NSHTTPURLResponse.class]
             ? ((NSHTTPURLResponse *)response).statusCode : 0;

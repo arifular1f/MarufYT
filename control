@@ -1,6 +1,6 @@
 Package: com.arifular1f.marufyt
 Name: MarufYT
-Version: 1.1.4+marufyt.7
+Version: 1.1.4+marufyt.8
 Architecture: iphoneos-arm64
 Description: MarufYT: YouTube enhancement with downloads, SponsorBlock, background playback and a Liquid Glass interface. Based on YTKACE (MIT) by itzzace.
 Maintainer: arifular1f

@@ -1,3 +1,4 @@
+#import "../../Runtime/URLPolicy.h"
 #import "AiSList.h"
 #import "../Downloads/DownloadLog.h"
 #import "../../Runtime/Localization.h"
@@ -45,7 +46,7 @@ void YTKACELookupChannelHandle(NSString *videoID, void (^completion)(NSString *h
     ];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:components.URL];
     request.timeoutInterval = 15.0;
-    [[NSURLSession.sharedSession dataTaskWithRequest:request
+    [[MarufYTNetwork.sharedClient dataTaskWithRequest:request
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSInteger status = [response isKindOfClass:NSHTTPURLResponse.class]
             ? ((NSHTTPURLResponse *)response).statusCode : 0;
@@ -90,7 +91,7 @@ static void YTKACEAiSListSubmit(NSString *handle, NSString *videoID, NSString *n
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:MarufYTProductName forHTTPHeaderField:@"User-Agent"];
     request.HTTPBody = [NSJSONSerialization dataWithJSONObject:body options:0 error:nil];
-    [[NSURLSession.sharedSession dataTaskWithRequest:request
+    [[MarufYTNetwork.sharedClient dataTaskWithRequest:request
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSInteger status = [response isKindOfClass:NSHTTPURLResponse.class]
             ? ((NSHTTPURLResponse *)response).statusCode : 0;

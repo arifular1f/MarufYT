@@ -1,3 +1,4 @@
+#import "../../Runtime/URLPolicy.h"
 #import "../../YTKACE.h"
 #import "../../Runtime/Preferences.h"
 #import "../Downloads/DownloadLog.h"
@@ -71,7 +72,7 @@ static NSData *YTKACETVFetch(NSURLRequest *request, NSInteger *status) {
     __block NSData *result = nil;
     __block NSInteger code = 0;
     dispatch_semaphore_t done = dispatch_semaphore_create(0);
-    [[NSURLSession.sharedSession dataTaskWithRequest:request
+    [[MarufYTNetwork.sharedClient dataTaskWithRequest:request
         completionHandler:^(NSData *data, NSURLResponse *response, __unused NSError *error) {
         result = data;
         code = [response isKindOfClass:NSHTTPURLResponse.class] ? ((NSHTTPURLResponse *)response).statusCode : 0;

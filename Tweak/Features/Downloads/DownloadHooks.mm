@@ -1,3 +1,4 @@
+#import "../../Runtime/SecurityLifecycle.h"
 #import "../Interface/AiSList.h"
 #import "DownloadCoordinator.h"
 #import "DownloadLog.h"
@@ -49,7 +50,6 @@ NSString *YTKACELastVideoID(void) {
     return [YTKACELastCapturedVideoID copy];
 }
 static NSString *YTKACERequestVideoID(id request);
-static void YTKACEPersistPlayerRequest(id request);
 static BOOL YTKACEUsingRestoredRequest;
 static id YTKACECopyObject(id object);
 
@@ -83,6 +83,18 @@ static NSURLRequest *YTKACEURLRequestFromObject(id object) {
 static NSMutableDictionary<NSString *, YTKACEOnesieSessionState *> *
     YTKACEOnesieSessions;
 static YTKACEOnesieSessionState *YTKACELastOnesieSession;
+
+void YTKACEClearCapturedRequests(void) {
+    @synchronized (YTKACESABRDownloader.class) {
+        YTKACELastPlayerService = nil; YTKACELastPlayerRequest = nil;
+        YTKACELastPlaybackRequest = nil; YTKACELastPlayerFactory = nil;
+        YTKACELastRequestProperties = nil; YTKACELastCapturedVideoID = nil;
+        YTKACELatestPlayerAuthorization = nil;
+        YTKACEPlayerRequests = nil; YTKACEPlaybackRequests = nil;
+        YTKACEOnesieSessions = nil; YTKACELastOnesieSession = nil;
+        YTKACEUsingRestoredRequest = NO;
+    }
+}
 
 static void YTKACEPruneOnesieSessions(void) {
     NSDate *cutoff = [NSDate dateWithTimeIntervalSinceNow:-900.0];
@@ -366,6 +378,8 @@ static NSString *YTKACERequestVideoID(id request) {
 }
 
 static void YTKACECaptureService(id receiver, id request) {
+    MarufYTExpireRequestStateIfNeeded();
+    MarufYTNoteRequestActivity();
     NSString *videoID = YTKACERequestVideoID(request);
     if (videoID.length != 0) YTKACELastCapturedVideoID = videoID;
     YTKACESABRSetCurrentVideoID(videoID);
@@ -374,9 +388,6 @@ static void YTKACECaptureService(id receiver, id request) {
         YTKACELastPlayerService = receiver;
         YTKACELastPlayerRequest = requestCopy;
         YTKACEUsingRestoredRequest = NO;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-            YTKACEPersistPlayerRequest(requestCopy ?: request);
-        });
         if (YTKACEPlayerRequests == nil) YTKACEPlayerRequests = [NSMutableDictionary dictionary];
         if (videoID.length != 0) {
             YTKACEPlayerRequests[videoID] = @[receiver, requestCopy ?: request];
@@ -539,6 +550,8 @@ static void YTKACEMakePrefetchPlayerRequest(id receiver,
 }
 
 static void YTKACECaptureFactory(id receiver, id request, id properties, id result) {
+    MarufYTExpireRequestStateIfNeeded();
+    MarufYTNoteRequestActivity();
     NSString *videoID = YTKACERequestVideoID(request);
     if (videoID.length != 0) YTKACELastCapturedVideoID = videoID;
     YTKACESABRSetCurrentVideoID(videoID);
@@ -546,10 +559,6 @@ static void YTKACECaptureFactory(id receiver, id request, id properties, id resu
         YTKACELastPlayerFactory = receiver;
         YTKACELastPlayerRequest = YTKACECopyObject(request);
         YTKACEUsingRestoredRequest = NO;
-        id persistCopy = YTKACELastPlayerRequest;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-            YTKACEPersistPlayerRequest(persistCopy);
-        });
         YTKACELastRequestProperties = properties;
         if (videoID.length != 0 && YTKACELastPlayerService != nil) {
             if (YTKACEPlayerRequests == nil) {
@@ -830,25 +839,6 @@ void YTKACEPreparePlayer(NSString *videoID,
     YTKACEPreparePlayerWithRoute(videoID, NO, completion);
 }
 
-static NSURL *YTKACERequestSeedURL(void) {
-    return [YTKACEApplicationSupportDirectory()
-        URLByAppendingPathComponent:@"player-request.pb"];
-}
-
-static void YTKACEPersistPlayerRequest(id request) {
-    static NSTimeInterval lastWrite;
-    NSTimeInterval now = NSDate.date.timeIntervalSinceReferenceDate;
-    if (now - lastWrite < 60.0) return;
-    if (![request respondsToSelector:NSSelectorFromString(@"data")]) {
-        return;
-    }
-    NSData *encoded = ((id (*)(id, SEL))objc_msgSend)(
-        request, NSSelectorFromString(@"data"));
-    if (![encoded isKindOfClass:NSData.class] || encoded.length == 0) return;
-    lastWrite = now;
-    [encoded writeToURL:YTKACERequestSeedURL() atomically:YES];
-}
-
 NSString *YTKACEPlayerOnBehalfOfUser(void) {
     id request = nil;
     @synchronized (YTKACESABRDownloader.class) {
@@ -873,35 +863,10 @@ void YTKACEDiscardRestoredRequest(void) {
         }
     }
     if (!restored) return;
-    [NSFileManager.defaultManager removeItemAtURL:YTKACERequestSeedURL()
-                                            error:NULL];
-    YTKACEDownloadLog(@"resolve", @"discarded stale player request seed");
+
 }
 
-void YTKACERestorePlayerRequest(void) {
-    @synchronized (YTKACESABRDownloader.class) {
-        if (YTKACELastPlayerRequest != nil) return;
-    }
-    NSData *encoded = [NSData dataWithContentsOfURL:YTKACERequestSeedURL()];
-    if (encoded.length == 0) return;
-    Class requestClass = NSClassFromString(@"YTIPlayerRequest");
-    SEL parse = NSSelectorFromString(@"parseFromData:error:");
-    if (requestClass == Nil || ![requestClass respondsToSelector:parse]) return;
-    NSError *error = nil;
-    id restored = ((id (*)(id, SEL, id, NSError **))objc_msgSend)(
-        requestClass, parse, encoded, &error);
-    if (restored == nil) {
-        YTKACEDownloadLog(@"resolve", @"request seed parse failed error=%@",
-            error.localizedDescription ?: @"unknown");
-        return;
-    }
-    @synchronized (YTKACESABRDownloader.class) {
-        YTKACELastPlayerRequest = restored;
-        YTKACEUsingRestoredRequest = YES;
-    }
-    YTKACEDownloadLog(@"resolve", @"restored player request bytes=%lu",
-        (unsigned long)encoded.length);
-}
+void YTKACERestorePlayerRequest(void) {}
 
 static IMP OriginalOfflineVideoExecute;
 static IMP OriginalOfflineVideoExecuteCompletion;
@@ -1167,6 +1132,7 @@ void YTKACEInstallFeedDownloadHooks(void) {
 }
 
 BOOL YTKACEPlaybackTemplateReady(void) {
+    MarufYTExpireRequestStateIfNeeded();
     @synchronized (YTKACESABRDownloader.class) {
         if (YTKACELastPlayerRequest == nil) return NO;
         if (YTKACELastPlayerService != nil) return YES;

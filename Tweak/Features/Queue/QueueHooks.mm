@@ -1,3 +1,4 @@
+#import "../../Runtime/URLPolicy.h"
 #import "../../YTKACE.h"
 #import "../../Runtime/Hooking.h"
 #import "../../Runtime/Localization.h"
@@ -284,7 +285,7 @@ static void YTKACEQueueFetchFromOEmbed(NSString *videoID) {
         @"%%2Fwatch%%3Fv%%3D%@&format=json", videoID];
     NSURL *url = [NSURL URLWithString:address];
     if (url == nil) return;
-    NSURLSessionDataTask *task = [NSURLSession.sharedSession
+    NSURLSessionDataTask *task = [MarufYTNetwork.sharedClient
         dataTaskWithURL:url
       completionHandler:^(NSData *data, __unused NSURLResponse *response,
                           __unused NSError *error) {

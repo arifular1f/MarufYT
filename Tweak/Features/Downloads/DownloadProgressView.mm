@@ -1,3 +1,4 @@
+#import "../../Runtime/URLPolicy.h"
 #import "DownloadProgressView.h"
 #import "../../MarufYT/Design/MarufYTDesign.h"
 #import "../../Runtime/Preferences.h"
@@ -427,7 +428,7 @@ NSNotificationName const YTKACEDownloadJobsDidChangeNotification = @"YTKACEDownl
 - (void)loadThumbnailForItem:(YTKACEDownloadProgressItem *)item {
     if (item.thumbnailURL == nil) return;
     NSString *identifier = item.identifier;
-    NSURLSessionDataTask *task = [NSURLSession.sharedSession
+    NSURLSessionDataTask *task = [MarufYTNetwork.sharedClient
         dataTaskWithURL:item.thumbnailURL completionHandler:^(NSData *data,
             NSURLResponse *response, NSError *error) {
         (void)response;

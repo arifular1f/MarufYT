@@ -2,6 +2,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+FOUNDATION_EXPORT NSString *YTKACERedactLogMessage(NSString *message);
+
 FOUNDATION_EXPORT void YTKACEDownloadLog(NSString *identifier,
                                          NSString *format, ...)
     NS_FORMAT_FUNCTION(2, 3);

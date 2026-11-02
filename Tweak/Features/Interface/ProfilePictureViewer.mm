@@ -500,7 +500,7 @@ static const void *YTKACEAvatarViewGestureAssociation =
     NSURL *avatarURL = [NSURL URLWithString:upgraded];
     if (!MarufYTIsSecureURL(avatarURL)) return;
     __weak UIView *weakView = view;
-    [[NSURLSession.sharedSession dataTaskWithURL:avatarURL
+    [[MarufYTNetwork.sharedClient dataTaskWithURL:avatarURL
         completionHandler:^(NSData *data, __unused NSURLResponse *response,
                             __unused NSError *error) {
         UIImage *full = data.length != 0 ? [UIImage imageWithData:data] : nil;

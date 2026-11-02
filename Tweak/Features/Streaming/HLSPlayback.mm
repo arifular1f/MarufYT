@@ -1,3 +1,4 @@
+#import "../../Runtime/URLPolicy.h"
 #import "../../YTKACE.h"
 #import "../../Runtime/Hooking.h"
 #import "../../Runtime/Preferences.h"
@@ -103,7 +104,7 @@ static NSString *YTKACEVisionVisitor(void) {
     if (fetched.length != 0) return fetched;
     __block NSString *visitor = nil;
     dispatch_semaphore_t done = dispatch_semaphore_create(0);
-    [[NSURLSession.sharedSession dataTaskWithRequest:YTKACEVisionRequest(
+    [[MarufYTNetwork.sharedClient dataTaskWithRequest:YTKACEVisionRequest(
         @"guide?prettyPrint=false&fields=responseContext.visitorData",
         @{@"context": YTKACEVisionContext(nil)}, nil)
         completionHandler:^(NSData *data, __unused NSURLResponse *response, __unused NSError *error) {
@@ -161,7 +162,7 @@ static void YTKACEHLSFetchVisionThen(NSString *videoID, void (^done)(BOOL ready)
             @"contentCheckOk": @YES,
             @"racyCheckOk": @YES
         };
-        [[NSURLSession.sharedSession dataTaskWithRequest:YTKACEVisionRequest(@"player?prettyPrint=false", body, visitor)
+        [[MarufYTNetwork.sharedClient dataTaskWithRequest:YTKACEVisionRequest(@"player?prettyPrint=false", body, visitor)
             completionHandler:^(NSData *data, __unused NSURLResponse *response, __unused NSError *error) {
             id json = data.length ? [NSJSONSerialization JSONObjectWithData:data options:0 error:nil] : nil;
             NSDictionary *root = [json isKindOfClass:NSDictionary.class] ? json : @{};

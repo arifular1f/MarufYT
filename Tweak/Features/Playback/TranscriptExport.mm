@@ -409,7 +409,7 @@ void YTKACEFetchCuesForURL(NSURL *url,
         completion(nil);
         return;
     }
-    [[NSURLSession.sharedSession dataTaskWithURL:url
+    [[MarufYTNetwork.sharedClient dataTaskWithURL:url
         completionHandler:^(NSData *data, NSURLResponse *response,
                             NSError *error) {
         (void)response;
@@ -477,7 +477,7 @@ void YTKACEFetchCaptionCues(id playerResponse,
             completion(nil, nil);
             return;
         }
-        [[NSURLSession.sharedSession dataTaskWithURL:url
+        [[MarufYTNetwork.sharedClient dataTaskWithURL:url
             completionHandler:^(NSData *data, NSURLResponse *response,
                                 NSError *error) {
             (void)response;
@@ -530,7 +530,7 @@ static void YTKACEFetchTranscript(id track,
         completion(nil);
         return;
     }
-    NSURLSessionDataTask *task = [NSURLSession.sharedSession
+    NSURLSessionDataTask *task = [MarufYTNetwork.sharedClient
         dataTaskWithURL:URL
       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         (void)response;

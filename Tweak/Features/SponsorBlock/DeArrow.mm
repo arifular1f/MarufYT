@@ -1,3 +1,4 @@
+#import "../../Runtime/URLPolicy.h"
 #import "DeArrow.h"
 #import "../../Runtime/Hooking.h"
 #import "../../Runtime/Preferences.h"
@@ -262,7 +263,7 @@ static void YTKACEFetchThumbnail(NSString *videoID, double timestamp, id node) {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
     request.timeoutInterval = 20.0;
     __weak id weakNode = node;
-    [[NSURLSession.sharedSession dataTaskWithRequest:request
+    [[MarufYTNetwork.sharedClient dataTaskWithRequest:request
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         os_unfair_lock_lock(&YTKACELock);
         [YTKACEThumbInFlight removeObject:videoID];
@@ -383,7 +384,7 @@ static void YTKACEFetchBranding(NSString *videoID, id node) {
     request.timeoutInterval = 15.0;
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     __weak id weakNode = node;
-    [[NSURLSession.sharedSession dataTaskWithRequest:request
+    [[MarufYTNetwork.sharedClient dataTaskWithRequest:request
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse *http = [response isKindOfClass:NSHTTPURLResponse.class]
             ? (NSHTTPURLResponse *)response : nil;

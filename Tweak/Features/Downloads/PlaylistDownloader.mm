@@ -1,3 +1,4 @@
+#import "../../Runtime/URLPolicy.h"
 #import "../../YTKACE.h"
 #import "../../Runtime/Hooking.h"
 #import "../../Runtime/Localization.h"
@@ -571,13 +572,14 @@ static void YTKACECollectPlaylistJSON(id node, NSMutableArray<NSDictionary *> *i
 extern id YTKACELatestPlayerAuthorization;
 extern NSString *YTKACEPlayerOnBehalfOfUser(void);
 static id YTKACERequestAuthorization;
+void YTKACEClearPlaylistAuthorization(void) { @synchronized (YTKACESABRDownloader.class) { YTKACERequestAuthorization = nil; } }
 static IMP OriginalAuthorizeCompletion;
 static IMP OriginalAuthorizeCallback;
 
 static void YTKACENoteAuthorization(id receiver, id request) {
     if (![request isKindOfClass:NSURLRequest.class]) return;
     NSString *host = ((NSURLRequest *)request).URL.host;
-    if ([host containsString:@"youtube"]) YTKACERequestAuthorization = receiver;
+    if ([host containsString:@"youtube"]) { @synchronized (YTKACESABRDownloader.class) { YTKACERequestAuthorization = receiver; } }
 }
 
 static void YTKACEAuthorizeCompletion(id receiver, SEL selector, id request, id handler) {
@@ -591,7 +593,8 @@ static void YTKACEAuthorizeCallback(id receiver, SEL selector, id request, id ca
 }
 
 static NSString *YTKACEPlaylistAuthHeader(void) {
-    id auth = YTKACELatestPlayerAuthorization ?: YTKACERequestAuthorization;
+    id auth = nil;
+    @synchronized (YTKACESABRDownloader.class) { auth = YTKACELatestPlayerAuthorization ?: YTKACERequestAuthorization; }
     if (auth == nil) return nil;
     for (NSString *selectorName in @[@"accessToken", @"token", @"authToken", @"oauthToken"]) {
         SEL selector = NSSelectorFromString(selectorName);
@@ -629,7 +632,7 @@ static NSArray<NSDictionary *> *YTKACEFetchPlaylistPages(NSString *playlistID, N
     NSURLSessionConfiguration *config = NSURLSessionConfiguration.ephemeralSessionConfiguration;
     config.HTTPCookieStorage = nil;
     config.HTTPShouldSetCookies = NO;
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    NSURLSession *session = MarufYTMakeSecureSession(config);
     NSUInteger page = 0;
     for (; page < 200; page++) {
         NSMutableDictionary *client = [@{@"clientName": @"IOS", @"clientVersion": version, @"deviceMake": @"Apple",

@@ -1,3 +1,4 @@
+#import "../../Runtime/URLPolicy.h"
 #import "AiSList.h"
 #import "../Downloads/DownloadLog.h"
 
@@ -57,7 +58,7 @@ static NSData *YTKACEAiSListDownload(NSString *url) {
     dispatch_semaphore_t done = dispatch_semaphore_create(0);
     __block NSData *body = nil;
     __block NSInteger status = 0;
-    [[NSURLSession.sharedSession dataTaskWithRequest:request
+    [[MarufYTNetwork.sharedClient dataTaskWithRequest:request
         completionHandler:^(NSData *data, NSURLResponse *response, __unused NSError *error) {
         if ([response isKindOfClass:NSHTTPURLResponse.class]) status = ((NSHTTPURLResponse *)response).statusCode;
         if (status == 200 && data.length != 0 && data.length < 8 * 1024 * 1024) body = data;

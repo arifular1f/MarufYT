@@ -1,3 +1,4 @@
+#import "../../Runtime/URLPolicy.h"
 #import "DirectDownloader.h"
 #import "StreamResolver.h"
 #import "DownloadLog.h"
@@ -63,7 +64,7 @@ static NSData *YTKACEDirectFetch(NSURLRequest *request, YTKACEDirectTask *task,
     __block NSInteger code = 0;
     __block NSError *failure = nil;
     dispatch_semaphore_t done = dispatch_semaphore_create(0);
-    NSURLSessionDataTask *dataTask = [NSURLSession.sharedSession dataTaskWithRequest:request
+    NSURLSessionDataTask *dataTask = [MarufYTNetwork.sharedClient dataTaskWithRequest:request
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *taskError) {
             result = data;
             failure = taskError;
@@ -94,6 +95,14 @@ static NSData *YTKACEDirectFetch(NSURLRequest *request, YTKACEDirectTask *task,
 @end
 
 @implementation YTKACEDirectChunkReceiver
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+    willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request
+    completionHandler:(void (^)(NSURLRequest *))completionHandler {
+    (void)session; (void)response;
+    completionHandler(MarufYTRedirectRequest(task.currentRequest ?: task.originalRequest, request, NO));
+}
+
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveResponse:(NSURLResponse *)response
@@ -134,7 +143,12 @@ static NSData *YTKACEDirectFetchChunk(NSURLRequest *request, YTKACEDirectTask *t
     receiver.data = [NSMutableData data];
     receiver.done = dispatch_semaphore_create(0);
     receiver.received = received;
-    NSURLSessionDataTask *dataTask = [NSURLSession.sharedSession dataTaskWithRequest:request];
+    NSURLSessionDataTask *dataTask = [MarufYTNetwork.sharedClient dataTaskWithRequest:request];
+    if (dataTask == nil) {
+        if (error) *error = YTKACEDirectError(2, @"Unsupported remote URL.");
+        if (status) *status = 0;
+        return nil;
+    }
     dataTask.delegate = receiver;
     task.currentTask = dataTask;
     [dataTask resume];

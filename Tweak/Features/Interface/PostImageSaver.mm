@@ -112,7 +112,7 @@ static NSURL *YTKACEOriginalImageURL(NSURL *url) {
         return;
     }
     sender.enabled = NO;
-    NSURLSessionDataTask *task = [NSURLSession.sharedSession
+    NSURLSessionDataTask *task = [MarufYTNetwork.sharedClient
         dataTaskWithURL:original
       completionHandler:^(NSData *data, NSURLResponse *response,
                           __unused NSError *error) {
