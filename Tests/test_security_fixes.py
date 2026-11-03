@@ -10,6 +10,22 @@ def read(name):
 
 
 class SecurityFixContracts(unittest.TestCase):
+    def test_hls_validation_precedes_cache_and_native_mutations(self):
+        source = read("Tweak/Features/Streaming/HLSPlayback.mm")
+        self.assertIn('!MarufYTIsValidHLSManifestURL(entry[@"url"])', source)
+        self.assertIn('MarufYTIsValidHLSManifestURL(YTKACEHLSCache[videoID][@"url"])', source)
+        fetch = source[source.index('static void YTKACEHLSFetchVisionThen(NSString *videoID, void (^done)(BOOL ready)) {'):]
+        self.assertLess(fetch.index('if (!MarufYTIsValidHLSManifestURL(hls)) hls = nil;'),
+                        fetch.index('YTKACEHLSCache[videoID] ='))
+        swap = source[source.index('static void YTKACEHLSSwap(id data) {'):]
+        self.assertIn('MarufYTSelectHLSManifestURL(vision, ios)', swap)
+        guard = swap.index('if (!MarufYTIsValidHLSManifestURL(chosen)) return;')
+        for mutation in ('YTKACEHLSKeepOriginal(videoID, data);', ')(streaming, setHLS, chosen)',
+                         ')(streaming, setSABR, NO)', ')(streaming, setOnesie, NO)'):
+            self.assertLess(guard, swap.index(mutation))
+        policy = read('Tweak/Features/Streaming/HLSURLPolicy.h')
+        self.assertIn('MarufYTIsSecureURL(url)', policy)
+
     def test_no_authenticated_seed_persistence_or_raw_protobuf_dump(self):
         sabr = read("Tweak/Features/Downloads/SABRDownloader.mm")
         hooks = read("Tweak/Features/Downloads/DownloadHooks.mm")

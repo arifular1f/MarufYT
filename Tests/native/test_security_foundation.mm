@@ -8,6 +8,7 @@
 #import "SecurityLifecycle.h"
 #import "Hooking.h"
 #import "DownloadLog.h"
+#import "../../Tweak/Features/Streaming/HLSURLPolicy.h"
 #include <stdio.h>
 #include <initializer_list>
 static unsigned checks, failures, cleared, signedOut;
@@ -35,6 +36,32 @@ static NSMutableURLRequest *Request(NSString *url) {
     return [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
 }
 int main(void) { @autoreleasepool {
+    // U-01: execute the exact cache/handoff helper, without UIKit or network I/O.
+    for (NSString *url in @[@"https://manifest.googlevideo.com/api/manifest/hls_playlist/id/fixture",
+                            @"HTTPS://rr1.googlevideo.com:443/a?fixture=1",
+                            @"https://media.example.invalid/playlist.m3u8",
+                            @"https://192.0.2.1:443/a.m3u8",
+                            @"https://[2001:db8::1]:443/a.m3u8"])
+        CHECK(MarufYTIsValidHLSManifestURL(url));
+    for (id url in @[@"", @"http://media.example.invalid/a", @"file:///tmp/a.m3u8",
+                    @"javascript:fixture", @"//media.example.invalid/a", @"https:fixture",
+                    @"https:///", @"https://user:pass@media.example.invalid/a",
+                    @"https://user@media.example.invalid/a", @"https://media.example.invalid:80/a",
+                    @"https://media.example.invalid:444/a", @"https://bad_host.invalid/a",
+                    @"https://bad..invalid/a", @"https://-bad.invalid/a", @"https://bad-.invalid/a",
+                    @"https://bad%00.invalid/a", @"https://bad%20host.invalid/a",
+                    @"https://999.999.999.999/a", @"https://[not-an-ip]/a", @42, NSNull.null])
+        CHECK(!MarufYTIsValidHLSManifestURL(url));
+    NSString *longLabel = [@"a" stringByPaddingToLength:64 withString:@"a" startingAtIndex:0];
+    CHECK(!MarufYTIsValidHLSManifestURL([NSString stringWithFormat:@"https://%@.invalid/a", longLabel]));
+    CHECK(!MarufYTIsValidHLSManifestURL(nil));
+    NSString *nativeHLS = @"https://manifest.googlevideo.com/native.m3u8";
+    NSString *visionHLS = @"https://manifest.googlevideo.com/vision.m3u8";
+    CHECK([MarufYTSelectHLSManifestURL(visionHLS, nativeHLS) isEqual:visionHLS]);
+    CHECK([MarufYTSelectHLSManifestURL(@"http://untrusted.invalid/a", nativeHLS) isEqual:nativeHLS]);
+    CHECK([MarufYTSelectHLSManifestURL(nil, nativeHLS) isEqual:nativeHLS]);
+    CHECK(!MarufYTSelectHLSManifestURL(@"http://untrusted.invalid/a", @"file:///tmp/a"));
+    CHECK(!MarufYTSelectHLSManifestURL(nil, nil));
     for (NSString *url in @[@"https://example.invalid/a", @"HTTPS://example.invalid:443/a"]) CHECK(MarufYTIsSecureURL([NSURL URLWithString:url]));
     for (NSString *url in @[@"http://example.invalid", @"//example.invalid/path", @"https:example.invalid", @"file:///tmp/test", @"https://u:p@example.invalid", @"https://example.invalid:444"]) CHECK(!MarufYTIsSecureURL([NSURL URLWithString:url]));
     CHECK(!MarufYTIsTrustedMediaURL([NSURL URLWithString:@"https://googlevideo.com%00.attacker.invalid"]));

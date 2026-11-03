@@ -1,4 +1,5 @@
 #import "../../Runtime/URLPolicy.h"
+#import "HLSURLPolicy.h"
 #import "../../YTKACE.h"
 #import "../../Runtime/Hooking.h"
 #import "../../Runtime/Preferences.h"
@@ -122,7 +123,8 @@ static NSString *YTKACEHLSCachedURL(NSString *videoID) {
     @synchronized (YTKACEHLSCache) {
         NSDictionary *entry = YTKACEHLSCache[videoID];
         if (entry == nil) return nil;
-        if (NSDate.date.timeIntervalSince1970 - [entry[@"time"] doubleValue] > YTKACEHLSCacheLifetime) {
+        if (!MarufYTIsValidHLSManifestURL(entry[@"url"]) ||
+            NSDate.date.timeIntervalSince1970 - [entry[@"time"] doubleValue] > YTKACEHLSCacheLifetime) {
             [YTKACEHLSCache removeObjectForKey:videoID];
             return nil;
         }
@@ -138,7 +140,7 @@ static void YTKACEHLSFetchVision(NSString *videoID) {
 
 static void YTKACEHLSFetchVisionThen(NSString *videoID, void (^done)(BOOL ready)) {
     @synchronized (YTKACEHLSCache) {
-        const BOOL cached = YTKACEHLSCache[videoID] != nil;
+        const BOOL cached = MarufYTIsValidHLSManifestURL(YTKACEHLSCache[videoID][@"url"]);
         if (cached) {
             if (done != nil) done(YES);
             return;
@@ -171,6 +173,9 @@ static void YTKACEHLSFetchVisionThen(NSString *videoID, void (^done)(BOOL ready)
             NSDictionary *streaming = [root[@"streamingData"] isKindOfClass:NSDictionary.class]
                 ? root[@"streamingData"] : @{};
             NSString *hls = [streaming[@"hlsManifestUrl"] isKindOfClass:NSString.class] ? streaming[@"hlsManifestUrl"] : nil;
+            // Treat an invalid manifest like a missing result, including the
+            // fallback completion. Never cache or announce it as available.
+            if (!MarufYTIsValidHLSManifestURL(hls)) hls = nil;
             @synchronized (YTKACEHLSCache) {
                 [YTKACEHLSPending removeObject:videoID];
                 if (hls.length != 0) {
@@ -230,9 +235,10 @@ static void YTKACEHLSSwap(id data) {
         ![streaming respondsToSelector:setOnesie]) return;
     NSString *ios = YTKACEHLSGet(streaming, @"hlsManifestURL");
     NSString *vision = YTKACEHLSCachedURL(videoID);
-    NSString *chosen = vision.length != 0 ? vision : ([ios isKindOfClass:NSString.class] ? ios : nil);
+    NSString *chosen = MarufYTSelectHLSManifestURL(vision, ios);
     YTKACEHLSFetchVision(videoID);
-    if (chosen.length == 0) return;
+    // An invalid replacement must leave native streaming/flags untouched.
+    if (!MarufYTIsValidHLSManifestURL(chosen)) return;
     YTKACEHLSKeepOriginal(videoID, data);
     ((void (*)(id, SEL, id))objc_msgSend)(streaming, setHLS, chosen);
     ((void (*)(id, SEL, BOOL))objc_msgSend)(streaming, setSABR, NO);
@@ -241,9 +247,9 @@ static void YTKACEHLSSwap(id data) {
     if ([formats respondsToSelector:@selector(removeAllObjects)]) [formats removeAllObjects];
     @synchronized (YTKACEHLSSources) {
         if (YTKACEHLSSources.count > 50) [YTKACEHLSSources removeAllObjects];
-        YTKACEHLSSources[videoID] = vision.length != 0 ? @"vision" : @"ios";
+        YTKACEHLSSources[videoID] = [chosen isEqualToString:vision] ? @"vision" : @"ios";
     }
-    YTKACEDownloadLog(@"hls", @"swap video=%@ source=%@", videoID, vision.length != 0 ? @"vision" : @"ios");
+    YTKACEDownloadLog(@"hls", @"swap video=%@ source=%@", videoID, [chosen isEqualToString:vision] ? @"vision" : @"ios");
 }
 
 static id YTKACEHLSInitFull(id self, SEL _cmd, id data, id date, id offline, id state, BOOL trailer,
