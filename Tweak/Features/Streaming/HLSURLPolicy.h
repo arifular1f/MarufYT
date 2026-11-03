@@ -12,8 +12,11 @@ static inline BOOL MarufYTIsValidHLSManifestURL(id value) {
     NSString *host = url.host;
     // NSURL can retain encoded/otherwise malformed DNS hosts. Reject ambiguous
     // encodings and validate DNS labels; IPv6 literals use their actual grammar.
-    if ([host hasPrefix:@"["] && [host hasSuffix:@"]"])
+    if ([host hasPrefix:@"["] && [host hasSuffix:@"]"]) {
         host = [host substringWithRange:NSMakeRange(1, host.length - 2)];
+        struct in6_addr address;
+        return inet_pton(AF_INET6, host.UTF8String, &address) == 1;
+    }
     if ([host containsString:@":"]) {
         struct in6_addr address;
         return inet_pton(AF_INET6, host.UTF8String, &address) == 1;

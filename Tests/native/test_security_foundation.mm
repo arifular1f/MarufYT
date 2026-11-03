@@ -43,6 +43,7 @@ int main(void) { @autoreleasepool {
                             @"https://192.0.2.1:443/a.m3u8",
                             @"https://[2001:db8::1]:443/a.m3u8"])
         CHECK(MarufYTIsValidHLSManifestURL(url));
+    NSUInteger invalidHLSFixture = 0;
     for (id url in @[@"", @"http://media.example.invalid/a", @"file:///tmp/a.m3u8",
                     @"javascript:fixture", @"//media.example.invalid/a", @"https:fixture",
                     @"https:///", @"https://user:pass@media.example.invalid/a",
@@ -51,7 +52,12 @@ int main(void) { @autoreleasepool {
                     @"https://bad..invalid/a", @"https://-bad.invalid/a", @"https://bad-.invalid/a",
                     @"https://bad%00.invalid/a", @"https://bad%20host.invalid/a",
                     @"https://999.999.999.999/a", @"https://[not-an-ip]/a", @42, NSNull.null])
-        CHECK(!MarufYTIsValidHLSManifestURL(url));
+    {
+        BOOL accepted = MarufYTIsValidHLSManifestURL(url);
+        if (accepted) fprintf(stderr, "Unexpected accepted HLS fixture index %lu\n", (unsigned long)invalidHLSFixture);
+        CHECK(!accepted);
+        ++invalidHLSFixture;
+    }
     NSString *longLabel = [@"a" stringByPaddingToLength:64 withString:@"a" startingAtIndex:0];
     CHECK(!MarufYTIsValidHLSManifestURL([NSString stringWithFormat:@"https://%@.invalid/a", longLabel]));
     CHECK(!MarufYTIsValidHLSManifestURL(nil));
