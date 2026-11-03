@@ -1,0 +1,81 @@
+﻿id,description,result,scope
+P00-HTTP,HTTP test server answers the master request,PASS,Mock server only
+P00-HTTPS,HTTPS master works with certificate validation,PASS,Mock server only
+P00-CHILD,Relative child playlist is served,PASS,Mock server only
+P00-SEGMENT,Synthetic segment bytes are served (not video decoding),PASS,Mock server only
+TLS-UNTRUSTED,Client refuses the temporary CA when it is not explicitly trusted,PASS,Mock server only
+P01,Master contains an HTTP child test URL,PASS,Mock server only
+P01-SINK,Controlled target is reachable with no copied credentials,PASS,Mock server only
+P02,Child contains an HTTP segment test URL,PASS,Mock server only
+P02-SINK,Controlled target is reachable with no copied credentials,PASS,Mock server only
+P03,Master contains a cross-domain HTTPS child URL,PASS,Mock server only
+P03-SINK,Controlled target is reachable with no copied credentials,PASS,Mock server only
+P04,Child contains a cross-domain HTTPS segment URL,PASS,Mock server only
+P04-SINK,Controlled target is reachable with no copied credentials,PASS,Mock server only
+P05,Child userinfo fixture is generated,PASS,Mock server only
+P06,Segment userinfo fixture is generated,PASS,Mock server only
+P07,Child unacceptable-port fixture is generated,PASS,Mock server only
+P08,Segment unacceptable-port fixture is generated,PASS,Mock server only
+P09,Invalid child-host fixture is generated,PASS,Mock server only
+P10,Invalid segment-host fixture is generated,PASS,Mock server only
+R01-301,same-domain HTTPS master returns 301 and correct controlled target,PASS,Mock server only
+R01-302,same-domain HTTPS master returns 302 and correct controlled target,PASS,Mock server only
+R01-303,same-domain HTTPS master returns 303 and correct controlled target,PASS,Mock server only
+R01-307,same-domain HTTPS master returns 307 and correct controlled target,PASS,Mock server only
+R01-308,same-domain HTTPS master returns 308 and correct controlled target,PASS,Mock server only
+R02-301,master downgrade to HTTP returns 301 and correct controlled target,PASS,Mock server only
+R02-302,master downgrade to HTTP returns 302 and correct controlled target,PASS,Mock server only
+R02-303,master downgrade to HTTP returns 303 and correct controlled target,PASS,Mock server only
+R02-307,master downgrade to HTTP returns 307 and correct controlled target,PASS,Mock server only
+R02-308,master downgrade to HTTP returns 308 and correct controlled target,PASS,Mock server only
+R03-301,cross-domain HTTPS master returns 301 and correct controlled target,PASS,Mock server only
+R03-302,cross-domain HTTPS master returns 302 and correct controlled target,PASS,Mock server only
+R03-303,cross-domain HTTPS master returns 303 and correct controlled target,PASS,Mock server only
+R03-307,cross-domain HTTPS master returns 307 and correct controlled target,PASS,Mock server only
+R03-308,cross-domain HTTPS master returns 308 and correct controlled target,PASS,Mock server only
+R04-301,child downgrade to HTTP returns 301 and correct controlled target,PASS,Mock server only
+R04-302,child downgrade to HTTP returns 302 and correct controlled target,PASS,Mock server only
+R04-303,child downgrade to HTTP returns 303 and correct controlled target,PASS,Mock server only
+R04-307,child downgrade to HTTP returns 307 and correct controlled target,PASS,Mock server only
+R04-308,child downgrade to HTTP returns 308 and correct controlled target,PASS,Mock server only
+R05-301,segment downgrade to HTTP returns 301 and correct controlled target,PASS,Mock server only
+R05-302,segment downgrade to HTTP returns 302 and correct controlled target,PASS,Mock server only
+R05-303,segment downgrade to HTTP returns 303 and correct controlled target,PASS,Mock server only
+R05-307,segment downgrade to HTTP returns 307 and correct controlled target,PASS,Mock server only
+R05-308,segment downgrade to HTTP returns 308 and correct controlled target,PASS,Mock server only
+R06-301,cross-domain HTTPS child returns 301 and correct controlled target,PASS,Mock server only
+R06-302,cross-domain HTTPS child returns 302 and correct controlled target,PASS,Mock server only
+R06-303,cross-domain HTTPS child returns 303 and correct controlled target,PASS,Mock server only
+R06-307,cross-domain HTTPS child returns 307 and correct controlled target,PASS,Mock server only
+R06-308,cross-domain HTTPS child returns 308 and correct controlled target,PASS,Mock server only
+R07-301,cross-domain HTTPS segment returns 301 and correct controlled target,PASS,Mock server only
+R07-302,cross-domain HTTPS segment returns 302 and correct controlled target,PASS,Mock server only
+R07-303,cross-domain HTTPS segment returns 303 and correct controlled target,PASS,Mock server only
+R07-307,cross-domain HTTPS segment returns 307 and correct controlled target,PASS,Mock server only
+R07-308,cross-domain HTTPS segment returns 308 and correct controlled target,PASS,Mock server only
+R08-301,cross-domain HTTP master returns 301 and correct controlled target,PASS,Mock server only
+R08-302,cross-domain HTTP master returns 302 and correct controlled target,PASS,Mock server only
+R08-303,cross-domain HTTP master returns 303 and correct controlled target,PASS,Mock server only
+R08-307,cross-domain HTTP master returns 307 and correct controlled target,PASS,Mock server only
+R08-308,cross-domain HTTP master returns 308 and correct controlled target,PASS,Mock server only
+R09-301,redirect-loop response returns 301 and correct controlled target,PASS,Mock server only
+R09-302,redirect-loop response returns 302 and correct controlled target,PASS,Mock server only
+R09-303,redirect-loop response returns 303 and correct controlled target,PASS,Mock server only
+R09-307,redirect-loop response returns 307 and correct controlled target,PASS,Mock server only
+R09-308,redirect-loop response returns 308 and correct controlled target,PASS,Mock server only
+HDR-SETCOOKIE,A sets only the synthetic Secure host-only cookie,PASS,Mock server only
+HDR-A,Origin A detects both synthetic markers,PASS,Mock server only
+HDR-B-SAFE,B detects no markers when the test client sends none,PASS,Mock server only
+HDR-B-UNSAFE,B detects both markers in deliberate unsafe control,PASS,Mock server only
+LOG-QUERY,Unknown query canary does not break a valid fixture,PASS,Mock server only
+LOG-REDACTION,Logs contain no marker values or query canary,PASS,Mock server only
+PATH-SAFETY,Server refuses a path outside fixture routes,PASS,Mock server only
+SC1,F-04 sensitive logging source contract,PASS,"Source inspection test, not runtime"
+SC2,F-01 cleanup/expiry source contract,PASS,"Source inspection test, not runtime"
+SC3,U-01 cache/handoff source contract,PASS,"Source inspection test, not runtime"
+SC4,F-02/F-03 HTTPS and redirect source contracts,PASS,"Source inspection test, not runtime"
+SC5,F-01 no sensitive seed persistence source contract,PASS,"Source inspection test, not runtime"
+SC-EXIT,Existing source-test command finishes successfully,PASS,"Source inspection test, not runtime"
+PRESERVE-SOURCE,All tracked source files and branch refs are unchanged,PASS,Preservation
+PRESERVE-142,142 existing release files still match their checksums,PASS,Preservation
+PRESERVE-25,25 existing release files still match their checksums,PASS,Preservation

@@ -1,0 +1,16 @@
+{
+  "Latest": {
+    "path": "release/MarufYT-FinalUpdate-1.1.4+marufyt.8/Latest-YouTube-21.43.5/MarufYT-1.1.4+marufyt.8-YouTube-21.43.5-ROOTLESS-signing-required.ipa",
+    "sha256": "576ca959641e5ba1c285c422d19b1e545d5f838b36a8be7109564b22b2cb46e8",
+    "bytes": 144600242,
+    "zipCRCValid": true,
+    "fileCount": 7565
+  },
+  "Stable": {
+    "path": "release/MarufYT-FinalUpdate-1.1.4+marufyt.8/Stable-YouTube-21.39.4/MarufYT-1.1.4+marufyt.8-YouTube-21.39.4-ROOTLESS-signing-required.ipa",
+    "sha256": "05a13cb11f555a64889a19a702028b235a363e50dc489e1dd7728942f7ddeaf7",
+    "bytes": 133433175,
+    "zipCRCValid": true,
+    "fileCount": 6893
+  }
+}

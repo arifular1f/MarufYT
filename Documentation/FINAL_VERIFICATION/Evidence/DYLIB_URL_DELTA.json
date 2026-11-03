@@ -1,0 +1,8 @@
+{
+  "scope": "Raw HTTP/HTTPS/WS/WSS literals in changed dylib only; not runtime or arbitrary decoding proof",
+  "oldCount": 31,
+  "newCount": 31,
+  "added": [],
+  "removed": [],
+  "identical": true
+}

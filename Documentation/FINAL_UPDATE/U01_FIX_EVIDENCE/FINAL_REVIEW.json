@@ -1,0 +1,21 @@
+{
+  "branch": "fix/hls-manifest-validation",
+  "sourceCommit": "743f307b816d275fef88d34a36ba546415015753",
+  "remoteMatches": true,
+  "trackedWorktreeClean": true,
+  "changedSourcePaths": [
+    "Tests/native/test_security_foundation.mm",
+    "Tests/test_security_fixes.py",
+    "Tweak/Features/Streaming/HLSPlayback.mm",
+    "Tweak/Features/Streaming/HLSURLPolicy.h"
+  ],
+  "reportSHA256": "8de31ca31c79a89a191b0301a6cedb55abe87e073914fae919a3d238ddc5c3b6",
+  "diffReviewed": true,
+  "unrelatedSourceChanges": false,
+  "oldReleaseManifestFilesVerified": 142,
+  "reportLinksChecked": true,
+  "secretScanFindings": 0,
+  "deviceTests": "NOT TESTED",
+  "childPlaylistsAndRedirects": "NOT VERIFIED",
+  "auditInventoryPublication": "local only; source/tests on fix branch"
+}

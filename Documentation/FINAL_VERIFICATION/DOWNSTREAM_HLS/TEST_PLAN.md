@@ -1,0 +1,281 @@
+# Focused downstream HLS security test — Latest and Stable
+
+Target: MarufYT `1.1.4+marufyt.8`, U01-HLS commit
+`743f307b816d275fef88d34a36ba546415015753`.
+Run the same cases independently on Latest YouTube **21.43.5** and Stable **21.39.4**.
+This directory contains standalone test tooling/documentation, not application
+changes. No IPA was rebuilt and no device test was performed for this task.
+
+## 1. Source ownership and limits
+
+| Stage | Exact source/function | What is actually established |
+| --- | --- | --- |
+| Parent/master URL syntax | `Tweak/Features/Streaming/HLSURLPolicy.h:8`, `MarufYTIsValidHLSManifestURL`; calls `Runtime/URLPolicy.h::MarufYTIsSecureURL` | HTTPS, host/authority syntax, no userinfo and absent/443 port. DNS/IP syntax is not a trusted-domain allowlist or DNS-resolution check |
+| Parent caching | `Streaming/HLSPlayback.mm:141`, `YTKACEHLSFetchVisionThen`; validation `:178`, cache write `:182`; `YTKACEHLSCachedURL:122` validates reads | Invalid response URL is not cached/announced ready; cached entries are rechecked |
+| Selection/handoff | `HLSURLPolicy.h:64`, `MarufYTSelectHLSManifestURL`; `HLSPlayback.mm:225`, `YTKACEHLSSwap`, checks `:238–241`, setter `:243` | Valid preferred URL, otherwise valid native URL, otherwise return before native mutations |
+| Hook entry | `YTKACEInstallHLSPlaybackHooks:364`, `YTKACEHLSInitFull/Short/Rental` | Mode 2 hooks `YTPlayerResponse` initializers and invokes the handoff before the original initializer. Actual installation on each signed host remains a device check |
+| Child playlist parsing | `HLSPlayback.mm`, `YTKACEHLSFilterManifest`; `:309`, `YTKACEHLSParseString`, hook `MLHLSMasterPlaylistParser parseFromString:error:` | Filters unsupported VP9 variants; **does not validate child URL schemes/hosts/credentials** |
+| Master/child/segment fetching, native redirects and headers | Original YouTube player/native transport, potentially AVFoundation | No MarufYT delegate for these native HLS requests was established. Exact proprietary fetch/redirect functions cannot be identified from this source repository; do not invent an AVFoundation method attribution |
+| Other MarufYT request redirects | `Runtime/URLPolicy.mm:10`, `MarufYTRedirectRequest`; `MarufYTRedirectDelegate::URLSession:task:willPerformHTTPRedirection:newRequest:completionHandler:` | Guarded generic API client validates HTTPS redirects and strips most cross-origin headers; this is **not proof native HLS uses it** |
+| Separate downloader redirects | `Downloads/SABRDownloader.mm:581,1421`, HTTP delegate/custom protobuf checks; `DirectDownloader.mm:99`, `DownloadCoordinator.mm:306` delegates | Separate download paths, not native HLS-child validation. Do not substitute their passing tests for player tests |
+| Invalid initial URL fallback | `MarufYTSelectHLSManifestURL`, `YTKACEHLSSwap` early return | Valid native URL may be selected; otherwise native response/flags are untouched. This is the U-01 fallback guarantee in source |
+| Playback-error retry | `Playback/PlaybackFixHooks.mm:177`, `YTKACEHandleError`; `Streaming/HLSPlayback.mm:194`, `YTKACEHLSBeginFallback`; `YTKACEReloadPlayer` / `YTKACECallOriginalHandleError` | Mode-2 retry can fetch/reload Vision when the recorded source was iOS, once. **Not a universal restore-to-native mechanism after bad children/segments**; unavailable retry returns to original error handling |
+| Preserved original response | `HLSPlayback.mm:208`, `YTKACEHLSOriginalResponse` / `YTKACEHLSKeepOriginal`; used by `Downloads/DownloadHooks.mm` | Download consumers can prefer the original response. Its existence does not prove player errors restore it |
+
+Source paths above are under `Tweak/Features/` except explicitly `Runtime/`.
+Initial-URL policy does not recursively validate a manifest, HLS key/map URI or
+redirect Location. Cross-domain HTTPS media is not inherently unsafe: legitimate
+CDNs may change hosts. Sensitive forwarding and transport policy are separate checks.
+
+## 2. Three distinct test layers and actual results
+
+1. **Source inspection:** table above; the existing five security source-contract
+   tests were rerun and passed. [Log](Evidence/SOURCE_CONTRACTS.txt).
+2. **Automated fixture-server test:** [self_test_mock.py](self_test_mock.py) starts
+   real HTTP/HTTPS servers on loopback, generates temporary CA/leaf keys, verifies
+   TLS using that CA, checks playlist/redirect construction and synthetic-header
+   logging. It manually sends safe and unsafe controls to calibrate the logger.
+   It does **not** execute MarufYT, its URL policy, automatic client forwarding,
+   a media decoder or an iPhone. Its synthetic segment bytes are not playable.
+   **66 checks passed, with 63 recorded fixture requests** (unmatched 404 probes
+   are not counted by the request logger). See [final result](Evidence/FINAL_RUN/SELF_TEST_RESULT.json).
+3. **Physical app tests:** all cases below are **NOT TESTED** for both versions.
+   Neither successful Safari/curl playback nor the fixture-server result is a
+   MarufYT runtime pass. Existing matching CI's 88 Foundation checks are separate
+   policy-fixture evidence, not native HLS network observations.
+
+Reproduce the automated checks from the repository root (Python standard library,
+OpenSSL required; choose a fresh output path):
+
+```powershell
+$env:PYTHONDONTWRITEBYTECODE = '1'
+python -B Documentation/FINAL_VERIFICATION/DOWNSTREAM_HLS/self_test_mock.py --output-dir "$env:TEMP/MarufYT-HLS-selftest-new"
+python -B -m unittest Tests.test_security_fixes -v
+```
+
+The script detects OpenSSL on PATH or the existing Git-for-Windows OpenSSL. Use
+`--openssl "full/path/to/openssl"` otherwise. No software installation or account is
+required by these commands. Certificates/keys are temporary and never committed.
+
+## 3. Prepare the controlled playback fixture
+
+Use an owned isolated LAN/test device with **no real Google account or credentials**.
+Use a fresh local folder outside the repository for keys/media/raw logs. Run only
+the mock server on its private LAN interface; do not expose it to the Internet.
+The server makes no upstream requests and cannot become an open redirect proxy.
+
+Two distinct DNS names are required:
+
+- Origin A: `a.hls.test`.
+- Origin B: `b.hls-other.test`.
+
+Configure test-LAN DNS so both resolve to the server's private address. They are
+reserved test names, not public services. A PC hosts-file entry does **not** configure
+iPhone DNS. Use the actual iPhone resolver and confirm both names resolve on-device.
+Do not change production/private DNS infrastructure for this test. Capture DNS/IP
+mapping locally without publishing private addresses. Different DNS names remain
+different origins even when hosted on one IP/certificate.
+
+### Generate the short-lived CA and server certificate
+
+In the private fixture folder, use a working OpenSSL executable. These commands
+contain no passwords or real credentials; private keys remain local.
+
+```powershell
+# If OpenSSL is already on PATH, use its path instead.
+$Ossl = 'C:/Program Files/Git/usr/bin/openssl.exe'
+& $Ossl req -x509 -newkey rsa:2048 -sha256 -nodes -keyout ca.key -out ca.crt -days 2 -subj '/CN=MarufYT HLS TEST CA' -addext 'basicConstraints=critical,CA:TRUE' -addext 'keyUsage=critical,keyCertSign,cRLSign'
+& $Ossl req -newkey rsa:2048 -nodes -keyout server.key -out server.csr -subj '/CN=a.hls.test'
+@'
+subjectAltName=DNS:a.hls.test,DNS:b.hls-other.test,IP:127.0.0.1
+basicConstraints=CA:FALSE
+keyUsage=digitalSignature,keyEncipherment
+extendedKeyUsage=serverAuth
+'@ | Set-Content -Encoding Ascii leaf.ext
+& $Ossl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 2 -sha256 -extfile leaf.ext
+```
+
+Install only `ca.crt` on the owned test iPhone by a trusted local transfer; install
+its profile and enable full trust under Settings → General → About → Certificate
+Trust Settings. Never transfer `ca.key` or `server.key`. Confirm the fixture's TLS
+certificate is trusted and valid before blaming a failed HLS case on URL policy.
+Do not disable certificate validation or bypass pinning. Remove test trust afterward.
+
+### Generate owned, playable media
+
+Use a locally installed FFmpeg with libx264/AAC support; no third-party video is
+downloaded. This creates six seconds of synthetic color/tone and three TS segments:
+
+```powershell
+New-Item -ItemType Directory media
+ffmpeg -f lavfi -i 'color=c=black:s=320x180:r=24' -f lavfi -i 'sine=frequency=440:sample_rate=48000' -t 6 -c:v libx264 -profile:v baseline -pix_fmt yuv420p -g 48 -keyint_min 48 -sc_threshold 0 -c:a aac -f hls -hls_time 2 -hls_list_size 0 -hls_playlist_type vod -hls_segment_filename 'media/seg%03d.ts' 'media/owned.m3u8'
+```
+
+FFmpeg is not installed/executed by our self-test. If unavailable, prepare these
+owned files on another machine or mark playback setup blocked; do not use the
+self-test's dummy segment as a successful playback fixture. The server returns
+503 when media is absent. It serves complete small segments (no Range emulation),
+so codec/decoder/Range-specific failures are outside this fixture's conclusions.
+
+### Start HTTP/HTTPS
+
+From the private folder, substitute the repository path and actual server LAN IP:
+
+```powershell
+$Repo = 'C:/Users/oriyan/Desktop/ios App/MarufYT'
+$FixtureBind = 'REPLACE_WITH_SERVER_PRIVATE_IP'
+python -B "$Repo/Documentation/FINAL_VERIFICATION/DOWNSTREAM_HLS/mock_hls_server.py" --bind $FixtureBind --http-port 80 --https-port 443 --cert server.crt --key server.key --media-dir media --log Latest-case-run-01.jsonl
+```
+
+Use a fresh log per case/build; existing log files are refused. Restrict firewall
+access to the test phone. Resolve port conflicts rather than changing app policy.
+**The U-01 validator rejects port 8443**: the default loopback harness ports
+8080/8443 are for server self-tests only. App positive cases must use HTTPS 443.
+HTTP 80 is intentionally available as a controlled insecure sink; do not put real
+credentials/content there. There is no need to open port 444: the trace must detect
+an attempted forbidden connection even if it would be refused.
+
+## 4. Get a fixture into the actual app without changing its code
+
+There is no verified public UI that loads an arbitrary URL through
+`YTKACEHLSSwap`. Opening a fixture in Safari does not test this path.
+
+The optional [inject_fixture_response.py](inject_fixture_response.py) is a
+**test-traffic** mitmproxy addon. It changes only
+`streamingData.hlsManifestUrl` in an anonymous VISIONOS `/youtubei/v1/player` JSON
+response. It does not fabricate authentication, entitlement or playability fields;
+it refuses requests containing Authorization or Cookie. It has not been executed
+against a phone here; syntax checking is not a deployment test.
+
+With voluntary trust of a separate local proxy CA on an owned logged-out test
+device, configure its Wi-Fi HTTP proxy to your PC. Keep normal upstream TLS trust
+enabled and the proxy UI on loopback. Selectively intercept only the matching
+Google API host, leave authentication hosts pass-through, and use no account.
+For a positive test, start a local mitmweb session with its installed version's
+options verified first:
+
+```powershell
+$Repo = 'C:/Users/oriyan/Desktop/ios App/MarufYT'
+$ProxyBind = 'REPLACE_WITH_PROXY_PRIVATE_IP'
+mitmweb --mode regular --listen-host $ProxyBind --listen-port 8080 --web-host 127.0.0.1 --web-port 8081 --set 'allow_hosts=^youtubei\.googleapis\.com(:443)?$' -s "$Repo/Documentation/FINAL_VERIFICATION/DOWNSTREAM_HLS/inject_fixture_response.py" --set hls_fixture_enabled=true --set 'hls_fixture_url=https://a.hls.test/case/P00/master.m3u8'
+```
+
+The proxy must resolve fixture names normally if requests tunnel through it. Trust
+both independent test CAs as required; never use `ssl_insecure` or pinning bypasses.
+Do not save raw flows, HAR, bodies or credentials. The addon logs only a substitution
+event, not header/body values. If request JSON is nonmatching, streamingData is
+absent, a credential-bearing request is refused, pinning blocks interception, or
+the signed app cannot reach the mock, mark the case **BLOCKED/NOT TESTED**.
+
+Enable HLS mode 2, cold-restart between changed fixtures to avoid the in-memory
+four-hour cache, and use one authorized public VOD. Establish P00 playback with
+server master → child → segment events before negatives. Confirm the modified
+VISIONOS response was consumed; the addon event alone does not prove the handoff
+ran. A positive source-matched control, capture and available existing debug
+evidence are needed. Do not change/re-sign entitlements to add instrumentation.
+
+Test each IPA sequentially because both have `com.google.ios.youtube`. Record the
+unsigned artifact hash, actual signed installation/build and test settings. Keep
+all runtime captures/results local. Never use the original personal-account app
+as a convenient credential source for this fixture.
+
+## 5. Reproducible case matrix and expected verdicts
+
+All physical results are currently **NOT TESTED** for both hosts. Expected verdicts
+below are acceptance criteria, not observed app behavior. Replace `{A}` with
+`https://a.hls.test` and `{B}` with `https://b.hls-other.test`.
+
+| ID / supplied master | Fixture behavior | Expected pass / failure criterion |
+| --- | --- | --- |
+| P00 `{A}/case/P00/master.m3u8` | HTTPS master, relative HTTPS child/segments | Positive control: owned clip plays; all three resource stages observed. Failure makes later playback negatives inconclusive until setup is fixed |
+| M-HTTP `http://a.hls.test/case/P00/master.m3u8` | Available HTTP master | U-01 rejects before cache/handoff; no fixture HTTP fetch; native playback preserved when valid native data exists. An eventual HTTPS upgrade is not an acceptable substitute |
+| M-BADHOST `https://bad_host.invalid/case/P00/master.m3u8` | Invalid DNS syntax | Reject before handoff. DNS failure alone does not prove validation; correlate source/path coverage and capture |
+| M-USER `https://fixture:dummy@a.hls.test/case/P00/master.m3u8` | Synthetic userinfo | Reject before cache/handoff; no fixture fetch. Also test username-only form |
+| M-PORT `https://a.hls.test:444/case/P00/master.m3u8` | Unacceptable port | Reject before connection. A refused port-444 socket is a failure to reject early, not a pass |
+| M-EMPTY / M-MALFORMED | Set addon field empty; then `https:///`, `file:///fixture.m3u8`, malformed bracket host | Reject replacement, no wrong-origin request; native response/flags remain unchanged. Check source fixtures for selection; do not equate a player error with preserved native playback |
+| P01 `{A}/case/P01/master.m3u8` | Absolute HTTP child | Strict downstream pass: do not fetch HTTP child; fail if sink/trace shows HTTP child. Current source does not promise this protection |
+| P02 `{A}/case/P02/master.m3u8` | HTTPS child lists HTTP segments | Strict downstream pass: no HTTP segment fetch; fail on observed request |
+| P03 / P04 | P03 absolute HTTPS child at B; P04 HTTPS segments at B | Public cross-domain media may play; no inherited A-only sensitive marker at B. Cross-domain by itself is not a failure |
+| P05 / P06 | Credential-bearing child / segment URL, using only `fixture:dummy` | Strict URI-policy target: reject without contacting that credential-bearing resource. Source does not establish it; native acceptance would be a downstream gap requiring review |
+| P07 / P08 | Child / segment on HTTPS port 444 | Strict U-01-equivalent downstream target: no connection attempt. This is a target policy, not an existing verified native restriction |
+| P09 / P10 | Child / segment uses `bad_host.invalid` | Reject malformed destination; trace/coverage needed to distinguish rejection from resolver failure |
+| R01 `{A}/case/R01/master.m3u8?code=302` | Same-origin HTTPS master redirect | Follow final HTTPS master if supported; can preserve legitimate same-origin synthetic headers. Owned clip plays |
+| R02 | Master HTTPS → HTTP at A | Reject downgrade; fail if HTTP final-master requested. Safe error is a security pass, not proof native playback fallback succeeded |
+| R03 | Master HTTPS A → HTTPS B | Allow public media if supported; never blindly replay A's Authorization/host-only Cookie to B |
+| R04 / R05 | Child / segment HTTPS → HTTP | Reject downgrade at the respective stage; final HTTP sink must not be requested |
+| R06 / R07 | Child / segment HTTPS A → HTTPS B | Legitimate HTTPS redirect allowed if supported, without A-only sensitive marker forwarding |
+| R08 | Master HTTPS A → HTTP B | Reject downgrade and do not forward any credential marker |
+| R09 | Self-redirect loop | Bounded retries/error, no crash or unbounded background loop; stop manually after 30 s if not bounded. No promise of automatic native restore |
+
+For an Rxx case use `{A}/case/Rxx/master.m3u8?code=N`. The master propagates `code`
+to child/segment routes. Repeat relevant cases for **301, 302, 303, 307 and 308**.
+Inspect every hop, not only the final response. R01/R02/R03/R08/R09 redirect the
+master; R04/R06 redirect the child; R05/R07 redirect segments. R01's final resource
+is `final-master.m3u8`, child redirects use `final-child.m3u8`, segment redirects use
+`final-segNNN.ts`. A cleartext initial master redirecting to HTTPS must still be
+rejected by U-01 before the first HTTP request.
+
+For downstream negatives, also record user-visible behavior: safe error, recovery
+or crash. The source's pre-handoff native fallback does **not** guarantee recovery
+after an accepted master later yields an unsafe child/segment or TLS error.
+
+## 6. Header-forwarding procedure and controls
+
+The mock logs no header values or queries. Its fields are:
+`authorizationPresent`, `cookiePresent`, `authorizationFixtureSeen`,
+`cookieFixtureSeen`, controlled host/case/resource and transport/time.
+The only marker values are `Bearer HLS-FIXTURE-ONLY` and
+`hls_fixture=fixture-only`; these are not real credentials.
+
+Every HTTPS A response sets a **host-only Secure** fixture cookie. Before treating
+a cross-origin cookie test as exercised, show that the **same native client** sends
+this fixture cookie on A requests. Safari's cookie jar is not the player's jar.
+Then check B's master/child/segment events for the exact A fixture marker. A's
+host-only marker at B is a failure. A separate B-owned cookie is not automatically
+a failure. A Domain-scoped cookie shared by related hosts would require different
+criteria; these fixture domains deliberately have separate parents.
+
+For Authorization, require a proven existing means for the actual player client
+to send the synthetic header to A. This repository exposes no verified UI for
+doing that. **Do not use real Google tokens, URL userinfo, or a proxy-injected
+outgoing header as a substitute:** a header added after the client sent a request
+does not prove that client's redirect forwarding behavior. If no approved native
+header-seeding method exists without modifying the app, mark native Authorization
+forwarding **NOT EXERCISED**, even when no header is seen at B.
+
+Reproduce the **logger calibration only** with two explicit curl requests, from
+the fixture folder (use `curl.exe` in PowerShell to avoid the legacy alias):
+
+```powershell
+# A receives synthetic markers and returns Location. Do not add --location.
+curl.exe --cacert ca.crt --resolve a.hls.test:443:127.0.0.1 -H 'Authorization: Bearer HLS-FIXTURE-ONLY' -H 'Cookie: hls_fixture=fixture-only' 'https://a.hls.test/case/R03/master.m3u8'
+# Safe control: B gets no copied markers.
+curl.exe --cacert ca.crt --resolve b.hls-other.test:443:127.0.0.1 'https://b.hls-other.test/case/R03/final-master.m3u8'
+# Deliberate unsafe control: confirms the sink detects both markers.
+curl.exe --cacert ca.crt --resolve b.hls-other.test:443:127.0.0.1 -H 'Authorization: Bearer HLS-FIXTURE-ONLY' -H 'Cookie: hls_fixture=fixture-only' 'https://b.hls-other.test/case/R03/final-master.m3u8'
+```
+
+These commands require a server listening on loopback or replace the resolve IP
+with its real local address. Both controls use only owned hosts/synthetic markers.
+They do **not** test curl's automatic forwarding or the app's redirect policy.
+The Python self-test executes equivalent controls automatically on ephemeral ports.
+
+## 7. Observe, classify and preserve evidence
+
+Use the passive RVI/Wireshark procedure in the existing
+[final verification report](../FINAL_VERIFICATION_REPORT.md). Correlate mock logs
+with DNS, attempted TCP/UDP connections, HTTP requests and TLS destinations. The
+local fixture supports HTTP/1.x over TCP/TLS only; native QUIC/HTTP2/HTTP3 behavior
+to other services is not covered. TLS handshake failure can occur before any
+server HTTP event. A missing log entry is not sufficient evidence of URL rejection.
+
+For each version/case record fixture URL **template**, code, stage, case-entry
+evidence, requested origins, redirect hops, synthetic marker flags, playback/error
+outcome and verdict: PASS / FAIL / NOT EXERCISED / BLOCKED. Publish no raw signed
+URLs, headers, payloads, client addresses or private keys. Do not upload packet
+captures or proxy flows. Disable the traffic addon/proxy, remove both test CA trusts,
+stop the server and restore DNS/test settings after completion.
+
+Current disposition: parent-URL source/fixture checks are supported; downstream
+native validation, redirects, credential forwarding and actual fallback remain
+**NOT TESTED** in both IPAs. No application behavior was changed by this preparation.

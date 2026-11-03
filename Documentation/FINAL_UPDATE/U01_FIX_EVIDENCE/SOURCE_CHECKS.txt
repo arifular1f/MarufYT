@@ -1,0 +1,156 @@
+PASS branding constant @"MarufYT"
+PASS branding constant @"arifular1f"
+PASS branding constant @"https://github.com/arifular1f/MarufYT"
+PASS branding constant @"https://github.com/arifular1f"
+PASS branding constant @"arifular1f/MarufYT"
+PASS Makefile lists every Tweak/*.mm
+PASS Makefile entries exist
+PASS library renamed to MarufYT
+PASS build number wired
+PASS no bare @"YTKACE" UI literals
+PASS no upstream repository or developer row in settings
+PASS no Credits row in YouTube Settings entry
+PASS no Credits row in MarufYT settings
+PASS About row MarufYTAboutRowDeveloper
+PASS About row MarufYTAboutRowRepository
+PASS About row MarufYTAboutRowVersion
+PASS About row MarufYTAboutRowYouTube
+PASS About row MarufYTAboutRowPackage
+PASS no bundle ID or device model in settings UI
+PASS no value labels coloured with the accent
+PASS YTKACEAccentColor returns the MarufYT accent
+PASS YTKACESettingsPages.mm: inset-grouped, themed
+PASS YTKACETabEditorController.mm: inset-grouped, themed
+PASS YTKACERootOptionsController.mm: inset-grouped, themed
+PASS no shrunken switches
+PASS fixed tiny fonts removed from settings rows
+PASS preference keys keep YTKACE.Preference namespace  [238 keys]
+PASS no MarufYT.Preference keys (backups only export YTKACE.Preference.*)
+PASS SponsorBlock behaviour and colour keys bound per category
+PASS SponsorBlock setting YTKACESponsorBlockKey
+PASS SponsorBlock setting "YTKACE.Preference.SponsorBlock.OverlayButton"
+PASS SponsorBlock setting "YTKACE.Preference.SponsorBlock.NotificationMode"
+PASS SponsorBlock setting "YTKACE.Preference.SponsorBlock.AudioFeedback"
+PASS SponsorBlock setting "YTKACE.Preference.SponsorBlock.SkipAlertSeconds"
+PASS SponsorBlock setting "YTKACE.Preference.SponsorBlock.UnskipAlertSeconds"
+PASS SponsorBlock setting YTKACEDeArrowThumbModeKey
+PASS SponsorBlock setting YTKACEDeArrowTitlesKey
+PASS navigation own-view check accepts both names
+PASS capsule depth attached
+PASS capsule depth excluded from fade loop
+PASS capsule depth removed with glass
+PASS glass constructor honours preset
+PASS tab glass mode falls back to preset, legacy value wins
+PASS preset merged into defaults
+PASS Branding/MarufYTBranding.h: MIT header
+PASS Branding/MarufYTBranding.mm: MIT header
+PASS Branding/MarufYTBranding.mm: balanced @interface/@implementation  [0 vs 0]
+PASS Branding/MarufYTBranding.mm: no direct method swizzling
+PASS Branding/MarufYTBranding.mm: no NSLog debugging
+PASS Design/MarufYTDesign.h: MIT header
+PASS Design/MarufYTDesign.mm: MIT header
+PASS Design/MarufYTDesign.mm: balanced @interface/@implementation  [2 vs 2]
+PASS Design/MarufYTDesign.mm: no direct method swizzling
+PASS Design/MarufYTDesign.mm: no NSLog debugging
+PASS Design/MarufYTLayoutMath.h: MIT header
+PASS Design/MarufYTTheme.h: MIT header
+PASS Design/MarufYTTheme.mm: MIT header
+PASS Design/MarufYTTheme.mm: balanced @interface/@implementation  [0 vs 0]
+PASS Design/MarufYTTheme.mm: no direct method swizzling
+PASS Design/MarufYTTheme.mm: no NSLog debugging
+PASS Privacy/MarufYTSponsorHash.h: MIT header
+PASS ar.lproj: parses  [1022 entries]
+PASS ckb.lproj: parses  [1022 entries]
+PASS de.lproj: parses  [1022 entries]
+PASS en.lproj: parses  [1035 entries]
+PASS es.lproj: parses  [1022 entries]
+PASS fr.lproj: parses  [1022 entries]
+PASS it.lproj: parses  [1022 entries]
+PASS ja.lproj: parses  [1022 entries]
+PASS ko.lproj: parses  [1022 entries]
+PASS pl.lproj: parses  [1022 entries]
+PASS pt-BR.lproj: parses  [1013 entries]
+PASS ru.lproj: parses  [1022 entries]
+PASS tr.lproj: parses  [1022 entries]
+PASS vi.lproj: parses  [1022 entries]
+PASS zh-Hans.lproj: parses  [1033 entries]
+PASS zh-Hant.lproj: parses  [1022 entries]
+INFO ar.lproj: 13 English keys fall back to English
+INFO ckb.lproj: 13 English keys fall back to English
+INFO de.lproj: 13 English keys fall back to English
+INFO en.lproj: 0 English keys fall back to English
+INFO es.lproj: 13 English keys fall back to English
+INFO fr.lproj: 13 English keys fall back to English
+INFO it.lproj: 13 English keys fall back to English
+INFO ja.lproj: 13 English keys fall back to English
+INFO ko.lproj: 13 English keys fall back to English
+INFO pl.lproj: 13 English keys fall back to English
+INFO pt-BR.lproj: 23 English keys fall back to English
+INFO ru.lproj: 13 English keys fall back to English
+INFO tr.lproj: 13 English keys fall back to English
+INFO vi.lproj: 13 English keys fall back to English
+INFO zh-Hans.lproj: 2 English keys fall back to English
+INFO zh-Hant.lproj: 13 English keys fall back to English
+PASS branding leaves no upstream name in localized values
+PASS 16 localization tables  [16]
+PASS every MarufYT string translated in all 16 tables
+PASS diagnostics log redacts tokens and URL queries
+PASS diagnostics log not in Files-visible Documents
+PASS player buttons have localized VoiceOver labels
+PASS no TLS trust overrides
+PASS no cleartext http:// endpoints
+PASS LICENSE keeps upstream copyright
+PASS LICENSE adds MarufYT copyright
+PASS THIRD_PARTY_NOTICES credits YTKACE and FFmpeg
+PASS workflows never download or publish a YouTube IPA
+PASS every action pinned to a full commit SHA
+PASS checkout never persists credentials
+PASS workflow token read-only
+PASS Theos bootstrap uses source/compiler/SDK integrity lock
+PASS no untrusted event data in run steps
+PASS job timeouts set
+PASS Dependabot watches GitHub Actions
+PASS SECURITY.md present
+PASS PRIVACY.md present
+PASS no upstream funding link in repository config
+PASS issue templates branded MarufYT
+PASS control identity
+PASS control conflicts with upstream package
+PASS filter plist targets YouTube only
+PASS no delayed held-button tab correction
+PASS replacement tabs are laid out from their bounds and a native sibling (pure layout)
+PASS replacement labels have no fixed bottom-16 offset
+PASS lightweight appearance preserves stored preferences
+PASS Reduce Motion bypasses custom springs
+PASS lens tracker stops off-window and inactive
+PASS DeArrow cache has count and memory cost limits
+PASS download progress card is event-driven (no layout polling timer)
+PASS download metadata cache bounded and pending work cancelled
+PASS glass width uses host safe area
+PASS Reduce Transparency respected in GlassChrome.mm
+PASS Reduce Transparency respected in GlassSheets.mm
+PASS Reduce Transparency respected in PlayerGlass.mm
+PASS Reduce Transparency respected in Notice.mm
+PASS layout math is pure C (no UIKit or Foundation)
+PASS default tab bar mode is Simple (3)
+PASS tab mode resolved by the tested function
+PASS glass presets are not defaulted on
+PASS Normal Home Layout defaults on (a stored value still wins)
+PASS capsule geometry has no safe-area height term
+PASS tab slots are index-based
+PASS MarufYT tab label follows the host
+PASS native layout tests exist and run in CI
+PASS Phase 3 string translated in all 16 tables: Simple
+PASS Phase 3 string translated in all 16 tables: Simple uses YouTube's classi
+PASS motion helpers honour Reduce Motion
+PASS default-visible overlays use no spring animation
+PASS diagnostics log appends instead of rewriting each line
+PASS layout snapshot is on demand only
+PASS URL policy requires https before MarufYT fetches YouTube-supplied URLs
+PASS SponsorBlock hash helper is pure C with native tests wired
+PASS Private Lookup is a labelled, translated opt-in
+PASS artwork cache is bounded and async loader exists
+
+OK: 0 failure(s)
+
+Exit: 0

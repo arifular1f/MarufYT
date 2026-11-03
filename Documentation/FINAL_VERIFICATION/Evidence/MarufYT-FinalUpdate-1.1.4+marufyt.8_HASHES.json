@@ -1,0 +1,570 @@
+[
+  {
+    "file": "ACCOUNT_BOUNDARY_STATIC_EVIDENCE.json",
+    "sha256": "af8dedc83c48a52a94b5d188a6fc1d04231a35e46be5ed892d982af828a00323"
+  },
+  {
+    "file": "CHANGELOG.md",
+    "sha256": "31de5c37cc7658355a6dbe487615b0577355c0abf102b875c3bc9eed07bb4adf"
+  },
+  {
+    "file": "CI-Artifact/build.log",
+    "sha256": "98960599664ba84eb73ef41252da89a339d9b62f6d9a2640beabad574b9af117"
+  },
+  {
+    "file": "CI-Artifact/com.arifular1f.marufyt_1.1.4+marufyt.8_rootless.deb",
+    "sha256": "3ab9f0550f53c6363a49b075fc2845285b5753bf6802bdefc64c12b813f84102"
+  },
+  {
+    "file": "CI-Artifact/MarufYT.dylib",
+    "sha256": "eddb035be134a3ee7f0d679feb1127908ae1b5ada4ae186eaef43f0c68895108"
+  },
+  {
+    "file": "CI-Artifact/provenance.txt",
+    "sha256": "17389a8fbe9d5a126884a4dcd84d9e99dfd7c18b5f1af8df4e4dab8aeee24a87"
+  },
+  {
+    "file": "CI-Artifact/SHA256SUMS.txt",
+    "sha256": "bc5e83eb379feb7dda550f2d969d25c3d50ad972c379617078384a8d7da8fcab"
+  },
+  {
+    "file": "CI-Artifact/toolchain-provenance.json",
+    "sha256": "8272dcdedb61f85fa2771b6aa40abae9ba367e01428497c120ff9b2fa882674a"
+  },
+  {
+    "file": "CI_LOG.txt",
+    "sha256": "57d421075b0d288ac950e17c4bdefa414f82166549c60fc4c8ab1b5f06c6cff3"
+  },
+  {
+    "file": "CI_RESULT.json",
+    "sha256": "5c23ed9f00754c7314e0d117f380a1b546552c3fc0ed8b72159bd17a3386daa1"
+  },
+  {
+    "file": "Corresponding-Source/build-ffmpeg.sh",
+    "sha256": "506cda0e4630ba3ab730b95b04c30d6e9b75265983f6bcfd790de6aa5c052b4f"
+  },
+  {
+    "file": "Corresponding-Source/COPYING.LGPLv2.1",
+    "sha256": "37828f96b745455c387a19946bc005b5e0b7c4cef782bbd67e9de5130d7d0bdc"
+  },
+  {
+    "file": "Corresponding-Source/COPYING.LGPLv3",
+    "sha256": "ea7d049c7705dc13afc202dd18e1827f3484f8212fd3fa7b82fc4a0c363432c9"
+  },
+  {
+    "file": "Corresponding-Source/ffmpeg-8.1.2.tar.xz",
+    "sha256": "464beb5e7bf0c311e68b45ae2f04e9cc2af88851abb4082231742a74d97b524c"
+  },
+  {
+    "file": "Corresponding-Source/ffmpeg-8.1.2.tar.xz.asc",
+    "sha256": "0a0963fccd70597838073f3e31b20f4a4d8cc2b5e577472c9a5a1f22624246f8"
+  },
+  {
+    "file": "Corresponding-Source/ffmpeg-release-signing-key.asc",
+    "sha256": "397b3becedcd5a98769967ff1ff8501ddc89f8368b8f766e4701377d7dbaabe5"
+  },
+  {
+    "file": "Corresponding-Source/ffmpeg-source.lock.json",
+    "sha256": "4a510d97cb91aaa22f8f25ffcc6e014302fb3dc3dd0e2788612e0f05dbc2a306"
+  },
+  {
+    "file": "Corresponding-Source/MarufYT-LICENSE",
+    "sha256": "2f2316d6179b18268798016c8802dddbff46e519ea830f59ec3757a309cae7b0"
+  },
+  {
+    "file": "Corresponding-Source/README.md",
+    "sha256": "02191ec22f385a56e7364d4e7e2549d9143bab761d68ee0d94cfe38e8680abbf"
+  },
+  {
+    "file": "Corresponding-Source/SHA256SUMS.txt",
+    "sha256": "c9eba78a4835925bb93665ec569da169deec034f30357c35d527b57f1d3c5a74"
+  },
+  {
+    "file": "Corresponding-Source/THIRD_PARTY_NOTICES.md",
+    "sha256": "cc68cb749822460e7b8d56bae8cfa37aef35a6d0cbc32b7a691616a4685e6215"
+  },
+  {
+    "file": "DEB_CONTROL.json",
+    "sha256": "da379e5c6f27050960e48c9d6569538e634dffaab21ea3d2f29e88a597011b0d"
+  },
+  {
+    "file": "DIFF_REVIEW.json",
+    "sha256": "28bd7caaaecb0b58e6b5189425906fee75652b2d2370f73e38c7e51bc87fcc5d"
+  },
+  {
+    "file": "Documentation/audits/COMPLETION_AUDIT.md",
+    "sha256": "b47c456d1875f886c815bde88a221ae1c334d93ab35ee13073490c13a389df97"
+  },
+  {
+    "file": "Documentation/audits/DEFAULT_BRANCH_AUTOMATION.md",
+    "sha256": "61154782304bfaa81dcaf845292586fb709d778516fb6ac93dd1287b710c339c"
+  },
+  {
+    "file": "Documentation/audits/DEPENDENCY_AUDIT.md",
+    "sha256": "7e6e34260359158dbf9fed95ee18c522b128725ff97781b673790609aac7947a"
+  },
+  {
+    "file": "Documentation/audits/FFMPEG_SOURCE_AND_RELINK.md",
+    "sha256": "78ea4ca9a2e51af487bd74b29fa984a431f26bbd1be861a12a41c301b9a00d0f"
+  },
+  {
+    "file": "Documentation/audits/FINDING_DISPOSITION.md",
+    "sha256": "f835572c9bee33e28f83d2b0b8e51c84ea09b782f6bca013d2d206100df1a972"
+  },
+  {
+    "file": "Documentation/audits/LICENSE_DISTRIBUTION_REVIEW.md",
+    "sha256": "702b5d4879dba6d188e31f3c42866197b389c0ce11500723fd29ae5af9d47c11"
+  },
+  {
+    "file": "Documentation/audits/MASTER_REQUIREMENTS_CLOSURE.md",
+    "sha256": "694299f58059b545873093be0dd37b4a969823418168dfeab438c9a8664b8697"
+  },
+  {
+    "file": "Documentation/audits/REMAINING_ITEMS_FINAL_REPORT.md",
+    "sha256": "761cfcf2e8c1aca642fe062b38a472e432be3c61c607b628dc159483efe2118f"
+  },
+  {
+    "file": "Documentation/audits/REPOSITORY_AUDIT.md",
+    "sha256": "c3c1d4877e8d25cc6eccf22104f3b0c91b5fc1384fd01fd63968e55bcd6c976d"
+  },
+  {
+    "file": "Documentation/audits/RUNTIME_SECURITY_STATIC_REVIEW.md",
+    "sha256": "07eaa895761ed4096b28397d7c02f662ef9c7c74e5654d9d318e982ddd1d0813"
+  },
+  {
+    "file": "Documentation/audits/SECURITY_AUDIT.md",
+    "sha256": "e1ffd1c22439f23beb418172b4a328cf3a24bae233f1316b51b376bcfd9e6477"
+  },
+  {
+    "file": "Documentation/audits/TRANSITIVE_TOOLCHAIN_LOCK.md",
+    "sha256": "07da564cd740ff59b49aa3ed2f8f86fa08fbfa3ba0dbcb6cd389759209129a87"
+  },
+  {
+    "file": "Documentation/BUILD_INSTRUCTIONS.md",
+    "sha256": "cdb49c8f949c105fb1137b66df3ab6b4488bce1ead88a03e9d648f7374c4e3ed"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/DYNAMIC_SYMBOL_REVIEW.txt",
+    "sha256": "e7e1b81d63bbd4ff489162ae167e9a97713eadb8b83224d4d8251f828a3b2fee"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/EXISTING_CI_EVIDENCE.json",
+    "sha256": "bc24aba94aa183a20a5974a2b89e6a6f120863a09e9f037e20307116d579fdf6"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/FINAL_SECURITY_REPORT.md",
+    "sha256": "f316b81a4f8e65241f18e6a39a3f43c32c069c400d522a67fcbd4c1d8a561eac"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/GIT_REVIEW.txt",
+    "sha256": "4a4a244c7cc05e0ab4ac5b26e4c65893f1045acf2575423677f7f73e1c026548"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/inspect_packages.py",
+    "sha256": "8a62432ebe446af202b74377fcac8acbbafca04f62b5d11e424602ea30675f11"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/LOG_REDACTION_MODEL.json",
+    "sha256": "938e410872c19a7f77d6c1946a0339f5930fc538b33fdf060b809c58c1a2dfc0"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/MarufYT-1.1.4+marufyt.6-YouTube-21.39.4-ROOTLESS-signing-required.json",
+    "sha256": "e11ae2cbaf254527ca115d4ee76f66565e60416fcd4736b45e112ff68a9a74f1"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/MarufYT-1.1.4+marufyt.6-YouTube-21.43.5-ROOTLESS-signing-required.json",
+    "sha256": "08870fb3c1c879d58312559448315e34d4a3fcb322b9258323cf00a9aac50861"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/MarufYT-1.1.4+marufyt.7-YouTube-21.39.4-ROOTLESS-signing-required.json",
+    "sha256": "9d1e5de724ab1e806b65c9486c3dcdaa6da4fe3f818a3003c70e7c4999293fa4"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/MarufYT-1.1.4+marufyt.7-YouTube-21.43.5-ROOTLESS-signing-required.json",
+    "sha256": "d208ba537103db934d48b396134575c6f4555be324dd061570c6f40124ba09d9"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/PACKAGE_INSPECTION.txt",
+    "sha256": "89b9087fbcbccfb71c70d70225d42f13b0fac78dc863b4877da9dc7cb9eab3f6"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/PHASE4_BINARY_COMPARISON.json",
+    "sha256": "262832a6d093eed658b4d844b170ce8091d651edaabdc1f41de10f39bf93a618"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/PRESERVATION_AFTER.json",
+    "sha256": "0308c00b0d7d8c0a87df81738d506885e6d349b7923e277ff5fc19b8b533f121"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/PRESERVATION_BEFORE.json",
+    "sha256": "199657661dd2b48d06ea7b2a873c706c17388dae22927341ed1abda3dbd7e866"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/RELEVANT_TESTS.txt",
+    "sha256": "5d0d2ea171a52b3b0c015b370da0d6f0a54e5d60143a6dfcf5b50555a5e78ca7"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/REPORT_REVIEW.diff",
+    "sha256": "7b94d762f12c8b7d1bfff402c47b43d55eb6c557222b9f4003030ed4a54d62e8"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/REPOSITORY_SECRET_SCAN.json",
+    "sha256": "2257eb5981ab7b0c50d3d7536e5f62aa0d085c09af9978d312c70af357a6ebeb"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/SECURITY_REGRESSION_EVIDENCE.json",
+    "sha256": "212bd474b0e97543058e7d5b4f63e3e2cf20e43fe864578741e469372081da9b"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/SHA256SUMS.txt",
+    "sha256": "2447826434ea235d8cc47fcdf1803c046f5f44e8141623df00c3cf271666d6c0"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/SOURCE_API_INDEX.txt",
+    "sha256": "6608b31ece8b2b869861b62926dab97df61e7caecccf46fe1ef2d864b83638d3"
+  },
+  {
+    "file": "Documentation/FINAL_SECURITY_AUDIT/SOURCE_CHECKS.txt",
+    "sha256": "4477faad1bbcd3dfc1d7d8b0e321f92c42c7a35db6b8acc5ffe9f1fa778dd6d5"
+  },
+  {
+    "file": "Documentation/FINAL_UPDATE/FINAL_UPDATE_REPORT.md",
+    "sha256": "0b772790769ce74f6994a1e575a67a49d55801daa0a4e94beba9675d347bd2b5"
+  },
+  {
+    "file": "Documentation/FINAL_UPDATE/RELEASE_NOTES.md",
+    "sha256": "07a960c16e3cdb762831374bf9f74842c8ed3f267f94690db5376d7a8e4fcff8"
+  },
+  {
+    "file": "Documentation/history/phase2/ANIMATION_OPTIMIZATION_REPORT.md",
+    "sha256": "a413a62edec1660b7dbda08ab745c259dc6f67e1385d72977ba08d0b149db031"
+  },
+  {
+    "file": "Documentation/history/phase2/CPU_BATTERY_OPTIMIZATION_REPORT.md",
+    "sha256": "45afd415908ff948fb22340fb64457338ac2baddc0f4cfa575a2f7d459be9ae3"
+  },
+  {
+    "file": "Documentation/history/phase2/DEVICE_COMPATIBILITY_REPORT.md",
+    "sha256": "30027361a539d973d13a685459332965eeb1aad01920e55eea4f4666537b1e65"
+  },
+  {
+    "file": "Documentation/history/phase2/FINAL_OPTIMIZATION_REPORT.md",
+    "sha256": "256fc65c3507b2e4ecd43d2488d5e20aad211b90cc3141d79f01db02dbfb6f7c"
+  },
+  {
+    "file": "Documentation/history/phase2/MEMORY_OPTIMIZATION_REPORT.md",
+    "sha256": "39604b5a2cb30724cf63329114d52789e4856818d8b8549b21c061d35d794de7"
+  },
+  {
+    "file": "Documentation/history/phase2/PERFORMANCE_BEFORE_AFTER.md",
+    "sha256": "5dc2ad40ba8c83312c9d001fbbf7e05535cade917ae12520b4c4f92f77467d15"
+  },
+  {
+    "file": "Documentation/history/phase2/REGRESSION_TEST_RESULTS.md",
+    "sha256": "51e62dada49edb19fc0c182bce85cae4c1bffa5bf1dea4739aa930f7c83f704a"
+  },
+  {
+    "file": "Documentation/history/phase2/TOUCH_RESPONSE_AUDIT.md",
+    "sha256": "27f4c9790006e3fac3cb91531fdfa3ae71855b41f9f492fea75e1d2e51aba941"
+  },
+  {
+    "file": "Documentation/history/phase2/UI_ALIGNMENT_AUDIT.md",
+    "sha256": "74f10e64cb6293c6af7ed0c99996fe2bdf06b104deb54ae33ba57cd10ed3f1cb"
+  },
+  {
+    "file": "Documentation/INSTALLATION.md",
+    "sha256": "bdc3d9838b7aea77eb0566a691445be31ca27b168846087d6089edc53abc93b7"
+  },
+  {
+    "file": "Documentation/MODULES.md",
+    "sha256": "87dd76b2f96ed765abda4f00b5e79708967ff2ea28048ee7f0f5b74bf165af76"
+  },
+  {
+    "file": "Documentation/PHASE3/ANIMATION_SIMPLIFICATION_REPORT.md",
+    "sha256": "028bd89effd5e45c137dec575bdba07e07434c26384ed82816e70efa201947e8"
+  },
+  {
+    "file": "Documentation/PHASE3/DEVICE_TEST_RESULTS.md",
+    "sha256": "871ebbad801c07866c40bd6a5bf1b81ade944d35382de7b2e00851afc2f6b971"
+  },
+  {
+    "file": "Documentation/PHASE3/FINAL_IMPLEMENTATION_REPORT.md",
+    "sha256": "39f05679365d4227a9cfa46ec593c74154d52d9f349a65aade8de013470e3fe7"
+  },
+  {
+    "file": "Documentation/PHASE3/HOME_LAYOUT_FIX_REPORT.md",
+    "sha256": "5d3229e315d33348d8a3091fa4e1ea0cde7a794e8a97305e1a14510538e091b4"
+  },
+  {
+    "file": "Documentation/PHASE3/PERFORMANCE_REPORT.md",
+    "sha256": "53ff174939015a5433ce21a4aa37e4ffe6e77afc622bffaad67b0b215150d81d"
+  },
+  {
+    "file": "Documentation/PHASE3/SCREEN_RECORDING_AUDIT.md",
+    "sha256": "ac46f355688c285e3d688ad9b75f91623d00b18edc8285a50cdb517d9ed45658"
+  },
+  {
+    "file": "Documentation/PHASE3/TAB_BAR_FIX_REPORT.md",
+    "sha256": "198a2fa0775ab34fee71ea5368f4a0903fa886189e0fb7a03e9bec8947b9fadf"
+  },
+  {
+    "file": "Documentation/PHASE3/UI_STABILITY_REPORT.md",
+    "sha256": "cc0ae7ca539bb79f33aa0fb0127e23f835ae3df463a82c0a0c2ff31afee75fba"
+  },
+  {
+    "file": "Documentation/PHASE4/BINARY_SUPPLY_CHAIN_AUDIT.md",
+    "sha256": "40f2bef6803b80ad61db446e37555b6c3e0899e50781ac2748023ee278306648"
+  },
+  {
+    "file": "Documentation/PHASE4/FEATURE_REGRESSION_REPORT.md",
+    "sha256": "4a492f616e139a3f220d47d3cbe314f9a226d3d33b874f4b1c9b1cfc9e1793b2"
+  },
+  {
+    "file": "Documentation/PHASE4/FINAL_COMPLETION_REPORT.md",
+    "sha256": "ade40e3d70de60274c76f6944a0723616684606a267173b53437a5f04ff410a0"
+  },
+  {
+    "file": "Documentation/PHASE4/GITHUB_REDESIGN_REPORT.md",
+    "sha256": "5f04cda5319a154039a9f2e0ab6892ca046ae5192132e0b76a4ae32fb5453b38"
+  },
+  {
+    "file": "Documentation/PHASE4/IOS_PERMISSION_AUDIT.md",
+    "sha256": "5318252f9a48e1a56e148e699ae2c8383ee8455719ba0c290f745e2387ff4c03"
+  },
+  {
+    "file": "Documentation/PHASE4/PERFORMANCE_REPORT.md",
+    "sha256": "86017928a5baa022c17de0e4808a4e639148b6672f4c95d075660e556c0c5689"
+  },
+  {
+    "file": "Documentation/PHASE4/PRIVACY_DATA_FLOW_AUDIT.md",
+    "sha256": "83790e49acf90ee471d0fed3cb194cff1f5ce6cd3eb08c280852c88f8ed628c9"
+  },
+  {
+    "file": "Documentation/PHASE4/REPOSITORY_CLEANUP_REPORT.md",
+    "sha256": "a03f84852b341c71a570e0715d185f9e294827048c3aa41de6fee9eb40a947dc"
+  },
+  {
+    "file": "Documentation/PHASE4/SECURITY_AUDIT.md",
+    "sha256": "38e8c5ad2c03069ed68012bb5e1aeafbaac38f589d8ef4b7dae49bd7ed46b566"
+  },
+  {
+    "file": "Documentation/PHASE4.1/FINAL_COMPLETION_REPORT.md",
+    "sha256": "a90bd4b44321fc1707a6011515142e25cf79e76c257f729fbc2021ac0de171f3"
+  },
+  {
+    "file": "Documentation/PHASE4.1/MAIN_THREAD_NETWORK_REPORT.md",
+    "sha256": "d7cf4cd27a4bcdf3f4529f7801a10446d6712da34bde0b92cd53ba9e36d7a5e1"
+  },
+  {
+    "file": "Documentation/PHASE4.1/OBSERVER_LIFECYCLE_REPORT.md",
+    "sha256": "6d1fc9c4a0bcaa7c6d49d0ec26fa3125df64a28d7b9881be9fbfcb2e7eb996e3"
+  },
+  {
+    "file": "Documentation/PHASE4.1/PERFORMANCE_PROFILE.md",
+    "sha256": "ab5a4a5abf80650242230e2f67eebf8480f5392de9b44d03f8c4c1e79a26cb83"
+  },
+  {
+    "file": "Documentation/PHASE4.1/SECURITY_REGRESSION_REPORT.md",
+    "sha256": "a8dda91e8948bcdefc3b402246234918fa6cb85a55d18ba3b3d30c62a6c1b724"
+  },
+  {
+    "file": "Documentation/PHASE4.1/SPONSORBLOCK_PRIVACY_REPORT.md",
+    "sha256": "15e45bd4dca32c8047d3dc0edfebb38cda1132d0327c860d0ae120c3d7625590"
+  },
+  {
+    "file": "Documentation/PHASE4.1/UI_STABILITY_REPORT.md",
+    "sha256": "cf21e248f2452f72fda9cbd2fb57f6e58a695feb30bf169753d68275e935019b"
+  },
+  {
+    "file": "Documentation/README.md",
+    "sha256": "056e5e7d2ae47a7d25ea14a18254564e8b90560193a91669d6af156dae4a44ef"
+  },
+  {
+    "file": "Documentation/REQUIREMENTS_CHECKLIST.md",
+    "sha256": "3f7b75443e079e90cffa8913d0bd0f24354fe4d7b6a01aea5165fad66d87fe43"
+  },
+  {
+    "file": "Documentation/SOURCE_PROVENANCE.md",
+    "sha256": "5dbcba30a9ebc72827f7b5e4000a427145ee62d6ad87b2d635ee03218a5a6dbf"
+  },
+  {
+    "file": "DOCUMENTATION_LINK_CHECK.json",
+    "sha256": "29b39c447adfa446ca8729724495816396aa9084f6ccc7f0f706e7a8e61d1455"
+  },
+  {
+    "file": "FINAL_PACKAGE_VERIFICATION.json",
+    "sha256": "42925379f6a57746fcd452a6818ca7eaa5c16700171f2f5f708dc3abf7907fed"
+  },
+  {
+    "file": "FINAL_REPOSITORY_STATE.json",
+    "sha256": "38d8ddd74688f4d014ecacc2109ce02a45042b24917c58a8d3895b2654911e55"
+  },
+  {
+    "file": "FINAL_SECRET_SCAN.json",
+    "sha256": "d43b550ce0a34244121a26901fac362322e59150d65399787de14cd86fe88ade"
+  },
+  {
+    "file": "FINAL_UPDATE_REPORT.md",
+    "sha256": "0b772790769ce74f6994a1e575a67a49d55801daa0a4e94beba9675d347bd2b5"
+  },
+  {
+    "file": "INSTALLATION.md",
+    "sha256": "bdc3d9838b7aea77eb0566a691445be31ca27b168846087d6089edc53abc93b7"
+  },
+  {
+    "file": "Latest-YouTube-21.43.5/ASSEMBLY.json",
+    "sha256": "0a4b4ad7b833563e5241eb6cdc57745d26a6f25d76e9f75fe094b765c58f3212"
+  },
+  {
+    "file": "Latest-YouTube-21.43.5/com.arifular1f.marufyt_1.1.4+marufyt.8_rootless.deb",
+    "sha256": "3ab9f0550f53c6363a49b075fc2845285b5753bf6802bdefc64c12b813f84102"
+  },
+  {
+    "file": "Latest-YouTube-21.43.5/INITIAL_VERIFICATION.json",
+    "sha256": "b01e57fdda0240bac40eb64f530a417592182a99cf6ba3be39dc18420d898f95"
+  },
+  {
+    "file": "Latest-YouTube-21.43.5/INITIAL_VERIFICATION.txt",
+    "sha256": "562c5a843cbb889db1f80b5c674c029268830ff30d0e55c7fc4c97a5acc52a9e"
+  },
+  {
+    "file": "Latest-YouTube-21.43.5/MarufYT-1.1.4+marufyt.8-YouTube-21.43.5-ROOTLESS-signing-required.ipa",
+    "sha256": "576ca959641e5ba1c285c422d19b1e545d5f838b36a8be7109564b22b2cb46e8"
+  },
+  {
+    "file": "Latest-YouTube-21.43.5/MarufYT.dylib",
+    "sha256": "eddb035be134a3ee7f0d679feb1127908ae1b5ada4ae186eaef43f0c68895108"
+  },
+  {
+    "file": "Latest-YouTube-21.43.5/provenance.txt",
+    "sha256": "17389a8fbe9d5a126884a4dcd84d9e99dfd7c18b5f1af8df4e4dab8aeee24a87"
+  },
+  {
+    "file": "Latest-YouTube-21.43.5/SHA256SUMS.txt",
+    "sha256": "792deda8fa94f9ad3b86df320acf54548225acecf586194ae732077676ded90f"
+  },
+  {
+    "file": "Latest-YouTube-21.43.5/toolchain-provenance.json",
+    "sha256": "8272dcdedb61f85fa2771b6aa40abae9ba367e01428497c120ff9b2fa882674a"
+  },
+  {
+    "file": "Latest-YouTube-21.43.5/VERIFICATION.json",
+    "sha256": "87e51c6532184c1ebc1e7dc76859a9fce19f8e8293e8ca6c81bdf2d49aa0bb7a"
+  },
+  {
+    "file": "Latest-YouTube-21.43.5/VERIFICATION.txt",
+    "sha256": "fe603c7cb039da6340af9ee9d0741470d03cc29eafc9bc4e64cd5c50541abfdd"
+  },
+  {
+    "file": "LOCAL_SOURCE_CHECKS.txt",
+    "sha256": "4477faad1bbcd3dfc1d7d8b0e321f92c42c7a35db6b8acc5ffe9f1fa778dd6d5"
+  },
+  {
+    "file": "LOCAL_TESTS.txt",
+    "sha256": "44c0b849f6d909d1edb1b506922f537e3df470b21e76a22cc406eb4102d64500"
+  },
+  {
+    "file": "PRE_PUSH_SECRET_SCAN.json",
+    "sha256": "1d921d9411518eabac4f2355f97c9c309aa36e1641e25cecd0e903bb19d52741"
+  },
+  {
+    "file": "PRESERVATION_AFTER.json",
+    "sha256": "8b9c421d34cd5c0348b332bcff40fdf5a246d216706c358d8a3bbfd90df46a64"
+  },
+  {
+    "file": "PRESERVATION_BEFORE.json",
+    "sha256": "983d6cccf0c1374b8ee254582400eef91ae97eb180800b96824558a78cce07dc"
+  },
+  {
+    "file": "PREVIOUS_PHASE4_RELEASE_INTEGRITY.json",
+    "sha256": "7afd63ca8d0f74c583bfe3aedc477c0ef2f6d34364269c30d60095aa01e6f353"
+  },
+  {
+    "file": "PRIVACY.md",
+    "sha256": "36b52cc378afefa9a97cd298b5e428c7d1f345315fd0ed88f645ab6e1484289c"
+  },
+  {
+    "file": "README.md",
+    "sha256": "6f2c084f8ac150c9f6439a304a91ad109ece589e745cfa6bba575fea6e868556"
+  },
+  {
+    "file": "REDACTION_MODEL.json",
+    "sha256": "76b1ddcf46a2e99db8b43a4c30cc10aa72b0916b19355622b0767420999f5400"
+  },
+  {
+    "file": "RELEASE_NOTES.md",
+    "sha256": "07a960c16e3cdb762831374bf9f74842c8ed3f267f94690db5376d7a8e4fcff8"
+  },
+  {
+    "file": "SECURITY.md",
+    "sha256": "b715dd1a1df267ab40f6935b4ee5522cbbcb3ba989ff39db1bca7e893ede5b21"
+  },
+  {
+    "file": "Source/macho.py",
+    "sha256": "607ce4a1a4738147da65e8d66979dbd9d7102cdc832eaf9b70091180e938b08e"
+  },
+  {
+    "file": "Source/MarufYT-source-c5f3dc3.zip",
+    "sha256": "a4d0f9b84b1355908676370948c845a9a76d3fdcee20c19019b2ca758ccc4723"
+  },
+  {
+    "file": "Source/SECURITY_UPDATE.patch",
+    "sha256": "aa346bbef233bcf192963c967366b1b5bb8edbbf199642fc489b9f47a06a52d4"
+  },
+  {
+    "file": "Source/SHA256SUMS.txt",
+    "sha256": "ab549f74b1a64671bb6f43d720634286420a638fe70e9184a0aedfb5049ea374"
+  },
+  {
+    "file": "Source/VERIFIER_NOTES.md",
+    "sha256": "9ac78fa54a5110d62a91576c84fc61f176ee0c1c46b50816419ac05caac8baf9"
+  },
+  {
+    "file": "Source/verify_release.py",
+    "sha256": "b5174430aa5124e20681228f547ab435ad97ed84c1c7a64a3daaeffc176e52da"
+  },
+  {
+    "file": "Stable-YouTube-21.39.4/ASSEMBLY.json",
+    "sha256": "b5e2b0f668cc2237208affb5ea9a64397073a3a43997a2fab93100eb8c2fe322"
+  },
+  {
+    "file": "Stable-YouTube-21.39.4/com.arifular1f.marufyt_1.1.4+marufyt.8_rootless.deb",
+    "sha256": "3ab9f0550f53c6363a49b075fc2845285b5753bf6802bdefc64c12b813f84102"
+  },
+  {
+    "file": "Stable-YouTube-21.39.4/INITIAL_VERIFICATION.json",
+    "sha256": "4dc7084ea4da72146a6e628071a501bf916091875c5dc8b7244ec9cac03c0944"
+  },
+  {
+    "file": "Stable-YouTube-21.39.4/INITIAL_VERIFICATION.txt",
+    "sha256": "80ab336cab84d91d23ccefe8b6d279a30058b116c15cfdd84b6ad701e823b3a0"
+  },
+  {
+    "file": "Stable-YouTube-21.39.4/MarufYT-1.1.4+marufyt.8-YouTube-21.39.4-ROOTLESS-signing-required.ipa",
+    "sha256": "05a13cb11f555a64889a19a702028b235a363e50dc489e1dd7728942f7ddeaf7"
+  },
+  {
+    "file": "Stable-YouTube-21.39.4/MarufYT.dylib",
+    "sha256": "eddb035be134a3ee7f0d679feb1127908ae1b5ada4ae186eaef43f0c68895108"
+  },
+  {
+    "file": "Stable-YouTube-21.39.4/provenance.txt",
+    "sha256": "17389a8fbe9d5a126884a4dcd84d9e99dfd7c18b5f1af8df4e4dab8aeee24a87"
+  },
+  {
+    "file": "Stable-YouTube-21.39.4/SHA256SUMS.txt",
+    "sha256": "45bb3ffb5a442d162a7fc77f034db587cd62d15c37ef56d4b4c8f727e350bf0d"
+  },
+  {
+    "file": "Stable-YouTube-21.39.4/toolchain-provenance.json",
+    "sha256": "8272dcdedb61f85fa2771b6aa40abae9ba367e01428497c120ff9b2fa882674a"
+  },
+  {
+    "file": "Stable-YouTube-21.39.4/VERIFICATION.json",
+    "sha256": "5f5faf76d302ba648ee3eb1ebca7becbde9d7929f90236e3f5ccde13cdd4228f"
+  },
+  {
+    "file": "Stable-YouTube-21.39.4/VERIFICATION.txt",
+    "sha256": "c834ad4956da4a147d0fab256f8f387a34cc845156ad51280e7b199bbeef01a7"
+  }
+]

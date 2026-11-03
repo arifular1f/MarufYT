@@ -1,0 +1,1071 @@
+test	Set up job	﻿2026-11-03T00:31:00.0852674Z Current runner version: '2.338.2'
+test	Set up job	2026-11-03T00:31:00.0868793Z ##[group]Runner Image Provisioner
+test	Set up job	2026-11-03T00:31:00.0869433Z Hosted Compute Agent
+test	Set up job	2026-11-03T00:31:00.0869874Z Version: 20261021.618
+test	Set up job	2026-11-03T00:31:00.0870464Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+test	Set up job	2026-11-03T00:31:00.0871203Z Build Date: 2026-10-21T00:45:21Z
+test	Set up job	2026-11-03T00:31:00.0871731Z Worker ID: {6e117dac-4ab0-487b-b272-80c25602c58e}
+test	Set up job	2026-11-03T00:31:00.0872250Z Region: centralus
+test	Set up job	2026-11-03T00:31:00.0872639Z Cloud: Azure
+test	Set up job	2026-11-03T00:31:00.0873037Z ##[endgroup]
+test	Set up job	2026-11-03T00:31:00.0873907Z ##[group]Operating System
+test	Set up job	2026-11-03T00:31:00.0874372Z Ubuntu
+test	Set up job	2026-11-03T00:31:00.0874758Z 24.04.5
+test	Set up job	2026-11-03T00:31:00.0875120Z LTS
+test	Set up job	2026-11-03T00:31:00.0875478Z ##[endgroup]
+test	Set up job	2026-11-03T00:31:00.0875847Z ##[group]Runner Image
+test	Set up job	2026-11-03T00:31:00.0876274Z Image: ubuntu-24.04
+test	Set up job	2026-11-03T00:31:00.0876655Z Version: 20261025.353.1
+test	Set up job	2026-11-03T00:31:00.0877351Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+test	Set up job	2026-11-03T00:31:00.0878560Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+test	Set up job	2026-11-03T00:31:00.0879229Z ##[endgroup]
+test	Set up job	2026-11-03T00:31:00.0879980Z ##[group]GITHUB_TOKEN Permissions
+test	Set up job	2026-11-03T00:31:00.0881676Z Contents: read
+test	Set up job	2026-11-03T00:31:00.0882104Z Metadata: read
+test	Set up job	2026-11-03T00:31:00.0882881Z ##[endgroup]
+test	Set up job	2026-11-03T00:31:00.0884349Z Secret source: Actions
+test	Set up job	2026-11-03T00:31:00.0884944Z Cache mode: write
+test	Set up job	2026-11-03T00:31:00.0885434Z Prepare workflow directory
+test	Set up job	2026-11-03T00:31:00.1112470Z Prepare all required actions
+test	Set up job	2026-11-03T00:31:00.1149061Z Getting action download info
+test	Set up job	2026-11-03T00:31:00.3383632Z Download action repository 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803' (SHA:d23441a48e516b6c34aea4fa41551a30e30af803)
+test	Set up job	2026-11-03T00:31:00.5110804Z Complete job name: test
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	﻿2026-11-03T00:31:00.5673415Z ##[group]Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5674512Z with:
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5674989Z   persist-credentials: false
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5675408Z   fetch-depth: 0
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5675828Z   repository: arifular1f/MarufYT
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5678443Z   token: ***
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5678804Z   ssh-strict: true
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5679171Z   ssh-user: git
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5679525Z   clean: true
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5679906Z   sparse-checkout-cone-mode: true
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5680341Z   fetch-tags: false
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5680979Z   show-progress: true
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5681377Z   lfs: false
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5681723Z   submodules: false
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5682102Z   set-safe-directory: true
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5682529Z   allow-unsafe-pr-checkout: false
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.5683149Z ##[endgroup]
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7926610Z Syncing repository: arifular1f/MarufYT
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7928184Z ##[group]Getting Git version info
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7928923Z Working directory is '/home/runner/work/MarufYT/MarufYT'
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7929806Z [command]/usr/bin/git version
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8006900Z git version 2.56.0
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8021867Z ##[endgroup]
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8033320Z Temporarily overriding HOME='/home/runner/work/_temp/8f582440-aac0-47f2-939b-d4dbed059d47' before making global git config changes
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8034757Z Adding repository directory to the temporary git global config as a safe directory
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8038691Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/MarufYT/MarufYT
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8078075Z Deleting the contents of '/home/runner/work/MarufYT/MarufYT'
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8081059Z ##[group]Determining repository object format
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8083157Z ##[endgroup]
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8084101Z ##[group]Initializing the repository
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8105468Z [command]/usr/bin/git init /home/runner/work/MarufYT/MarufYT
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8205809Z hint: Using 'master' as the name for the initial branch. This default branch name
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8207253Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8208741Z hint: to use in all of your new repositories, which will suppress this warning,
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8209830Z hint: call:
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8210464Z hint:
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8211515Z hint: 	git config --global init.defaultBranch <name>
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8212395Z hint:
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8213506Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8214942Z hint: 'development'. The just-created branch can be renamed via this command:
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8216121Z hint:
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8216796Z hint: 	git branch -m <name>
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8217501Z hint:
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8218261Z hint: Disable this message with "git config set advice.defaultBranchName false"
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8219454Z Initialized empty Git repository in /home/runner/work/MarufYT/MarufYT/.git/
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8222276Z [command]/usr/bin/git remote add origin https://github.com/arifular1f/MarufYT
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8298653Z ##[endgroup]
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8299642Z ##[group]Disabling automatic garbage collection
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8300925Z [command]/usr/bin/git config --local gc.auto 0
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8330000Z ##[endgroup]
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8331350Z ##[group]Setting up auth
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8332139Z Removing SSH command configuration
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8335469Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8360916Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8657889Z Removing HTTP extra header
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8662690Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8686103Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8824931Z Removing includeIf entries pointing to credentials config files
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8829145Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8852829Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.8996299Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.9026053Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/MarufYT/MarufYT/.git.path /home/runner/work/_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.9052864Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/MarufYT/MarufYT/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.9080299Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.9107822Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.9132884Z ##[endgroup]
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.9133526Z ##[group]Fetching the repository
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.9138363Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4083706Z From https://github.com/arifular1f/MarufYT
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4085088Z  * [new branch]      final-update-security   -> origin/final-update-security
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4086422Z  * [new branch]      fix/hls-manifest-validation -> origin/fix/hls-manifest-validation
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4087688Z  * [new branch]      main                    -> origin/main
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4088643Z  * [new branch]      optimization/phase2-performance -> origin/optimization/phase2-performance
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4089803Z  * [new branch]      phase2                  -> origin/phase2
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4090905Z  * [new branch]      phase3-ui-stability     -> origin/phase3-ui-stability
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4091931Z  * [new branch]      phase4-security-privacy -> origin/phase4-security-privacy
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4092839Z  * [new branch]      phase4.1-performance-ui -> origin/phase4.1-performance-ui
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4093706Z  * [new branch]      stable-21.39.4          -> origin/stable-21.39.4
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4096790Z [command]/usr/bin/git branch --list --remote origin/fix/hls-manifest-validation
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4115196Z   origin/fix/hls-manifest-validation
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4122267Z [command]/usr/bin/git rev-parse refs/remotes/origin/fix/hls-manifest-validation
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4142974Z 743f307b816d275fef88d34a36ba546415015753
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4145716Z ##[endgroup]
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4146903Z ##[group]Determining the checkout info
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4148053Z ##[endgroup]
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4150321Z [command]/usr/bin/git sparse-checkout disable
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4198695Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4221853Z ##[group]Checking out the ref
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.4225070Z [command]/usr/bin/git checkout --progress --force -B fix/hls-manifest-validation refs/remotes/origin/fix/hls-manifest-validation
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5293760Z Switched to a new branch 'fix/hls-manifest-validation'
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5296224Z branch 'fix/hls-manifest-validation' set up to track 'origin/fix/hls-manifest-validation'.
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5304788Z ##[endgroup]
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5335068Z [command]/usr/bin/git log -1 --format=%H
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5352627Z 743f307b816d275fef88d34a36ba546415015753
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5363103Z ##[group]Removing auth
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5364139Z Removing SSH command configuration
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5365191Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5390072Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5534226Z Removing HTTP extra header
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5536846Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5559721Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5701300Z Removing includeIf entries pointing to credentials config files
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5703840Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5724396Z includeif.gitdir:/home/runner/work/MarufYT/MarufYT/.git.path
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5727036Z includeif.gitdir:/home/runner/work/MarufYT/MarufYT/.git/worktrees/*.path
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5729254Z includeif.gitdir:/github/workspace/.git.path
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5731523Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5735957Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/MarufYT/MarufYT/.git.path
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5749922Z /home/runner/work/_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5759464Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/MarufYT/MarufYT/.git.path /home/runner/work/_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5787649Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/MarufYT/MarufYT/.git/worktrees/*.path
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5803972Z /home/runner/work/_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5812132Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/MarufYT/MarufYT/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5846536Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5864514Z /github/runner_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5871971Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5900325Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5916462Z /github/runner_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5923123Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.5949412Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.6091779Z Removing credentials config '/home/runner/work/_temp/git-credentials-dec30603-b1bb-4fd9-a526-97e39a61a952.config'
+test	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:02.6101060Z ##[endgroup]
+test	Upstream packaging tests and native layout tests	﻿2026-11-03T00:31:02.6289352Z ##[group]Run python3 -m unittest discover -s Tests -v
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.6290926Z ^[[36;1mpython3 -m unittest discover -s Tests -v^[[0m
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.6306734Z shell: /usr/bin/bash -e {0}
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.6307603Z env:
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.6308329Z   MARUFYT_REQUIRE_NATIVE: 1
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.6309160Z ##[endgroup]
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7253990Z test_escaping_symlink_rejected (test_bootstrap_pinned.BootstrapTests.test_escaping_symlink_rejected) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7256421Z test_lock_has_no_moving_archive_refs (test_bootstrap_pinned.BootstrapTests.test_lock_has_no_moving_archive_refs) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7260810Z test_tampered_cache_rejected_before_extraction (test_bootstrap_pinned.BootstrapTests.test_tampered_cache_rejected_before_extraction) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7264679Z test_tar_traversal_rejected (test_bootstrap_pinned.BootstrapTests.test_tar_traversal_rejected) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7266739Z test_artwork_cache_is_bounded (test_concurrency_invariants.ArtworkIOTests.test_artwork_cache_is_bounded) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7269588Z test_no_synchronous_artwork_read_on_main_paths (test_concurrency_invariants.ArtworkIOTests.test_no_synchronous_artwork_read_on_main_paths) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7272365Z test_network_waits_have_timeouts (test_concurrency_invariants.BlockingWaitTests.test_network_waits_have_timeouts) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7325544Z test_wait_inventory_is_reviewed (test_concurrency_invariants.BlockingWaitTests.test_wait_inventory_is_reviewed) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7328188Z test_waits_are_inside_background_dispatch_files (test_concurrency_invariants.BlockingWaitTests.test_waits_are_inside_background_dispatch_files) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7415050Z test_block_observers_are_installed_once (test_concurrency_invariants.ObserverLifecycleTests.test_block_observers_are_installed_once) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7417979Z test_instance_observers_are_removed_in_dealloc (test_concurrency_invariants.ObserverLifecycleTests.test_instance_observers_are_removed_in_dealloc) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7477929Z test_no_strong_self_in_block_observers (test_concurrency_invariants.ObserverLifecycleTests.test_no_strong_self_in_block_observers) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7878076Z test_observer_inventory_is_reviewed (test_concurrency_invariants.ObserverLifecycleTests.test_observer_inventory_is_reviewed) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7880919Z test_private_lookup_is_opt_in (test_concurrency_invariants.SponsorPrivateLookupTests.test_private_lookup_is_opt_in) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7883851Z test_private_mode_never_sends_the_video_id (test_concurrency_invariants.SponsorPrivateLookupTests.test_private_mode_never_sends_the_video_id) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7885961Z test_is_idempotent (test_macho_inject.MachOInjectTests.test_is_idempotent) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7887684Z test_rejects_missing_slack (test_macho_inject.MachOInjectTests.test_rejects_missing_slack) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:02.7889402Z test_replaces_legacy_load (test_macho_inject.MachOInjectTests.test_replaces_legacy_load) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.1102115Z test_layout_math (test_native_layout_math.NativeLayoutMathTests.test_layout_math) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.1863191Z test_sponsor_hash (test_native_sponsor_hash.NativeSponsorHashTests.test_sponsor_hash) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2061590Z test_preserves_background_modes (test_sanitize_plist.SanitizePlistTests.test_preserves_background_modes) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2255338Z test_preserves_icons_and_enables_file_access (test_sanitize_plist.SanitizePlistTests.test_preserves_icons_and_enables_file_access) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2256603Z test_binary_content_is_detected_without_disclosure (test_secret_scan.SecretScanTests.test_binary_content_is_detected_without_disclosure) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2612854Z test_history_alias_and_index_are_not_missed (test_secret_scan.SecretScanTests.test_history_alias_and_index_are_not_missed) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2613773Z test_private_key_and_embedded_token_locations (test_secret_scan.SecretScanTests.test_private_key_and_embedded_token_locations) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2614837Z test_sensitive_extensions (test_secret_scan.SecretScanTests.test_sensitive_extensions) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2615646Z test_diagnostics_are_opt_in_and_objects_are_not_interpolated (test_security_fixes.SecurityFixContracts.test_diagnostics_are_opt_in_and_objects_are_not_interpolated) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2616510Z test_expiry_logout_cleanup_and_signatures (test_security_fixes.SecurityFixContracts.test_expiry_logout_cleanup_and_signatures) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2617234Z test_hls_validation_precedes_cache_and_native_mutations (test_security_fixes.SecurityFixContracts.test_hls_validation_precedes_cache_and_native_mutations) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2642665Z test_https_initial_tasks_and_both_redirect_layers (test_security_fixes.SecurityFixContracts.test_https_initial_tasks_and_both_redirect_layers) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2645061Z test_no_authenticated_seed_persistence_or_raw_protobuf_dump (test_security_fixes.SecurityFixContracts.test_no_authenticated_seed_persistence_or_raw_protobuf_dump) ... ok
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2646134Z 
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2646498Z ----------------------------------------------------------------------
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2647244Z Ran 31 tests in 0.540s
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2647483Z 
+test	Upstream packaging tests and native layout tests	2026-11-03T00:31:03.2647654Z OK
+test	MarufYT source checks	﻿2026-11-03T00:31:03.2831853Z ##[group]Run python3 Tools/marufyt_checks.py
+test	MarufYT source checks	2026-11-03T00:31:03.2832184Z ^[[36;1mpython3 Tools/marufyt_checks.py^[[0m
+test	MarufYT source checks	2026-11-03T00:31:03.2843878Z shell: /usr/bin/bash -e {0}
+test	MarufYT source checks	2026-11-03T00:31:03.2844117Z ##[endgroup]
+test	MarufYT source checks	2026-11-03T00:31:03.3895343Z PASS branding constant @"MarufYT"
+test	MarufYT source checks	2026-11-03T00:31:03.3896023Z PASS branding constant @"arifular1f"
+test	MarufYT source checks	2026-11-03T00:31:03.3896636Z PASS branding constant @"https://github.com/arifular1f/MarufYT"
+test	MarufYT source checks	2026-11-03T00:31:03.3897169Z PASS branding constant @"https://github.com/arifular1f"
+test	MarufYT source checks	2026-11-03T00:31:03.3897597Z PASS branding constant @"arifular1f/MarufYT"
+test	MarufYT source checks	2026-11-03T00:31:03.3898029Z PASS Makefile lists every Tweak/*.mm
+test	MarufYT source checks	2026-11-03T00:31:03.3898377Z PASS Makefile entries exist
+test	MarufYT source checks	2026-11-03T00:31:03.3898751Z PASS library renamed to MarufYT
+test	MarufYT source checks	2026-11-03T00:31:03.3899051Z PASS build number wired
+test	MarufYT source checks	2026-11-03T00:31:03.3899330Z PASS no bare @"YTKACE" UI literals
+test	MarufYT source checks	2026-11-03T00:31:03.3899809Z PASS no upstream repository or developer row in settings
+test	MarufYT source checks	2026-11-03T00:31:03.3900197Z PASS no Credits row in YouTube Settings entry
+test	MarufYT source checks	2026-11-03T00:31:03.3900758Z PASS no Credits row in MarufYT settings
+test	MarufYT source checks	2026-11-03T00:31:03.3901089Z PASS About row MarufYTAboutRowDeveloper
+test	MarufYT source checks	2026-11-03T00:31:03.3901564Z PASS About row MarufYTAboutRowRepository
+test	MarufYT source checks	2026-11-03T00:31:03.3901844Z PASS About row MarufYTAboutRowVersion
+test	MarufYT source checks	2026-11-03T00:31:03.3902109Z PASS About row MarufYTAboutRowYouTube
+test	MarufYT source checks	2026-11-03T00:31:03.3902377Z PASS About row MarufYTAboutRowPackage
+test	MarufYT source checks	2026-11-03T00:31:03.3902643Z PASS no bundle ID or device model in settings UI
+test	MarufYT source checks	2026-11-03T00:31:03.3902976Z PASS no value labels coloured with the accent
+test	MarufYT source checks	2026-11-03T00:31:03.3903274Z PASS YTKACEAccentColor returns the MarufYT accent
+test	MarufYT source checks	2026-11-03T00:31:03.3903591Z PASS YTKACESettingsPages.mm: inset-grouped, themed
+test	MarufYT source checks	2026-11-03T00:31:03.3903932Z PASS YTKACETabEditorController.mm: inset-grouped, themed
+test	MarufYT source checks	2026-11-03T00:31:03.3904274Z PASS YTKACERootOptionsController.mm: inset-grouped, themed
+test	MarufYT source checks	2026-11-03T00:31:03.3904582Z PASS no shrunken switches
+test	MarufYT source checks	2026-11-03T00:31:03.3904855Z PASS fixed tiny fonts removed from settings rows
+test	MarufYT source checks	2026-11-03T00:31:03.3905198Z PASS preference keys keep YTKACE.Preference namespace  [238 keys]
+test	MarufYT source checks	2026-11-03T00:31:03.3905655Z PASS no MarufYT.Preference keys (backups only export YTKACE.Preference.*)
+test	MarufYT source checks	2026-11-03T00:31:03.3906037Z PASS SponsorBlock behaviour and colour keys bound per category
+test	MarufYT source checks	2026-11-03T00:31:03.3906350Z PASS SponsorBlock setting YTKACESponsorBlockKey
+test	MarufYT source checks	2026-11-03T00:31:03.3907154Z PASS SponsorBlock setting "YTKACE.Preference.SponsorBlock.OverlayButton"
+test	MarufYT source checks	2026-11-03T00:31:03.3907658Z PASS SponsorBlock setting "YTKACE.Preference.SponsorBlock.NotificationMode"
+test	MarufYT source checks	2026-11-03T00:31:03.3908235Z PASS SponsorBlock setting "YTKACE.Preference.SponsorBlock.AudioFeedback"
+test	MarufYT source checks	2026-11-03T00:31:03.3908896Z PASS SponsorBlock setting "YTKACE.Preference.SponsorBlock.SkipAlertSeconds"
+test	MarufYT source checks	2026-11-03T00:31:03.3909499Z PASS SponsorBlock setting "YTKACE.Preference.SponsorBlock.UnskipAlertSeconds"
+test	MarufYT source checks	2026-11-03T00:31:03.3909922Z PASS SponsorBlock setting YTKACEDeArrowThumbModeKey
+test	MarufYT source checks	2026-11-03T00:31:03.3910285Z PASS SponsorBlock setting YTKACEDeArrowTitlesKey
+test	MarufYT source checks	2026-11-03T00:31:03.3910854Z PASS navigation own-view check accepts both names
+test	MarufYT source checks	2026-11-03T00:31:03.3911223Z PASS capsule depth attached
+test	MarufYT source checks	2026-11-03T00:31:03.3911679Z PASS capsule depth excluded from fade loop
+test	MarufYT source checks	2026-11-03T00:31:03.3911991Z PASS capsule depth removed with glass
+test	MarufYT source checks	2026-11-03T00:31:03.3912324Z PASS glass constructor honours preset
+test	MarufYT source checks	2026-11-03T00:31:03.3912670Z PASS tab glass mode falls back to preset, legacy value wins
+test	MarufYT source checks	2026-11-03T00:31:03.3913009Z PASS preset merged into defaults
+test	MarufYT source checks	2026-11-03T00:31:03.3913340Z PASS Design/MarufYTTheme.mm: MIT header
+test	MarufYT source checks	2026-11-03T00:31:03.3913710Z PASS Design/MarufYTTheme.mm: balanced @interface/@implementation  [0 vs 0]
+test	MarufYT source checks	2026-11-03T00:31:03.3914138Z PASS Design/MarufYTTheme.mm: no direct method swizzling
+test	MarufYT source checks	2026-11-03T00:31:03.3914513Z PASS Design/MarufYTTheme.mm: no NSLog debugging
+test	MarufYT source checks	2026-11-03T00:31:03.3914853Z PASS Design/MarufYTTheme.h: MIT header
+test	MarufYT source checks	2026-11-03T00:31:03.3915238Z PASS Design/MarufYTDesign.mm: MIT header
+test	MarufYT source checks	2026-11-03T00:31:03.3915821Z PASS Design/MarufYTDesign.mm: balanced @interface/@implementation  [2 vs 2]
+test	MarufYT source checks	2026-11-03T00:31:03.3916278Z PASS Design/MarufYTDesign.mm: no direct method swizzling
+test	MarufYT source checks	2026-11-03T00:31:03.3916664Z PASS Design/MarufYTDesign.mm: no NSLog debugging
+test	MarufYT source checks	2026-11-03T00:31:03.3916996Z PASS Design/MarufYTDesign.h: MIT header
+test	MarufYT source checks	2026-11-03T00:31:03.3917339Z PASS Design/MarufYTLayoutMath.h: MIT header
+test	MarufYT source checks	2026-11-03T00:31:03.3917732Z PASS Privacy/MarufYTSponsorHash.h: MIT header
+test	MarufYT source checks	2026-11-03T00:31:03.3918052Z PASS Branding/MarufYTBranding.mm: MIT header
+test	MarufYT source checks	2026-11-03T00:31:03.3918410Z PASS Branding/MarufYTBranding.mm: balanced @interface/@implementation  [0 vs 0]
+test	MarufYT source checks	2026-11-03T00:31:03.3918832Z PASS Branding/MarufYTBranding.mm: no direct method swizzling
+test	MarufYT source checks	2026-11-03T00:31:03.3919175Z PASS Branding/MarufYTBranding.mm: no NSLog debugging
+test	MarufYT source checks	2026-11-03T00:31:03.3919470Z PASS Branding/MarufYTBranding.h: MIT header
+test	MarufYT source checks	2026-11-03T00:31:03.3919771Z PASS ar.lproj: parses  [1022 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3920033Z PASS ckb.lproj: parses  [1022 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3920297Z PASS de.lproj: parses  [1022 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3920767Z PASS en.lproj: parses  [1035 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3921166Z PASS es.lproj: parses  [1022 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3921490Z PASS fr.lproj: parses  [1022 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3921734Z PASS it.lproj: parses  [1022 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3922008Z PASS ja.lproj: parses  [1022 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3922262Z PASS ko.lproj: parses  [1022 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3922530Z PASS pl.lproj: parses  [1022 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3922834Z PASS pt-BR.lproj: parses  [1013 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3923088Z PASS ru.lproj: parses  [1022 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3923349Z PASS tr.lproj: parses  [1022 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3923601Z PASS vi.lproj: parses  [1022 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3923849Z PASS zh-Hans.lproj: parses  [1033 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3924123Z PASS zh-Hant.lproj: parses  [1022 entries]
+test	MarufYT source checks	2026-11-03T00:31:03.3924405Z INFO ar.lproj: 13 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3924723Z INFO ckb.lproj: 13 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3925072Z INFO de.lproj: 13 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3925367Z INFO en.lproj: 0 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3925668Z INFO es.lproj: 13 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3925960Z INFO fr.lproj: 13 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3926254Z INFO it.lproj: 13 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3926559Z INFO ja.lproj: 13 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3926846Z INFO ko.lproj: 13 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3927129Z INFO pl.lproj: 13 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3927432Z INFO pt-BR.lproj: 23 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3927759Z INFO ru.lproj: 13 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3928056Z INFO tr.lproj: 13 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3928345Z INFO vi.lproj: 13 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3928647Z INFO zh-Hans.lproj: 2 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3928973Z INFO zh-Hant.lproj: 13 English keys fall back to English
+test	MarufYT source checks	2026-11-03T00:31:03.3929314Z PASS branding leaves no upstream name in localized values
+test	MarufYT source checks	2026-11-03T00:31:03.3929619Z PASS 16 localization tables  [16]
+test	MarufYT source checks	2026-11-03T00:31:03.3929898Z PASS every MarufYT string translated in all 16 tables
+test	MarufYT source checks	2026-11-03T00:31:03.3930231Z PASS diagnostics log redacts tokens and URL queries
+test	MarufYT source checks	2026-11-03T00:31:03.3930524Z PASS diagnostics log not in Files-visible Documents
+test	MarufYT source checks	2026-11-03T00:31:03.3931106Z PASS player buttons have localized VoiceOver labels
+test	MarufYT source checks	2026-11-03T00:31:03.3931402Z PASS no TLS trust overrides
+test	MarufYT source checks	2026-11-03T00:31:03.3931660Z PASS no cleartext http:// endpoints
+test	MarufYT source checks	2026-11-03T00:31:03.3931898Z PASS LICENSE keeps upstream copyright
+test	MarufYT source checks	2026-11-03T00:31:03.3932165Z PASS LICENSE adds MarufYT copyright
+test	MarufYT source checks	2026-11-03T00:31:03.3932447Z PASS THIRD_PARTY_NOTICES credits YTKACE and FFmpeg
+test	MarufYT source checks	2026-11-03T00:31:03.3932844Z PASS workflows never download or publish a YouTube IPA
+test	MarufYT source checks	2026-11-03T00:31:03.3933170Z PASS every action pinned to a full commit SHA
+test	MarufYT source checks	2026-11-03T00:31:03.3933433Z PASS checkout never persists credentials
+test	MarufYT source checks	2026-11-03T00:31:03.3933750Z PASS workflow token read-only
+test	MarufYT source checks	2026-11-03T00:31:03.3934035Z PASS Theos bootstrap uses source/compiler/SDK integrity lock
+test	MarufYT source checks	2026-11-03T00:31:03.3934347Z PASS no untrusted event data in run steps
+test	MarufYT source checks	2026-11-03T00:31:03.3934612Z PASS job timeouts set
+test	MarufYT source checks	2026-11-03T00:31:03.3934844Z PASS Dependabot watches GitHub Actions
+test	MarufYT source checks	2026-11-03T00:31:03.3935182Z PASS SECURITY.md present
+test	MarufYT source checks	2026-11-03T00:31:03.3935497Z PASS PRIVACY.md present
+test	MarufYT source checks	2026-11-03T00:31:03.3935841Z PASS no upstream funding link in repository config
+test	MarufYT source checks	2026-11-03T00:31:03.3936222Z PASS issue templates branded MarufYT
+test	MarufYT source checks	2026-11-03T00:31:03.3936542Z PASS control identity
+test	MarufYT source checks	2026-11-03T00:31:03.3936883Z PASS control conflicts with upstream package
+test	MarufYT source checks	2026-11-03T00:31:03.3937435Z PASS filter plist targets YouTube only
+test	MarufYT source checks	2026-11-03T00:31:03.3937815Z PASS no delayed held-button tab correction
+test	MarufYT source checks	2026-11-03T00:31:03.3938176Z PASS replacement tabs are laid out from their bounds and a native sibling (pure layout)
+test	MarufYT source checks	2026-11-03T00:31:03.3938687Z PASS replacement labels have no fixed bottom-16 offset
+test	MarufYT source checks	2026-11-03T00:31:03.3939034Z PASS lightweight appearance preserves stored preferences
+test	MarufYT source checks	2026-11-03T00:31:03.3939348Z PASS Reduce Motion bypasses custom springs
+test	MarufYT source checks	2026-11-03T00:31:03.3939650Z PASS lens tracker stops off-window and inactive
+test	MarufYT source checks	2026-11-03T00:31:03.3939936Z PASS DeArrow cache has count and memory cost limits
+test	MarufYT source checks	2026-11-03T00:31:03.3940271Z PASS download progress card is event-driven (no layout polling timer)
+test	MarufYT source checks	2026-11-03T00:31:03.3940830Z PASS download metadata cache bounded and pending work cancelled
+test	MarufYT source checks	2026-11-03T00:31:03.3941149Z PASS glass width uses host safe area
+test	MarufYT source checks	2026-11-03T00:31:03.3941485Z PASS Reduce Transparency respected in GlassChrome.mm
+test	MarufYT source checks	2026-11-03T00:31:03.3941791Z PASS Reduce Transparency respected in GlassSheets.mm
+test	MarufYT source checks	2026-11-03T00:31:03.3942124Z PASS Reduce Transparency respected in PlayerGlass.mm
+test	MarufYT source checks	2026-11-03T00:31:03.3942444Z PASS Reduce Transparency respected in Notice.mm
+test	MarufYT source checks	2026-11-03T00:31:03.3942740Z PASS layout math is pure C (no UIKit or Foundation)
+test	MarufYT source checks	2026-11-03T00:31:03.3943025Z PASS default tab bar mode is Simple (3)
+test	MarufYT source checks	2026-11-03T00:31:03.3943293Z PASS tab mode resolved by the tested function
+test	MarufYT source checks	2026-11-03T00:31:03.3943552Z PASS glass presets are not defaulted on
+test	MarufYT source checks	2026-11-03T00:31:03.3943895Z PASS Normal Home Layout defaults on (a stored value still wins)
+test	MarufYT source checks	2026-11-03T00:31:03.3944224Z PASS capsule geometry has no safe-area height term
+test	MarufYT source checks	2026-11-03T00:31:03.3944502Z PASS tab slots are index-based
+test	MarufYT source checks	2026-11-03T00:31:03.3944771Z PASS MarufYT tab label follows the host
+test	MarufYT source checks	2026-11-03T00:31:03.3945020Z PASS native layout tests exist and run in CI
+test	MarufYT source checks	2026-11-03T00:31:03.3945351Z PASS Phase 3 string translated in all 16 tables: Simple
+test	MarufYT source checks	2026-11-03T00:31:03.3945697Z PASS Phase 3 string translated in all 16 tables: Simple uses YouTube's classi
+test	MarufYT source checks	2026-11-03T00:31:03.3946039Z PASS motion helpers honour Reduce Motion
+test	MarufYT source checks	2026-11-03T00:31:03.3946389Z PASS default-visible overlays use no spring animation
+test	MarufYT source checks	2026-11-03T00:31:03.3946719Z PASS diagnostics log appends instead of rewriting each line
+test	MarufYT source checks	2026-11-03T00:31:03.3947050Z PASS layout snapshot is on demand only
+test	MarufYT source checks	2026-11-03T00:31:03.3947393Z PASS URL policy requires https before MarufYT fetches YouTube-supplied URLs
+test	MarufYT source checks	2026-11-03T00:31:03.3947774Z PASS SponsorBlock hash helper is pure C with native tests wired
+test	MarufYT source checks	2026-11-03T00:31:03.3948111Z PASS Private Lookup is a labelled, translated opt-in
+test	MarufYT source checks	2026-11-03T00:31:03.3948417Z PASS artwork cache is bounded and async loader exists
+test	MarufYT source checks	2026-11-03T00:31:03.3948625Z 
+test	MarufYT source checks	2026-11-03T00:31:03.3948710Z OK: 0 failure(s)
+test	Secret scan (all history reachable from this checkout)	﻿2026-11-03T00:31:03.3977074Z ##[group]Run python3 Tools/marufyt_secret_scan.py
+test	Secret scan (all history reachable from this checkout)	2026-11-03T00:31:03.3977410Z ^[[36;1mpython3 Tools/marufyt_secret_scan.py^[[0m
+test	Secret scan (all history reachable from this checkout)	2026-11-03T00:31:03.3988087Z shell: /usr/bin/bash -e {0}
+test	Secret scan (all history reachable from this checkout)	2026-11-03T00:31:03.3988350Z ##[endgroup]
+test	Secret scan (all history reachable from this checkout)	2026-11-03T00:31:11.4579503Z refs=10 commits=202 blobs=1768 bytes=83,572,554 findings=0
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	﻿2026-11-03T00:31:11.4747576Z Post job cleanup.
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5469299Z [command]/usr/bin/git version
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5501931Z git version 2.56.0
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5532016Z Temporarily overriding HOME='/home/runner/work/_temp/aaf57720-3be5-4117-a230-92e4a55e1eb0' before making global git config changes
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5533300Z Adding repository directory to the temporary git global config as a safe directory
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5535971Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/MarufYT/MarufYT
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5563797Z Removing SSH command configuration
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5569568Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5598743Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5775716Z Removing HTTP extra header
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5781004Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5807547Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5994925Z Removing includeIf entries pointing to credentials config files
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.6000251Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+test	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.6026450Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+test	Complete job	﻿2026-11-03T00:31:11.6318019Z Cleaning up orphan processes
+foundation-security	Set up job	﻿2026-11-03T00:30:59.9722770Z Current runner version: '2.338.2'
+foundation-security	Set up job	2026-11-03T00:30:59.9768850Z ##[group]Runner Image Provisioner
+foundation-security	Set up job	2026-11-03T00:30:59.9769580Z Hosted Compute Agent
+foundation-security	Set up job	2026-11-03T00:30:59.9769960Z Version: 20261021.618
+foundation-security	Set up job	2026-11-03T00:30:59.9770350Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+foundation-security	Set up job	2026-11-03T00:30:59.9771140Z Build Date: 2026-10-21T00:45:21Z
+foundation-security	Set up job	2026-11-03T00:30:59.9772100Z Worker ID: {039af689-d9aa-4daf-a79a-79d1e93f72f5}
+foundation-security	Set up job	2026-11-03T00:30:59.9772580Z Region: westus
+foundation-security	Set up job	2026-11-03T00:30:59.9772910Z Cloud: MacCloud
+foundation-security	Set up job	2026-11-03T00:30:59.9773260Z ##[endgroup]
+foundation-security	Set up job	2026-11-03T00:30:59.9774290Z ##[group]Operating System
+foundation-security	Set up job	2026-11-03T00:30:59.9774670Z macOS
+foundation-security	Set up job	2026-11-03T00:30:59.9774980Z 15.8.2
+foundation-security	Set up job	2026-11-03T00:30:59.9775290Z 24H232
+foundation-security	Set up job	2026-11-03T00:30:59.9775620Z ##[endgroup]
+foundation-security	Set up job	2026-11-03T00:30:59.9775980Z ##[group]Runner Image
+foundation-security	Set up job	2026-11-03T00:30:59.9776360Z Image: macos-15-arm64
+foundation-security	Set up job	2026-11-03T00:30:59.9776750Z Version: 20261028.0489.1
+foundation-security	Set up job	2026-11-03T00:30:59.9780370Z Included Software: https://github.com/actions/runner-images/blob/macos-15-arm64/20261028.0489/images/macos/macos-15-arm64-Readme.md
+foundation-security	Set up job	2026-11-03T00:30:59.9781710Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-15-arm64%2F20261028.0489
+foundation-security	Set up job	2026-11-03T00:30:59.9782390Z ##[endgroup]
+foundation-security	Set up job	2026-11-03T00:30:59.9783260Z ##[group]GITHUB_TOKEN Permissions
+foundation-security	Set up job	2026-11-03T00:30:59.9785630Z Contents: read
+foundation-security	Set up job	2026-11-03T00:30:59.9786030Z Metadata: read
+foundation-security	Set up job	2026-11-03T00:30:59.9786380Z ##[endgroup]
+foundation-security	Set up job	2026-11-03T00:30:59.9788260Z Secret source: Actions
+foundation-security	Set up job	2026-11-03T00:30:59.9788840Z Cache mode: write
+foundation-security	Set up job	2026-11-03T00:30:59.9789320Z Prepare workflow directory
+foundation-security	Set up job	2026-11-03T00:31:00.0030740Z Prepare all required actions
+foundation-security	Set up job	2026-11-03T00:31:00.0095070Z Getting action download info
+foundation-security	Set up job	2026-11-03T00:31:00.2877580Z Download action repository 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803' (SHA:d23441a48e516b6c34aea4fa41551a30e30af803)
+foundation-security	Set up job	2026-11-03T00:31:00.6475850Z Complete job name: foundation-security
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	﻿2026-11-03T00:31:00.7115610Z ##[group]Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7116390Z with:
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7116750Z   persist-credentials: false
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7117130Z   repository: arifular1f/MarufYT
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7119930Z   token: ***
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7120260Z   ssh-strict: true
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7120590Z   ssh-user: git
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7120900Z   clean: true
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7121240Z   sparse-checkout-cone-mode: true
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7121630Z   fetch-depth: 1
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7121950Z   fetch-tags: false
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7122290Z   show-progress: true
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7122620Z   lfs: false
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7122930Z   submodules: false
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7123270Z   set-safe-directory: true
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7123650Z   allow-unsafe-pr-checkout: false
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:00.7124230Z ##[endgroup]
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.0997110Z Syncing repository: arifular1f/MarufYT
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1003360Z ##[group]Getting Git version info
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1004330Z Working directory is '/Users/runner/work/MarufYT/MarufYT'
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1011530Z [command]/opt/homebrew/bin/git version
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1602720Z git version 2.56.0
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1668560Z ##[endgroup]
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1727080Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/7cb74a42-65a1-4d7a-be07-0dee4b23d69e/.gitconfig'
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1728940Z Temporarily overriding HOME='/Users/runner/work/_temp/7cb74a42-65a1-4d7a-be07-0dee4b23d69e' before making global git config changes
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1736430Z Adding repository directory to the temporary git global config as a safe directory
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1738220Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/MarufYT/MarufYT
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1747310Z Deleting the contents of '/Users/runner/work/MarufYT/MarufYT'
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1766360Z ##[group]Determining repository object format
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1767260Z ##[endgroup]
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1767910Z ##[group]Initializing the repository
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.1768910Z [command]/opt/homebrew/bin/git init /Users/runner/work/MarufYT/MarufYT
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2001330Z hint: Using 'master' as the name for the initial branch. This default branch name
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2004350Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2006660Z hint: to use in all of your new repositories, which will suppress this warning,
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2008290Z hint: call:
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2009220Z hint:
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2010270Z hint: 	git config --global init.defaultBranch <name>
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2011560Z hint:
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2012780Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2014690Z hint: 'development'. The just-created branch can be renamed via this command:
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2016240Z hint:
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2017150Z hint: 	git branch -m <name>
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2018180Z hint:
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2019700Z hint: Disable this message with "git config set advice.defaultBranchName false"
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2062680Z Initialized empty Git repository in /Users/runner/work/MarufYT/MarufYT/.git/
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2074450Z [command]/opt/homebrew/bin/git remote add origin https://github.com/arifular1f/MarufYT
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2117230Z ##[endgroup]
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2121520Z ##[group]Disabling automatic garbage collection
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2124080Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2217070Z ##[endgroup]
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2219570Z ##[group]Setting up auth
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2220960Z Removing SSH command configuration
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2223210Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.2323610Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.6380520Z Removing HTTP extra header
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.6390320Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.6480260Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.7622460Z Removing includeIf entries pointing to credentials config files
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.7623560Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.7695160Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.8692060Z [command]/opt/homebrew/bin/git config --file /Users/runner/work/_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.8771330Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/Users/runner/work/MarufYT/MarufYT/.git.path /Users/runner/work/_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.8926370Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/Users/runner/work/MarufYT/MarufYT/.git/worktrees/*.path /Users/runner/work/_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.9069280Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.9175150Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.9314040Z ##[endgroup]
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.9316850Z ##[group]Fetching the repository
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:01.9322650Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +743f307b816d275fef88d34a36ba546415015753:refs/remotes/origin/fix/hls-manifest-validation
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:03.8718770Z From https://github.com/arifular1f/MarufYT
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:03.8721150Z  * [new ref]         743f307b816d275fef88d34a36ba546415015753 -> origin/fix/hls-manifest-validation
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:03.8811770Z [command]/opt/homebrew/bin/git branch --list --remote origin/fix/hls-manifest-validation
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:03.9328470Z   origin/fix/hls-manifest-validation
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:03.9335850Z [command]/opt/homebrew/bin/git rev-parse refs/remotes/origin/fix/hls-manifest-validation
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:03.9453560Z 743f307b816d275fef88d34a36ba546415015753
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:03.9463640Z ##[endgroup]
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:03.9464770Z ##[group]Determining the checkout info
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:03.9465820Z ##[endgroup]
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:03.9467100Z [command]/opt/homebrew/bin/git sparse-checkout disable
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:04.0667970Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:04.0779870Z ##[group]Checking out the ref
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:04.0785210Z [command]/opt/homebrew/bin/git checkout --progress --force -B fix/hls-manifest-validation refs/remotes/origin/fix/hls-manifest-validation
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.1445280Z Updating files:  94% (436/460)
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.2201500Z Updating files:  95% (437/460)
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.2585150Z Updating files:  96% (442/460)
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.2864530Z Updating files:  97% (447/460)
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.2946100Z Updating files:  98% (451/460)
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.2981620Z Updating files:  99% (456/460)
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.2983240Z Updating files: 100% (460/460)
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.3019550Z Updating files: 100% (460/460), done.
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.3126210Z Switched to a new branch 'fix/hls-manifest-validation'
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.3282800Z branch 'fix/hls-manifest-validation' set up to track 'origin/fix/hls-manifest-validation'.
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.3295940Z ##[endgroup]
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.3375410Z [command]/opt/homebrew/bin/git log -1 --format=%H
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.3515070Z 743f307b816d275fef88d34a36ba546415015753
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.3645390Z ##[group]Removing auth
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.3647070Z Removing SSH command configuration
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.3651800Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.3755930Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.5140630Z Removing HTTP extra header
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.5148050Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.5219510Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.6980100Z Removing includeIf entries pointing to credentials config files
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.6981190Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7051150Z includeif.gitdir:/Users/runner/work/MarufYT/MarufYT/.git.path
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7108910Z includeif.gitdir:/Users/runner/work/MarufYT/MarufYT/.git/worktrees/*.path
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7125300Z includeif.gitdir:/github/workspace/.git.path
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7156870Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7306980Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/MarufYT/MarufYT/.git.path
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7361060Z /Users/runner/work/_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7375870Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/Users/runner/work/MarufYT/MarufYT/.git.path /Users/runner/work/_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7382960Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/MarufYT/MarufYT/.git/worktrees/*.path
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7384810Z /Users/runner/work/_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7388430Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/Users/runner/work/MarufYT/MarufYT/.git/worktrees/*.path /Users/runner/work/_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7431010Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7505860Z /github/runner_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7535000Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7597950Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7688960Z /github/runner_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7695270Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.7843040Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.9443800Z Removing credentials config '/Users/runner/work/_temp/git-credentials-b2219921-37b1-4203-a8dd-db145ae334b5.config'
+foundation-security	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:05.9479310Z ##[endgroup]
+foundation-security	Execute shipped Foundation security policy and lifecycle fixtures	﻿2026-11-03T00:31:06.0437190Z ##[group]Run set -euo pipefail
+foundation-security	Execute shipped Foundation security policy and lifecycle fixtures	2026-11-03T00:31:06.0437660Z ^[[36;1mset -euo pipefail^[[0m
+foundation-security	Execute shipped Foundation security policy and lifecycle fixtures	2026-11-03T00:31:06.0438060Z ^[[36;1mxcrun clang++ -std=c++17 -fobjc-arc -fblocks -Wall -Wextra \^[[0m
+foundation-security	Execute shipped Foundation security policy and lifecycle fixtures	2026-11-03T00:31:06.0439010Z ^[[36;1m  -I Tweak/Runtime -I Tweak/Features/Downloads \^[[0m
+foundation-security	Execute shipped Foundation security policy and lifecycle fixtures	2026-11-03T00:31:06.0439540Z ^[[36;1m  Tests/native/test_security_foundation.mm Tweak/Runtime/URLPolicy.mm \^[[0m
+foundation-security	Execute shipped Foundation security policy and lifecycle fixtures	2026-11-03T00:31:06.0440060Z ^[[36;1m  Tweak/Runtime/SecurityLifecycle.mm Tweak/Features/Downloads/DownloadLog.mm \^[[0m
+foundation-security	Execute shipped Foundation security policy and lifecycle fixtures	2026-11-03T00:31:06.0440600Z ^[[36;1m  -framework Foundation -o /tmp/marufyt-security^[[0m
+foundation-security	Execute shipped Foundation security policy and lifecycle fixtures	2026-11-03T00:31:06.0440940Z ^[[36;1m/tmp/marufyt-security^[[0m
+foundation-security	Execute shipped Foundation security policy and lifecycle fixtures	2026-11-03T00:31:06.0503830Z shell: /bin/bash -e {0}
+foundation-security	Execute shipped Foundation security policy and lifecycle fixtures	2026-11-03T00:31:06.0504200Z ##[endgroup]
+foundation-security	Execute shipped Foundation security policy and lifecycle fixtures	2026-11-03T00:31:11.0991860Z Foundation security: 88 checks, 0 failures
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	﻿2026-11-03T00:31:11.1144680Z Post job cleanup.
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.2673150Z [command]/opt/homebrew/bin/git version
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.2817240Z git version 2.56.0
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.2840930Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/341bf3e9-aba7-4164-8ad4-91011c06b41b/.gitconfig'
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.2851560Z Temporarily overriding HOME='/Users/runner/work/_temp/341bf3e9-aba7-4164-8ad4-91011c06b41b' before making global git config changes
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.2853610Z Adding repository directory to the temporary git global config as a safe directory
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.2855170Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/MarufYT/MarufYT
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.2927380Z Removing SSH command configuration
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.2931840Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.3031390Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.3930650Z Removing HTTP extra header
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.3936940Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.4053370Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5547950Z Removing includeIf entries pointing to credentials config files
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5648060Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+foundation-security	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:11.5951860Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+foundation-security	Complete job	﻿2026-11-03T00:31:11.7414040Z Cleaning up orphan processes
+build	Set up job	﻿2026-11-03T00:31:18.2426823Z Current runner version: '2.338.2'
+build	Set up job	2026-11-03T00:31:18.2449687Z ##[group]Runner Image Provisioner
+build	Set up job	2026-11-03T00:31:18.2450424Z Hosted Compute Agent
+build	Set up job	2026-11-03T00:31:18.2451036Z Version: 20261021.618
+build	Set up job	2026-11-03T00:31:18.2451622Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+build	Set up job	2026-11-03T00:31:18.2452261Z Build Date: 2026-10-21T00:45:21Z
+build	Set up job	2026-11-03T00:31:18.2452910Z Worker ID: {f4250c92-5caa-48d0-8e92-53a2c59df9fc}
+build	Set up job	2026-11-03T00:31:18.2453497Z Region: westus3
+build	Set up job	2026-11-03T00:31:18.2454038Z Cloud: Azure
+build	Set up job	2026-11-03T00:31:18.2454546Z ##[endgroup]
+build	Set up job	2026-11-03T00:31:18.2456165Z ##[group]Operating System
+build	Set up job	2026-11-03T00:31:18.2456755Z Ubuntu
+build	Set up job	2026-11-03T00:31:18.2457219Z 24.04.5
+build	Set up job	2026-11-03T00:31:18.2457716Z LTS
+build	Set up job	2026-11-03T00:31:18.2458205Z ##[endgroup]
+build	Set up job	2026-11-03T00:31:18.2458672Z ##[group]Runner Image
+build	Set up job	2026-11-03T00:31:18.2459332Z Image: ubuntu-24.04
+build	Set up job	2026-11-03T00:31:18.2459834Z Version: 20261025.353.1
+build	Set up job	2026-11-03T00:31:18.2461041Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+build	Set up job	2026-11-03T00:31:18.2462568Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+build	Set up job	2026-11-03T00:31:18.2463388Z ##[endgroup]
+build	Set up job	2026-11-03T00:31:18.2464300Z ##[group]GITHUB_TOKEN Permissions
+build	Set up job	2026-11-03T00:31:18.2466567Z Contents: read
+build	Set up job	2026-11-03T00:31:18.2467117Z Metadata: read
+build	Set up job	2026-11-03T00:31:18.2467672Z ##[endgroup]
+build	Set up job	2026-11-03T00:31:18.2469535Z Secret source: Actions
+build	Set up job	2026-11-03T00:31:18.2470471Z Cache mode: write
+build	Set up job	2026-11-03T00:31:18.2471233Z Prepare workflow directory
+build	Set up job	2026-11-03T00:31:18.2939690Z Prepare all required actions
+build	Set up job	2026-11-03T00:31:18.2979540Z Getting action download info
+build	Set up job	2026-11-03T00:31:18.5811016Z Download action repository 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803' (SHA:d23441a48e516b6c34aea4fa41551a30e30af803)
+build	Set up job	2026-11-03T00:31:18.6668902Z Download action repository 'actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+build	Set up job	2026-11-03T00:31:18.9251064Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+build	Set up job	2026-11-03T00:31:19.4564894Z Complete job name: build
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	﻿2026-11-03T00:31:19.5330785Z ##[group]Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5332628Z with:
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5333538Z   persist-credentials: false
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5334558Z   repository: arifular1f/MarufYT
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5342922Z   token: ***
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5343787Z   ssh-strict: true
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5344673Z   ssh-user: git
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5345588Z   clean: true
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5346463Z   sparse-checkout-cone-mode: true
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5347535Z   fetch-depth: 1
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5348393Z   fetch-tags: false
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5349257Z   show-progress: true
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5350147Z   lfs: false
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5351004Z   submodules: false
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5351897Z   set-safe-directory: true
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5352910Z   allow-unsafe-pr-checkout: false
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5354259Z env:
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5355321Z   THEOS: /home/runner/work/MarufYT/MarufYT/.theos
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5356460Z   CI: true
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.5357254Z ##[endgroup]
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7231635Z Syncing repository: arifular1f/MarufYT
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7234721Z ##[group]Getting Git version info
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7236194Z Working directory is '/home/runner/work/MarufYT/MarufYT'
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7238357Z [command]/usr/bin/git version
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7268894Z git version 2.56.0
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7295788Z ##[endgroup]
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7315346Z Temporarily overriding HOME='/home/runner/work/_temp/d8bdc526-4085-4dca-8125-bbc69cf54180' before making global git config changes
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7318987Z Adding repository directory to the temporary git global config as a safe directory
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7321856Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/MarufYT/MarufYT
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7346227Z Deleting the contents of '/home/runner/work/MarufYT/MarufYT'
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7349990Z ##[group]Determining repository object format
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7352178Z ##[endgroup]
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7353901Z ##[group]Initializing the repository
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7355883Z [command]/usr/bin/git init /home/runner/work/MarufYT/MarufYT
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7442966Z hint: Using 'master' as the name for the initial branch. This default branch name
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7445684Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7447993Z hint: to use in all of your new repositories, which will suppress this warning,
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7449854Z hint: call:
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7450960Z hint:
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7452203Z hint: 	git config --global init.defaultBranch <name>
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7453488Z hint:
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7454565Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7456542Z hint: 'development'. The just-created branch can be renamed via this command:
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7458099Z hint:
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7459076Z hint: 	git branch -m <name>
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7460076Z hint:
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7461339Z hint: Disable this message with "git config set advice.defaultBranchName false"
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7463240Z Initialized empty Git repository in /home/runner/work/MarufYT/MarufYT/.git/
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7467170Z [command]/usr/bin/git remote add origin https://github.com/arifular1f/MarufYT
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7508346Z ##[endgroup]
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7509655Z ##[group]Disabling automatic garbage collection
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7512999Z [command]/usr/bin/git config --local gc.auto 0
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7544077Z ##[endgroup]
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7546229Z ##[group]Setting up auth
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7547364Z Removing SSH command configuration
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7549519Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7586068Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7882932Z Removing HTTP extra header
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7889833Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.7929559Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.8132899Z Removing includeIf entries pointing to credentials config files
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.8137931Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.8175287Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.8378734Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.8420253Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/MarufYT/MarufYT/.git.path /home/runner/work/_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.8456399Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/MarufYT/MarufYT/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.8492017Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.8529212Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.8562518Z ##[endgroup]
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.8564442Z ##[group]Fetching the repository
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:19.8571384Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +743f307b816d275fef88d34a36ba546415015753:refs/remotes/origin/fix/hls-manifest-validation
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.4420649Z From https://github.com/arifular1f/MarufYT
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.4421508Z  * [new ref]         743f307b816d275fef88d34a36ba546415015753 -> origin/fix/hls-manifest-validation
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.4440835Z [command]/usr/bin/git branch --list --remote origin/fix/hls-manifest-validation
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.4460705Z   origin/fix/hls-manifest-validation
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.4467522Z [command]/usr/bin/git rev-parse refs/remotes/origin/fix/hls-manifest-validation
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.4494432Z 743f307b816d275fef88d34a36ba546415015753
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.4506164Z ##[endgroup]
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.4506799Z ##[group]Determining the checkout info
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.4507468Z ##[endgroup]
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.4507842Z [command]/usr/bin/git sparse-checkout disable
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.4556145Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.4592531Z ##[group]Checking out the ref
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.4597111Z [command]/usr/bin/git checkout --progress --force -B fix/hls-manifest-validation refs/remotes/origin/fix/hls-manifest-validation
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.5580430Z Switched to a new branch 'fix/hls-manifest-validation'
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.5583750Z branch 'fix/hls-manifest-validation' set up to track 'origin/fix/hls-manifest-validation'.
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.5594673Z ##[endgroup]
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.5640111Z [command]/usr/bin/git log -1 --format=%H
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.5669806Z 743f307b816d275fef88d34a36ba546415015753
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.5677787Z ##[group]Removing auth
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.5678137Z Removing SSH command configuration
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.5680467Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.5714872Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.5915955Z Removing HTTP extra header
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.5919359Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.5954349Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6153634Z Removing includeIf entries pointing to credentials config files
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6159436Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6189613Z includeif.gitdir:/home/runner/work/MarufYT/MarufYT/.git.path
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6190083Z includeif.gitdir:/home/runner/work/MarufYT/MarufYT/.git/worktrees/*.path
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6190492Z includeif.gitdir:/github/workspace/.git.path
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6190877Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6198276Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/MarufYT/MarufYT/.git.path
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6226578Z /home/runner/work/_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6235833Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/MarufYT/MarufYT/.git.path /home/runner/work/_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6274043Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/MarufYT/MarufYT/.git/worktrees/*.path
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6303650Z /home/runner/work/_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6312279Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/MarufYT/MarufYT/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6349412Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6382942Z /github/runner_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6388565Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6423452Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6450095Z /github/runner_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6456612Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6526061Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6696600Z Removing credentials config '/home/runner/work/_temp/git-credentials-a3680ac4-b103-4a38-b247-7231de9144f3.config'
+build	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:31:21.6705943Z ##[endgroup]
+build	Cache verified download archives only	﻿2026-11-03T00:31:21.9921080Z ##[group]Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+build	Cache verified download archives only	2026-11-03T00:31:21.9921418Z with:
+build	Cache verified download archives only	2026-11-03T00:31:21.9921661Z   path: /home/runner/work/MarufYT/MarufYT/.toolchain-downloads
+build	Cache verified download archives only	2026-11-03T00:31:21.9922086Z   key: marufyt-archives-b16361a96c4f7e88b5938094a482fdcbd04805335c57d81cdc354a49e996bfa5
+build	Cache verified download archives only	2026-11-03T00:31:21.9922473Z   enableCrossOsArchive: false
+build	Cache verified download archives only	2026-11-03T00:31:21.9922684Z   fail-on-cache-miss: false
+build	Cache verified download archives only	2026-11-03T00:31:21.9922875Z   lookup-only: false
+build	Cache verified download archives only	2026-11-03T00:31:21.9923049Z   save-always: false
+build	Cache verified download archives only	2026-11-03T00:31:21.9923206Z env:
+build	Cache verified download archives only	2026-11-03T00:31:21.9923389Z   THEOS: /home/runner/work/MarufYT/MarufYT/.theos
+build	Cache verified download archives only	2026-11-03T00:31:21.9923622Z   CI: true
+build	Cache verified download archives only	2026-11-03T00:31:21.9923778Z ##[endgroup]
+build	Cache verified download archives only	2026-11-03T00:31:22.0781715Z (node:2285) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build	Cache verified download archives only	2026-11-03T00:31:22.0782541Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build	Cache verified download archives only	2026-11-03T00:31:22.2869004Z Cache not found for input keys: marufyt-archives-b16361a96c4f7e88b5938094a482fdcbd04805335c57d81cdc354a49e996bfa5
+build	Install signed host packages and pinned Theos tooling	﻿2026-11-03T00:31:22.2962215Z ##[group]Run set -euo pipefail
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.2962525Z ^[[36;1mset -euo pipefail^[[0m
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.2962736Z ^[[36;1msudo apt-get update^[[0m
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.2963129Z ^[[36;1msudo apt-get install -y build-essential fakeroot rsync curl perl zip git libxml2 libtinfo6 xz-utils^[[0m
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.2963674Z ^[[36;1mpython3 Tools/bootstrap_pinned.py --theos "$THEOS" --report toolchain-provenance.json^[[0m
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.2983456Z shell: /usr/bin/bash -e {0}
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.2983666Z env:
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.2983864Z   THEOS: /home/runner/work/MarufYT/MarufYT/.theos
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.2984107Z   CI: true
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.2984283Z ##[endgroup]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.3592968Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.3834411Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.4458778Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [685 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.4616488Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [617 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.5082506Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.5088660Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.5111388Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.5122772Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.5996552Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1408 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.6072799Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [311 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.6074312Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1707 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.6150397Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [343 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.6156534Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1813 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.6236440Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [412 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.6256586Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.3 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.6938988Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1153 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.6989531Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [232 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.7001871Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1224 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.7460370Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.7473457Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1721 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.7538745Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [394 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:22.7556758Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.4 kB]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:26.6276510Z Fetched 12.7 MB in 1s (11.3 MB/s)
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.4673259Z Reading package lists...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.4997336Z Reading package lists...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.7097425Z Building dependency tree...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.7103847Z Reading state information...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8691314Z fakeroot is already the newest version (1.33-1).
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8691958Z rsync is already the newest version (3.2.7-1ubuntu1.5).
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8692484Z curl is already the newest version (8.5.0-2ubuntu10.16).
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8693075Z perl is already the newest version (5.38.2-3.2ubuntu0.6).
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8693568Z perl set to manually installed.
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8693997Z zip is already the newest version (3.0-13ubuntu0.2).
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8694564Z git is already the newest version (1:2.56.0-0ppa1~ubuntu24.04.2).
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8695763Z git set to manually installed.
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8696222Z libxml2 is already the newest version (2.9.14+dfsg-1.3ubuntu3.10).
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8696740Z libxml2 set to manually installed.
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8697200Z libtinfo6 is already the newest version (6.4+20240113-1ubuntu2.2).
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8697694Z libtinfo6 set to manually installed.
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8698158Z xz-utils is already the newest version (5.6.1+really5.4.5-1ubuntu0.4).
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8698685Z The following NEW packages will be installed:
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8699076Z   build-essential
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8870781Z 0 upgraded, 1 newly installed, 0 to remove and 6 not upgraded.
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8871326Z Need to get 4928 B of archives.
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8871739Z After this operation, 17.4 kB of additional disk space will be used.
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.8872252Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:27.9493847Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 build-essential amd64 12.10ubuntu1 [4928 B]
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.2444764Z Fetched 4928 B in 0s (67.4 kB/s)
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.3125529Z Selecting previously unselected package build-essential.
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.3517209Z (Reading database ... 
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.3518591Z (Reading database ... 5%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.3518988Z (Reading database ... 10%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.3519297Z (Reading database ... 15%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.3519594Z (Reading database ... 20%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.3519891Z (Reading database ... 25%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.3520168Z (Reading database ... 30%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.3520429Z (Reading database ... 35%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.3521002Z (Reading database ... 40%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.3521291Z (Reading database ... 45%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.3521561Z (Reading database ... 50%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.3557534Z (Reading database ... 55%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:28.6088699Z (Reading database ... 60%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:30.1115586Z (Reading database ... 65%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:30.3628485Z (Reading database ... 70%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:30.5526868Z (Reading database ... 75%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:30.7578919Z (Reading database ... 80%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:31.3601493Z (Reading database ... 85%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:31.5609800Z (Reading database ... 90%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:31.7138403Z (Reading database ... 95%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:31.7138840Z (Reading database ... 100%
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:31.7139265Z (Reading database ... 215504 files and directories currently installed.)
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:31.7193087Z Preparing to unpack .../build-essential_12.10ubuntu1_amd64.deb ...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:31.7286602Z Unpacking build-essential (12.10ubuntu1) ...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:31.7677996Z Setting up build-essential (12.10ubuntu1) ...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:32.6292532Z 
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:32.6294090Z Running kernel seems to be up-to-date.
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:32.6294524Z 
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:32.6294757Z No services need to be restarted.
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:32.6295218Z 
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:32.6295342Z No containers need to be restarted.
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:32.6295610Z 
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:32.6295763Z No user sessions are running outdated binaries.
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:32.6296060Z 
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:32.6296339Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:34.6727768Z From https://github.com/roothide/theos
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:34.6728357Z  * branch            3ac89c984ec652fd16bcd91b33ae16de45ce76fa -> FETCH_HEAD
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:34.6860983Z HEAD is now at 3ac89c9 [submodules] fork-sync pointers
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:34.7154488Z Submodule 'vendor/dm.pl' (https://github.com/theos/dm.pl.git) registered for path 'vendor/dm.pl'
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:34.7160238Z Submodule 'vendor/include' (https://github.com/roothide/headers.git) registered for path 'vendor/include'
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:34.7166367Z Submodule 'vendor/lib' (https://github.com/roothide/lib.git) registered for path 'vendor/lib'
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:34.7172888Z Submodule 'vendor/logos' (https://github.com/theos/logos.git) registered for path 'vendor/logos'
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:34.7180317Z Submodule 'vendor/nic' (https://github.com/theos/nic.git) registered for path 'vendor/nic'
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:34.7187025Z Submodule 'vendor/orion' (https://github.com/theos/orion.git) registered for path 'vendor/orion'
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:34.7193674Z Submodule 'vendor/swift-support' (https://github.com/theos/swift-support.git) registered for path 'vendor/swift-support'
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:34.7200568Z Submodule 'vendor/templates' (https://github.com/theos/templates.git) registered for path 'vendor/templates'
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:34.7223680Z Cloning into '/home/runner/work/MarufYT/MarufYT/.theos/vendor/dm.pl'...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:35.1416135Z Cloning into '/home/runner/work/MarufYT/MarufYT/.theos/vendor/include'...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:36.0026403Z Cloning into '/home/runner/work/MarufYT/MarufYT/.theos/vendor/lib'...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:36.6370246Z Cloning into '/home/runner/work/MarufYT/MarufYT/.theos/vendor/logos'...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:37.2814112Z Cloning into '/home/runner/work/MarufYT/MarufYT/.theos/vendor/nic'...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:37.8309311Z Cloning into '/home/runner/work/MarufYT/MarufYT/.theos/vendor/orion'...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:38.7814335Z Cloning into '/home/runner/work/MarufYT/MarufYT/.theos/vendor/swift-support'...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:39.3478432Z Cloning into '/home/runner/work/MarufYT/MarufYT/.theos/vendor/templates'...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:41.2386566Z Submodule 'fishhook' (https://github.com/facebook/fishhook.git) registered for path 'vendor/orion/fishhook'
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:41.2408343Z Cloning into '/home/runner/work/MarufYT/MarufYT/.theos/vendor/orion/fishhook'...
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0811268Z {
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0811811Z   "theosCommit": "3ac89c984ec652fd16bcd91b33ae16de45ce76fa",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0812402Z   "submodules": [
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0813479Z     "d9a3b72e274226dd2823c0a7c1d6d05099f4f51c vendor/dm.pl (heads/master)",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0814134Z     " 744ee65cd464becd8b06cab6eaeffc0512b371f1 vendor/include (heads/master)",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0814658Z     " 85e9b5b8aff11bbefc59525c64c8f55149926e56 vendor/lib (heads/master)",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0815221Z     " 365a4e7028234e90bc2cbc724e5c87607130d3b3 vendor/logos (heads/master)",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0815642Z     " 4e7adcbeac2e4636b91e2f76341adfe4c4d0ceec vendor/nic (heads/master)",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0816011Z     " 762159dc214d5aafa2edfc7554c659fc3c658b5b vendor/orion (heads/master)",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0816410Z     " aadc161ac3b80db07a9908851839a17ba63a9eb1 vendor/orion/fishhook (heads/main)",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0816846Z     " 4cf59ff04cdb2ceb27ea2228753e0497297b6182 vendor/swift-support (heads/master)",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0817260Z     " 6c3944e281c4726f1383755d0fbb642840312d28 vendor/templates (heads/master)"
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0817561Z   ],
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0817722Z   "archives": [
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0817888Z     {
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0818045Z       "role": "compiler",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0818455Z       "url": "https://github.com/L1ghtmann/llvm-project/releases/download/test-210562a/iOSToolchain-x86_64.tar.xz",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0818946Z       "sha256": "a72a7a577e2fbe2838b6b5e9c72034fa7d114af96f0e1d4b016f18730ce4056e",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0819252Z       "bytes": 86163280
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0819420Z     },
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0819573Z     {
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0819728Z       "role": "sdk",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0820051Z       "url": "https://github.com/theos/sdks/releases/download/master-146e41f/iPhoneOS16.5.sdk.tar.xz",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0820499Z       "sha256": "5e0fd3f01266cce4ce012d4a99b38eb56578fca40d09edc81cd83dee958202fb",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0820819Z       "bytes": 17446920
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0820991Z     }
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0821132Z   ],
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0821844Z   "clangVersion": "clang version 11.1.0 (https://github.com/L1ghtmann/llvm-project 210562a8907c5f1ec4a02c7ac969d26d81d304a0)\nTarget: x86_64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /home/runner/work/MarufYT/MarufYT/.theos/toolchain/linux/iphone/bin",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0823181Z   "hostPackages": "fakeroot=1.33-1\ngit=1:2.56.0-0ppa1~ubuntu24.04.2\nlibtinfo6=6.4+20240113-1ubuntu2.2\nlibxml2=2.9.14+dfsg-1.3ubuntu3.10\nmake=4.3-4.1build2\nxz-utils=5.6.1+really5.4.5-1ubuntu0.4",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0823975Z   "unavoidableHostComponents": [
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0824200Z     "GitHub-hosted image updates",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0824440Z     "Ubuntu signed apt repository package updates",
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0824732Z     "GitHub Actions runner-provided Node/Python/Git versions"
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0825143Z   ],
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0825365Z   "installerOrLatestResolverExecuted": false
+build	Install signed host packages and pinned Theos tooling	2026-11-03T00:31:57.0825592Z }
+build	Record toolchain provenance	﻿2026-11-03T00:31:57.0972027Z ##[group]Run {
+build	Record toolchain provenance	2026-11-03T00:31:57.0972249Z ^[[36;1m{^[[0m
+build	Record toolchain provenance	2026-11-03T00:31:57.0972478Z ^[[36;1m  echo "theos commit: $(git -C "$THEOS" rev-parse HEAD)"^[[0m
+build	Record toolchain provenance	2026-11-03T00:31:57.0972823Z ^[[36;1m  echo "sdks: $(ls "$THEOS/sdks" 2>/dev/null | tr '\n' ' ')"^[[0m
+build	Record toolchain provenance	2026-11-03T00:31:57.0973233Z ^[[36;1m  echo "clang: $("$THEOS/toolchain/linux/iphone/bin/clang" --version 2>/dev/null | head -1)"^[[0m
+build	Record toolchain provenance	2026-11-03T00:31:57.0973599Z ^[[36;1m} | tee provenance.txt^[[0m
+build	Record toolchain provenance	2026-11-03T00:31:57.0990634Z shell: /usr/bin/bash -e {0}
+build	Record toolchain provenance	2026-11-03T00:31:57.0990836Z env:
+build	Record toolchain provenance	2026-11-03T00:31:57.0991030Z   THEOS: /home/runner/work/MarufYT/MarufYT/.theos
+build	Record toolchain provenance	2026-11-03T00:31:57.0991271Z   CI: true
+build	Record toolchain provenance	2026-11-03T00:31:57.0991432Z ##[endgroup]
+build	Record toolchain provenance	2026-11-03T00:31:57.1042104Z theos commit: 3ac89c984ec652fd16bcd91b33ae16de45ce76fa
+build	Record toolchain provenance	2026-11-03T00:31:57.1057967Z sdks: iPhoneOS16.5.sdk 
+build	Record toolchain provenance	2026-11-03T00:31:57.1185938Z clang: clang version 11.1.0 (https://github.com/L1ghtmann/llvm-project 210562a8907c5f1ec4a02c7ac969d26d81d304a0)
+build	Build ROOTLESS package	﻿2026-11-03T00:31:57.1218932Z ##[group]Run set -o pipefail
+build	Build ROOTLESS package	2026-11-03T00:31:57.1219185Z ^[[36;1mset -o pipefail^[[0m
+build	Build ROOTLESS package	2026-11-03T00:31:57.1219382Z ^[[36;1mmake clean^[[0m
+build	Build ROOTLESS package	2026-11-03T00:31:57.1219781Z ^[[36;1mmake package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless \^[[0m
+build	Build ROOTLESS package	2026-11-03T00:31:57.1220096Z ^[[36;1m  MARUFYT_BUILD="$GITHUB_RUN_NUMBER" \^[[0m
+build	Build ROOTLESS package	2026-11-03T00:31:57.1220383Z ^[[36;1m  DISABLE_ROOTLESS_COMPAT_WARNING=1 2>&1 | tee build.log^[[0m
+build	Build ROOTLESS package	2026-11-03T00:31:57.1236591Z shell: /usr/bin/bash -e {0}
+build	Build ROOTLESS package	2026-11-03T00:31:57.1236795Z env:
+build	Build ROOTLESS package	2026-11-03T00:31:57.1236991Z   THEOS: /home/runner/work/MarufYT/MarufYT/.theos
+build	Build ROOTLESS package	2026-11-03T00:31:57.1237230Z   CI: true
+build	Build ROOTLESS package	2026-11-03T00:31:57.1237389Z ##[endgroup]
+build	Build ROOTLESS package	2026-11-03T00:31:57.1889937Z ^[[0;36m==> ^[[1;39mCleaning…^[[m
+build	Build ROOTLESS package	2026-11-03T00:31:57.2399073Z ^[[1;31m> ^[[1;3;39mMaking all for library MarufYT…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:03.7799579Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Entry.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:03.9199456Z ^[[0;32m==> ^[[1;39mCompiling Tweak/MarufYT/Branding/MarufYTBranding.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:03.9234671Z ^[[0;32m==> ^[[1;39mCompiling Tweak/MarufYT/Design/MarufYTTheme.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:04.0086916Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Runtime/Availability.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:04.4964952Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Runtime/Hooking.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:05.0943461Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Runtime/URLPolicy.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:05.1496537Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Runtime/SecurityLifecycle.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:05.1856607Z ^[[0;32m==> ^[[1;39mCompiling Tweak/MarufYT/Design/MarufYTDesign.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:05.3237230Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Runtime/Localization.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:05.3886403Z ^[[0;32m==> ^[[1;39mCompiling Tweak/UI/Assets.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:05.5896301Z ^[[0;32m==> ^[[1;39mCompiling Tweak/UI/Notice.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:05.5986169Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Runtime/Preferences.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:05.7464943Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Ads/PromoHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:05.9962425Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/SponsorBlock/SponsorPreferences.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:06.0469328Z ^[[0;32m==> ^[[1;39mCompiling Tweak/UI/OverlayButtonHost.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:06.0535223Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/SponsorBlock/SponsorClient.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:06.0760062Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Ads/AdsHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:06.6547673Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/SponsorBlock/DeArrow.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:06.6721010Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/SponsorBlock/SponsorMenu.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:07.1789939Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/StreamResolver.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:07.4441201Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/SponsorBlock/SponsorHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:07.4901453Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/DirectDownloader.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:08.4442069Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/YTKACEBackupManager.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:08.6737678Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/SABRDownloader.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:08.8764914Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/DownloadLog.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:09.6189673Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/DownloadProgressView.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:10.0003254Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/MediaArtwork.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:10.2652427Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/DownloadSponsor.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:10.4896472Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/YTKACEMediaImporter.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:10.5486581Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/FFmpegMuxer.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:11.5746404Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/DownloadHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:12.4726633Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/PlaylistDownloader.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:13.3146772Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/DownloadCoordinator.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:13.5836466Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/GlobalDownloadMiniPlayer.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:13.7486897Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Appearance/OLEDHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:13.8288097Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Appearance/StartupHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:13.9544652Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Appearance/PremiumLogoHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:14.0725588Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/BackgroundPlaybackHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:14.2153468Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/YTKACEAudioPlayerController.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:14.5232719Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/PlaybackFixHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:14.6571194Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/PiPControls.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:14.8898542Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/ChallengeSolver.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:14.9518078Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Downloads/YTKACEDownloadPlayerController.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:15.1936572Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/AutoplayControls.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:15.2470745Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/LoopControls.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:15.3701010Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Queue/QueueHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:15.5458075Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/SpeedControls.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:15.5721131Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/CaptionControls.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:16.2695635Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/TranscriptExport.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:16.4142334Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/SleepTimerControls.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:16.5095492Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/DoubleTapHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:16.5638683Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/VideoZoom.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:17.1648473Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Streaming/TVClient.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:17.7006481Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/ProgressBarStyle.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:17.7136771Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Interface/HomeTabs.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:17.9366716Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Streaming/StreamingHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:17.9449775Z ^[[0;32m==> ^[[1;39mCompiling Tweak/UI/ExtraDim.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:18.0382435Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Streaming/HLSPlayback.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:18.2250521Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/RemoteSkip.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:18.2710217Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Shorts/ShortsSessionLimit.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:18.3648644Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Shorts/ShortsStartup.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:18.5396682Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Shorts/ShortsPinch.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:18.6739217Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Shorts/ShortsPiP.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:18.7539154Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Compatibility/SideloadCompatibility.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:18.9988427Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Shorts/ShortsHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:19.1854564Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Compatibility/CastCompatibility.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:19.8106411Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Navigation/LayoutSnapshot.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:19.8233467Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Onboarding/FirstLaunch.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:20.0836593Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Playback/PlayerGlass.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:20.2626355Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Navigation/GlassSheets.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:20.3106574Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Navigation/NavigationBehaviorHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:20.7276444Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Navigation/GlassChrome.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:20.9726422Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Gestures/PlayerGestures.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:21.1846649Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Interface/OverlayVisibilityHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:21.2692830Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Interface/AiSList.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:21.6264859Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Interface/AiSListReport.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:21.6299595Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Interface/LinkCleaning.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:21.7967654Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Interface/HapticHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:22.3256469Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Interface/CopyCommentHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:22.4834649Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Interface/MiscellaneousHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:23.1339873Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Interface/PostImageSaver.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:23.2814889Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Interface/ProfilePictureViewer.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:23.4776811Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Interface/ContentVisibilityHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:23.7316537Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Interface/NativeShareHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:23.7933689Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Settings/SettingsEntry.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:23.9881127Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Interface/NavigationVisibility.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:24.4426341Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Settings/NativeSettingsEntry.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:24.4676579Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Features/Navigation/TabBarHooks.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:24.7306566Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Settings/YTKACERootOptionsController.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:25.0438201Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Settings/YTKACESettingsSearch.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:25.1861576Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Settings/YTKACETabEditorController.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:26.4653845Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Settings/YTKACESettingsPages.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:26.6391193Z ^[[0;32m==> ^[[1;39mCompiling Tweak/Settings/YTKACEDownloadsController.mm (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:27.2579245Z ^[[0;33m==> ^[[1;39mLinking library MarufYT (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:27.2580018Z ^[[0;34m==> ^[[1;39mGenerating debug symbols for MarufYT…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:27.2580493Z ^[[0;34m==> ^[[1;39mStripping MarufYT (arm64)…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:27.3042896Z ^[[0;34m==> ^[[1;39mSigning MarufYT…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:27.3260575Z ^[[1;31m> ^[[1;3;39mMaking stage for library MarufYT…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:27.5601426Z ^[[0;35m==> ^[[1;39mInstalling library to /home/runner/work/MarufYT/MarufYT/.theos/lib/iphone/rootless…^[[m
+build	Build ROOTLESS package	2026-11-03T00:32:27.5885358Z ^[[0;36m==> ^[[1;36mNotice:^[[m Neither plutil, ply, or libplist-utils are installed, so XML plist files were not optimized.
+build	Build ROOTLESS package	2026-11-03T00:32:30.3583567Z dm.pl: building package `com.arifular1f.marufyt:iphoneos-arm64' in `./packages/com.arifular1f.marufyt_1.1.4+marufyt.8_iphoneos-arm64.deb'
+build	Collect artifacts	﻿2026-11-03T00:32:30.3634640Z ##[group]Run set -euo pipefail
+build	Collect artifacts	2026-11-03T00:32:30.3634912Z ^[[36;1mset -euo pipefail^[[0m
+build	Collect artifacts	2026-11-03T00:32:30.3635666Z ^[[36;1mversion="$(awk '/^Version:/ {print $2}' control)"^[[0m
+build	Collect artifacts	2026-11-03T00:32:30.3635934Z ^[[36;1mmkdir -p artifacts^[[0m
+build	Collect artifacts	2026-11-03T00:32:30.3636279Z ^[[36;1mcp "$(ls packages/*.deb | head -1)" "artifacts/com.arifular1f.marufyt_${version}_rootless.deb"^[[0m
+build	Collect artifacts	2026-11-03T00:32:30.3636774Z ^[[36;1mcp dist/MarufYT.dylib build.log provenance.txt toolchain-provenance.json artifacts/^[[0m
+build	Collect artifacts	2026-11-03T00:32:30.3637194Z ^[[36;1m(cd artifacts && sha256sum * > SHA256SUMS.txt && cat SHA256SUMS.txt)^[[0m
+build	Collect artifacts	2026-11-03T00:32:30.3654317Z shell: /usr/bin/bash -e {0}
+build	Collect artifacts	2026-11-03T00:32:30.3654515Z env:
+build	Collect artifacts	2026-11-03T00:32:30.3654715Z   THEOS: /home/runner/work/MarufYT/MarufYT/.theos
+build	Collect artifacts	2026-11-03T00:32:30.3655095Z   CI: true
+build	Collect artifacts	2026-11-03T00:32:30.3655301Z ##[endgroup]
+build	Collect artifacts	2026-11-03T00:32:30.3852552Z da1f68a97957076d21816c6ed488db7e352487ae906e1263f49d29feafbdae2d  MarufYT.dylib
+build	Collect artifacts	2026-11-03T00:32:30.3853255Z ef733d45de9835e6addd472378245fd00bd6e21dea5c7d125f08e430ef3e7ed0  build.log
+build	Collect artifacts	2026-11-03T00:32:30.3853859Z 5c8528d2385a729adf62ba25d6addc39bc7415d65f4b20e760f6caee6c7a0df9  com.arifular1f.marufyt_1.1.4+marufyt.8_rootless.deb
+build	Collect artifacts	2026-11-03T00:32:30.3854412Z 17389a8fbe9d5a126884a4dcd84d9e99dfd7c18b5f1af8df4e4dab8aeee24a87  provenance.txt
+build	Collect artifacts	2026-11-03T00:32:30.3855402Z 8272dcdedb61f85fa2771b6aa40abae9ba367e01428497c120ff9b2fa882674a  toolchain-provenance.json
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	﻿2026-11-03T00:32:30.3904049Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.3904373Z with:
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.3904550Z   name: MarufYT-rootless
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.3904737Z   path: artifacts/
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.3904915Z   if-no-files-found: error
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.3905307Z   retention-days: 30
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.3905487Z   compression-level: 6
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.3905665Z   overwrite: false
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.3905839Z   include-hidden-files: false
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.3906027Z   archive: true
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.3906186Z env:
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.3906371Z   THEOS: /home/runner/work/MarufYT/MarufYT/.theos
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.3906603Z   CI: true
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.3906761Z ##[endgroup]
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.5062687Z With the provided path, there will be 6 files uploaded
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.5067175Z Artifact name is valid!
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.5067478Z Root directory input is valid!
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.8450014Z Uploading artifact: MarufYT-rootless.zip
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:30.8480848Z Beginning upload of artifact content to blob storage
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:31.7343888Z Uploaded bytes 4744455
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:31.7906792Z Finished uploading artifact content to blob storage!
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:31.7908931Z SHA256 digest of uploaded artifact is be297e9dec915368e774a9ce78a52e1c355f7dc66197412853a3108f7cd9f07c
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:31.7909592Z Finalizing artifact upload
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:32.4231487Z Artifact MarufYT-rootless successfully finalized. Artifact ID 13192159040
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:32.4232328Z Artifact MarufYT-rootless has been successfully uploaded! Final size is 4744455 bytes. Artifact ID is 13192159040
+build	Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9	2026-11-03T00:32:32.4235746Z Artifact download URL: https://github.com/arifular1f/MarufYT/actions/runs/41553403138/artifacts/13192159040
+build	Post Cache verified download archives only	﻿2026-11-03T00:32:32.4881496Z Post job cleanup.
+build	Post Cache verified download archives only	2026-11-03T00:32:32.5781807Z (node:4310) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build	Post Cache verified download archives only	2026-11-03T00:32:32.5782582Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build	Post Cache verified download archives only	2026-11-03T00:32:32.5918036Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/MarufYT/MarufYT --files-from manifest.txt --use-compress-program zstdmt
+build	Post Cache verified download archives only	2026-11-03T00:32:32.9090138Z (node:4310) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+build	Post Cache verified download archives only	2026-11-03T00:32:33.9033981Z Sent 36175872 of 103617174 (34.9%), 34.5 MBs/sec
+build	Post Cache verified download archives only	2026-11-03T00:32:34.9039177Z Sent 103617174 of 103617174 (100.0%), 49.4 MBs/sec
+build	Post Cache verified download archives only	2026-11-03T00:32:35.3295931Z Cache saved with key: marufyt-archives-b16361a96c4f7e88b5938094a482fdcbd04805335c57d81cdc354a49e996bfa5
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	﻿2026-11-03T00:32:35.3435590Z Post job cleanup.
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4117663Z [command]/usr/bin/git version
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4171858Z git version 2.56.0
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4211447Z Temporarily overriding HOME='/home/runner/work/_temp/6f340ef6-8b1c-4b88-b89e-eb0f500b3af6' before making global git config changes
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4213000Z Adding repository directory to the temporary git global config as a safe directory
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4216926Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/MarufYT/MarufYT
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4249071Z Removing SSH command configuration
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4255261Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4293819Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4506979Z Removing HTTP extra header
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4512552Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4544425Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4775461Z Removing includeIf entries pointing to credentials config files
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4783345Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-11-03T00:32:35.4822425Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build	Complete job	﻿2026-11-03T00:32:35.5177574Z Cleaning up orphan processes
+build	Complete job	2026-11-03T00:32:35.5475903Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

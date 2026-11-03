@@ -1,0 +1,10 @@
+{
+  "URL": "https://developer.apple.com/documentation/network/recording-a-packet-trace",
+  "retrievedVia": "official markdown representation",
+  "referenceSHA256": "6f2c02bf017dad81381eed0a41e2d7d29d35ec7f9be17fe4554ba5102d4bbeb6",
+  "commandNamesConfirmed": [
+    "rvictl -s",
+    "sudo tcpdump -i rvi0 -w trace.pcap"
+  ],
+  "purpose": "Validate planned instructions only; no capture command was executed"
+}

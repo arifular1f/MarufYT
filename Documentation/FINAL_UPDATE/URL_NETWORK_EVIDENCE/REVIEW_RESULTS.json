@@ -1,0 +1,21 @@
+{
+  "localReportLinksChecked": 14,
+  "missingLinks": [],
+  "CSVRowCounts": {
+    "COMPLETE_INVENTORY.csv.gz": 38853,
+    "DOMAIN_CLASSIFICATION.csv.gz": 37705,
+    "FILE_COVERAGE.csv.gz": 14458,
+    "IP_LITERAL_INVENTORY.csv.gz": 147,
+    "MARUFYT_COMPONENT_URLS.csv.gz": 39,
+    "OCCURRENCES.csv.gz": 444437,
+    "SCHEME_INVENTORY.csv.gz": 183,
+    "URL_AUTHORITY_DOMAINS.csv.gz": 278,
+    "VERSION_ONLY_URLS.csv.gz": 23
+  },
+  "gzipRoundtripHashes": "all match",
+  "trackedChanges": false,
+  "gitStatus": "## final-update-security...origin/final-update-security\n?? Documentation/FINAL_UPDATE/URL_NETWORK_AUDIT.md\n?? Documentation/FINAL_UPDATE/URL_NETWORK_EVIDENCE/\n",
+  "reportSHA256": "b4a8f7445a88357a62e762b53f2fbd3a7cd2585225b6f723cec5e28e0ab46eb1",
+  "reportReview": "REPORT_REVIEW.diff; added audit documentation only",
+  "noCommitOrPush": true
+}

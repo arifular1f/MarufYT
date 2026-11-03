@@ -1,0 +1,15 @@
+{
+  "reportLinksChecked": 8,
+  "missingLinks": [],
+  "HEAD": "743f307b816d275fef88d34a36ba546415015753",
+  "allTrackedFileHashesUnchanged": true,
+  "allBranchRefsUnchanged": true,
+  "applicationSourceChanges": false,
+  "versionChanges": false,
+  "buildsOrWorkflowsTriggered": false,
+  "releaseFilesWritten": false,
+  "deviceObservations": 0,
+  "deviceRuntimeStatus": "NOT TESTED",
+  "reportSHA256": "4fff4f4eb7d4f23c8ebd950c40e8db1591007a866dfc3546381d71132ede0f19",
+  "gitStatus": "## fix/hls-manifest-validation...origin/fix/hls-manifest-validation\n?? Documentation/FINAL_UPDATE/U01_FIX_EVIDENCE/\n?? Documentation/FINAL_UPDATE/URL_NETWORK_AUDIT.md\n?? Documentation/FINAL_UPDATE/URL_NETWORK_EVIDENCE/\n?? Documentation/FINAL_VERIFICATION/\n"
+}

@@ -1,0 +1,12 @@
+test_diagnostics_are_opt_in_and_objects_are_not_interpolated (Tests.test_security_fixes.SecurityFixContracts.test_diagnostics_are_opt_in_and_objects_are_not_interpolated) ... ok
+test_expiry_logout_cleanup_and_signatures (Tests.test_security_fixes.SecurityFixContracts.test_expiry_logout_cleanup_and_signatures) ... ok
+test_hls_validation_precedes_cache_and_native_mutations (Tests.test_security_fixes.SecurityFixContracts.test_hls_validation_precedes_cache_and_native_mutations) ... ok
+test_https_initial_tasks_and_both_redirect_layers (Tests.test_security_fixes.SecurityFixContracts.test_https_initial_tasks_and_both_redirect_layers) ... ok
+test_no_authenticated_seed_persistence_or_raw_protobuf_dump (Tests.test_security_fixes.SecurityFixContracts.test_no_authenticated_seed_persistence_or_raw_protobuf_dump) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.021s
+
+OK
+
+Exit code: 0

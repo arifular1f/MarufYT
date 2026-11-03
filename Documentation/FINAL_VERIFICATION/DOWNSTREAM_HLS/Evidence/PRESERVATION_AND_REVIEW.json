@@ -1,0 +1,18 @@
+{
+  "HEAD": "743f307b816d275fef88d34a36ba546415015753",
+  "branch": "fix/hls-manifest-validation",
+  "trackedSourceAndAllRefsUnchanged": true,
+  "releaseManifestFilesVerified": {
+    "MarufYT-FinalUpdate-1.1.4+marufyt.8": 142,
+    "MarufYT-U01-HLS-743f307": 25
+  },
+  "rebuilds": 0,
+  "physicalDeviceTests": 0,
+  "mockServerFinalChecks": 66,
+  "sourceContractTestsPassed": 5,
+  "fixtureTLSValidation": true,
+  "realCredentialsUsed": false,
+  "planLocalLinksExist": true,
+  "optionalProxyAddon": "AST syntax checked only; no iPhone execution",
+  "planSHA256": "de2613ce6b4ffe3cc9b5ccb28342996b012f28670a3cf9bf31ad894614c4d6f6"
+}

@@ -1,0 +1,102 @@
+[
+  {
+    "file": "CI-Artifact/build.log",
+    "sha256": "ef733d45de9835e6addd472378245fd00bd6e21dea5c7d125f08e430ef3e7ed0"
+  },
+  {
+    "file": "CI-Artifact/com.arifular1f.marufyt_1.1.4+marufyt.8_rootless.deb",
+    "sha256": "5c8528d2385a729adf62ba25d6addc39bc7415d65f4b20e760f6caee6c7a0df9"
+  },
+  {
+    "file": "CI-Artifact/MarufYT.dylib",
+    "sha256": "da1f68a97957076d21816c6ed488db7e352487ae906e1263f49d29feafbdae2d"
+  },
+  {
+    "file": "CI-Artifact/provenance.txt",
+    "sha256": "17389a8fbe9d5a126884a4dcd84d9e99dfd7c18b5f1af8df4e4dab8aeee24a87"
+  },
+  {
+    "file": "CI-Artifact/SHA256SUMS.txt",
+    "sha256": "197ffaafcc15aeedbcc798563298014f5f33d6c7c5eb19f919f8fef17518cdad"
+  },
+  {
+    "file": "CI-Artifact/toolchain-provenance.json",
+    "sha256": "8272dcdedb61f85fa2771b6aa40abae9ba367e01428497c120ff9b2fa882674a"
+  },
+  {
+    "file": "CI_RESULT.json",
+    "sha256": "26342ea89a814a720e0c2c755cf0482ff3f74893ac20da552a64149468c8a9c6"
+  },
+  {
+    "file": "Evidence/CI_41553057870.json",
+    "sha256": "b8e903c298db9ed3dcfaeb671034645bbaf1e08c22bc75faf0b01a4b10aa7ca9"
+  },
+  {
+    "file": "Evidence/CI_41553057870.log",
+    "sha256": "32a75b1009c3d0dec6b4a88b8a59694b19bfdfdd12840843700378575eb5dc2c"
+  },
+  {
+    "file": "Evidence/CI_41553224819.json",
+    "sha256": "83fdbb8b736539c7d51630860cb0ac7291f5b050c300462be5eb9dd4cb0fb3f0"
+  },
+  {
+    "file": "Evidence/CI_41553224819.log",
+    "sha256": "2a215f3cf883482dcdd39e550e0a9a9005cb692e98b883bbb544240a176c8d72"
+  },
+  {
+    "file": "Evidence/CI_41553403138.json",
+    "sha256": "26342ea89a814a720e0c2c755cf0482ff3f74893ac20da552a64149468c8a9c6"
+  },
+  {
+    "file": "Evidence/CI_41553403138.log",
+    "sha256": "4199068e98f7be0b0f3b1fe7794eb13bf766a3b71f02245215008b122ddd48ef"
+  },
+  {
+    "file": "Evidence/FINAL_REVIEW.json",
+    "sha256": "11f7aec0ae6942e004e2c107e4a3b0d231b983ae22890caad59dc3be32db3370"
+  },
+  {
+    "file": "Evidence/FINAL_SECRET_SCAN.json",
+    "sha256": "6f9df5fd4bee6539bcd8226a8e3192f89598970a19c736d6bdd0f9d794eeb88f"
+  },
+  {
+    "file": "Evidence/LOCAL_TESTS.txt",
+    "sha256": "9ebdda50e2c96cac7fbbe002a4803eb649ec68774f1e04c8c5dd294fb785e62f"
+  },
+  {
+    "file": "Evidence/package_verified_u01.py",
+    "sha256": "9f2f76167fae549d450d955dd13bd5a0f226b3b7ed29b5a593aafccda6195464"
+  },
+  {
+    "file": "Evidence/PRE_COMMIT_SECRET_SCAN.json",
+    "sha256": "9a6cdbce493abd21bb587ba6a02f675ea295ff8f96bb81fb598b2ff3327e7963"
+  },
+  {
+    "file": "Evidence/SOURCE_CHECKS.txt",
+    "sha256": "6df8459552acccfc679edab6ee389caf9069a2ecff44a8aa61997b16e1f1d14e"
+  },
+  {
+    "file": "Evidence/SOURCE_PATCH.diff",
+    "sha256": "bbfdaed7bb04cd6f9881452527c4e7e4bdc74e8d04b4b8cc996ab56d21df5b33"
+  },
+  {
+    "file": "INSTALLATION.md",
+    "sha256": "b6f28bd8c81e6dda23c35158c04801038d2142d13460b9d088eecc618e5f4e0e"
+  },
+  {
+    "file": "Latest-YouTube-21.43.5/MarufYT-1.1.4+marufyt.8-U01-HLS-YouTube-21.43.5-ROOTLESS-signing-required.ipa",
+    "sha256": "194fc44cd9d0449d185a46943a5754a9171c6e625c3cd062b6de5a47c7a8d670"
+  },
+  {
+    "file": "PACKAGE_VERIFICATION.json",
+    "sha256": "df7cbf988903b6cf1233bd8f9ccbcac5f4192cb20e1a6ae000a46ed36113937e"
+  },
+  {
+    "file": "Stable-YouTube-21.39.4/MarufYT-1.1.4+marufyt.8-U01-HLS-YouTube-21.39.4-ROOTLESS-signing-required.ipa",
+    "sha256": "bce8cc2679e0a223fdb5fc20d5342005d74dac437631cacbf4dc146a4838d2cf"
+  },
+  {
+    "file": "URL_NETWORK_AUDIT.md",
+    "sha256": "8de31ca31c79a89a191b0301a6cedb55abe87e073914fae919a3d238ddc5c3b6"
+  }
+]

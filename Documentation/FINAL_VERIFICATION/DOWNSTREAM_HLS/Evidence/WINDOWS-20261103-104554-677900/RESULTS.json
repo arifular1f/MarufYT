@@ -1,0 +1,510 @@
+{
+  "python": "3.15.1",
+  "openssl": "OpenSSL 3.5.9 29 Sep 2026 (Library: OpenSSL 3.5.9 29 Sep 2026)",
+  "pythonTLS": "OpenSSL 3.5.9 29 Sep 2026",
+  "HEAD": "743f307b816d275fef88d34a36ba546415015753",
+  "branch": "fix/hls-manifest-validation",
+  "ports": {
+    "http": 3568,
+    "https": 3569
+  },
+  "serversStopped": true,
+  "temporaryKeysRemoved": true,
+  "certificateInstalledInWindows": false,
+  "DNSOrFirewallChanged": false,
+  "requestsLogged": 107,
+  "passes": 80,
+  "failures": 0,
+  "releaseFilesVerified": {
+    "MarufYT-FinalUpdate-1.1.4+marufyt.8": 142,
+    "MarufYT-U01-HLS-743f307": 25
+  },
+  "applicationExecuted": false,
+  "iPhoneTested": false,
+  "applicationRebuilt": false,
+  "realCredentialsUsed": false,
+  "optionalFFmpegOnPATH": false,
+  "optionalMitmwebOnPATH": false,
+  "results": [
+    {
+      "id": "P00-HTTP",
+      "description": "HTTP test server answers the master request",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P00-HTTPS",
+      "description": "HTTPS master works with certificate validation",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P00-CHILD",
+      "description": "Relative child playlist is served",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P00-SEGMENT",
+      "description": "Synthetic segment bytes are served (not video decoding)",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "TLS-UNTRUSTED",
+      "description": "Client refuses the temporary CA when it is not explicitly trusted",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P01",
+      "description": "Master contains an HTTP child test URL",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P01-SINK",
+      "description": "Controlled target is reachable with no copied credentials",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P02",
+      "description": "Child contains an HTTP segment test URL",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P02-SINK",
+      "description": "Controlled target is reachable with no copied credentials",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P03",
+      "description": "Master contains a cross-domain HTTPS child URL",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P03-SINK",
+      "description": "Controlled target is reachable with no copied credentials",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P04",
+      "description": "Child contains a cross-domain HTTPS segment URL",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P04-SINK",
+      "description": "Controlled target is reachable with no copied credentials",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P05",
+      "description": "Child userinfo fixture is generated",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P06",
+      "description": "Segment userinfo fixture is generated",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P07",
+      "description": "Child unacceptable-port fixture is generated",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P08",
+      "description": "Segment unacceptable-port fixture is generated",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P09",
+      "description": "Invalid child-host fixture is generated",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "P10",
+      "description": "Invalid segment-host fixture is generated",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R01-301",
+      "description": "same-domain HTTPS master returns 301 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R01-302",
+      "description": "same-domain HTTPS master returns 302 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R01-303",
+      "description": "same-domain HTTPS master returns 303 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R01-307",
+      "description": "same-domain HTTPS master returns 307 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R01-308",
+      "description": "same-domain HTTPS master returns 308 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R02-301",
+      "description": "master downgrade to HTTP returns 301 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R02-302",
+      "description": "master downgrade to HTTP returns 302 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R02-303",
+      "description": "master downgrade to HTTP returns 303 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R02-307",
+      "description": "master downgrade to HTTP returns 307 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R02-308",
+      "description": "master downgrade to HTTP returns 308 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R03-301",
+      "description": "cross-domain HTTPS master returns 301 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R03-302",
+      "description": "cross-domain HTTPS master returns 302 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R03-303",
+      "description": "cross-domain HTTPS master returns 303 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R03-307",
+      "description": "cross-domain HTTPS master returns 307 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R03-308",
+      "description": "cross-domain HTTPS master returns 308 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R04-301",
+      "description": "child downgrade to HTTP returns 301 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R04-302",
+      "description": "child downgrade to HTTP returns 302 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R04-303",
+      "description": "child downgrade to HTTP returns 303 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R04-307",
+      "description": "child downgrade to HTTP returns 307 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R04-308",
+      "description": "child downgrade to HTTP returns 308 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R05-301",
+      "description": "segment downgrade to HTTP returns 301 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R05-302",
+      "description": "segment downgrade to HTTP returns 302 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R05-303",
+      "description": "segment downgrade to HTTP returns 303 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R05-307",
+      "description": "segment downgrade to HTTP returns 307 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R05-308",
+      "description": "segment downgrade to HTTP returns 308 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R06-301",
+      "description": "cross-domain HTTPS child returns 301 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R06-302",
+      "description": "cross-domain HTTPS child returns 302 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R06-303",
+      "description": "cross-domain HTTPS child returns 303 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R06-307",
+      "description": "cross-domain HTTPS child returns 307 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R06-308",
+      "description": "cross-domain HTTPS child returns 308 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R07-301",
+      "description": "cross-domain HTTPS segment returns 301 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R07-302",
+      "description": "cross-domain HTTPS segment returns 302 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R07-303",
+      "description": "cross-domain HTTPS segment returns 303 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R07-307",
+      "description": "cross-domain HTTPS segment returns 307 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R07-308",
+      "description": "cross-domain HTTPS segment returns 308 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R08-301",
+      "description": "cross-domain HTTP master returns 301 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R08-302",
+      "description": "cross-domain HTTP master returns 302 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R08-303",
+      "description": "cross-domain HTTP master returns 303 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R08-307",
+      "description": "cross-domain HTTP master returns 307 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R08-308",
+      "description": "cross-domain HTTP master returns 308 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R09-301",
+      "description": "redirect-loop response returns 301 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R09-302",
+      "description": "redirect-loop response returns 302 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R09-303",
+      "description": "redirect-loop response returns 303 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R09-307",
+      "description": "redirect-loop response returns 307 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "R09-308",
+      "description": "redirect-loop response returns 308 and correct controlled target",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "HDR-SETCOOKIE",
+      "description": "A sets only the synthetic Secure host-only cookie",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "HDR-A",
+      "description": "Origin A detects both synthetic markers",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "HDR-B-SAFE",
+      "description": "B detects no markers when the test client sends none",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "HDR-B-UNSAFE",
+      "description": "B detects both markers in deliberate unsafe control",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "LOG-QUERY",
+      "description": "Unknown query canary does not break a valid fixture",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "LOG-REDACTION",
+      "description": "Logs contain no marker values or query canary",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "PATH-SAFETY",
+      "description": "Server refuses a path outside fixture routes",
+      "result": "PASS",
+      "scope": "Mock server only"
+    },
+    {
+      "id": "SC1",
+      "description": "F-04 sensitive logging source contract",
+      "result": "PASS",
+      "scope": "Source inspection test, not runtime"
+    },
+    {
+      "id": "SC2",
+      "description": "F-01 cleanup/expiry source contract",
+      "result": "PASS",
+      "scope": "Source inspection test, not runtime"
+    },
+    {
+      "id": "SC3",
+      "description": "U-01 cache/handoff source contract",
+      "result": "PASS",
+      "scope": "Source inspection test, not runtime"
+    },
+    {
+      "id": "SC4",
+      "description": "F-02/F-03 HTTPS and redirect source contracts",
+      "result": "PASS",
+      "scope": "Source inspection test, not runtime"
+    },
+    {
+      "id": "SC5",
+      "description": "F-01 no sensitive seed persistence source contract",
+      "result": "PASS",
+      "scope": "Source inspection test, not runtime"
+    },
+    {
+      "id": "SC-EXIT",
+      "description": "Existing source-test command finishes successfully",
+      "result": "PASS",
+      "scope": "Source inspection test, not runtime"
+    },
+    {
+      "id": "PRESERVE-SOURCE",
+      "description": "All tracked source files and branch refs are unchanged",
+      "result": "PASS",
+      "scope": "Preservation"
+    },
+    {
+      "id": "PRESERVE-142",
+      "description": "142 existing release files still match their checksums",
+      "result": "PASS",
+      "scope": "Preservation"
+    },
+    {
+      "id": "PRESERVE-25",
+      "description": "25 existing release files still match their checksums",
+      "result": "PASS",
+      "scope": "Preservation"
+    }
+  ]
+}

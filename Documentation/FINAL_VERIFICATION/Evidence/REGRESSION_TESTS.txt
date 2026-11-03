@@ -1,0 +1,38 @@
+test_escaping_symlink_rejected (test_bootstrap_pinned.BootstrapTests.test_escaping_symlink_rejected) ... ok
+test_lock_has_no_moving_archive_refs (test_bootstrap_pinned.BootstrapTests.test_lock_has_no_moving_archive_refs) ... ok
+test_tampered_cache_rejected_before_extraction (test_bootstrap_pinned.BootstrapTests.test_tampered_cache_rejected_before_extraction) ... ok
+test_tar_traversal_rejected (test_bootstrap_pinned.BootstrapTests.test_tar_traversal_rejected) ... ok
+test_artwork_cache_is_bounded (test_concurrency_invariants.ArtworkIOTests.test_artwork_cache_is_bounded) ... ok
+test_no_synchronous_artwork_read_on_main_paths (test_concurrency_invariants.ArtworkIOTests.test_no_synchronous_artwork_read_on_main_paths) ... ok
+test_network_waits_have_timeouts (test_concurrency_invariants.BlockingWaitTests.test_network_waits_have_timeouts) ... ok
+test_wait_inventory_is_reviewed (test_concurrency_invariants.BlockingWaitTests.test_wait_inventory_is_reviewed) ... ok
+test_waits_are_inside_background_dispatch_files (test_concurrency_invariants.BlockingWaitTests.test_waits_are_inside_background_dispatch_files) ... ok
+test_block_observers_are_installed_once (test_concurrency_invariants.ObserverLifecycleTests.test_block_observers_are_installed_once) ... ok
+test_instance_observers_are_removed_in_dealloc (test_concurrency_invariants.ObserverLifecycleTests.test_instance_observers_are_removed_in_dealloc) ... ok
+test_no_strong_self_in_block_observers (test_concurrency_invariants.ObserverLifecycleTests.test_no_strong_self_in_block_observers) ... ok
+test_observer_inventory_is_reviewed (test_concurrency_invariants.ObserverLifecycleTests.test_observer_inventory_is_reviewed) ... ok
+test_private_lookup_is_opt_in (test_concurrency_invariants.SponsorPrivateLookupTests.test_private_lookup_is_opt_in) ... ok
+test_private_mode_never_sends_the_video_id (test_concurrency_invariants.SponsorPrivateLookupTests.test_private_mode_never_sends_the_video_id) ... ok
+test_is_idempotent (test_macho_inject.MachOInjectTests.test_is_idempotent) ... ok
+test_rejects_missing_slack (test_macho_inject.MachOInjectTests.test_rejects_missing_slack) ... ok
+test_replaces_legacy_load (test_macho_inject.MachOInjectTests.test_replaces_legacy_load) ... ok
+test_layout_math (test_native_layout_math.NativeLayoutMathTests.test_layout_math) ... skipped 'no C compiler available'
+test_sponsor_hash (test_native_sponsor_hash.NativeSponsorHashTests.test_sponsor_hash) ... skipped 'no C compiler available'
+test_preserves_background_modes (test_sanitize_plist.SanitizePlistTests.test_preserves_background_modes) ... ok
+test_preserves_icons_and_enables_file_access (test_sanitize_plist.SanitizePlistTests.test_preserves_icons_and_enables_file_access) ... ok
+test_binary_content_is_detected_without_disclosure (test_secret_scan.SecretScanTests.test_binary_content_is_detected_without_disclosure) ... ok
+test_history_alias_and_index_are_not_missed (test_secret_scan.SecretScanTests.test_history_alias_and_index_are_not_missed) ... ok
+test_private_key_and_embedded_token_locations (test_secret_scan.SecretScanTests.test_private_key_and_embedded_token_locations) ... ok
+test_sensitive_extensions (test_secret_scan.SecretScanTests.test_sensitive_extensions) ... ok
+test_diagnostics_are_opt_in_and_objects_are_not_interpolated (test_security_fixes.SecurityFixContracts.test_diagnostics_are_opt_in_and_objects_are_not_interpolated) ... ok
+test_expiry_logout_cleanup_and_signatures (test_security_fixes.SecurityFixContracts.test_expiry_logout_cleanup_and_signatures) ... ok
+test_hls_validation_precedes_cache_and_native_mutations (test_security_fixes.SecurityFixContracts.test_hls_validation_precedes_cache_and_native_mutations) ... ok
+test_https_initial_tasks_and_both_redirect_layers (test_security_fixes.SecurityFixContracts.test_https_initial_tasks_and_both_redirect_layers) ... ok
+test_no_authenticated_seed_persistence_or_raw_protobuf_dump (test_security_fixes.SecurityFixContracts.test_no_authenticated_seed_persistence_or_raw_protobuf_dump) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 1.040s
+
+OK (skipped=2)
+
+Exit code: 0

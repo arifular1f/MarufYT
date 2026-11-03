@@ -1,0 +1,47 @@
+[
+  {
+    "file": "COMPLETE_INVENTORY.csv.gz",
+    "uncompressedSHA256": "d354e7df624e24efb004cefc31d19ea8d6add9cfaf111641dc1ab749f6e8a681",
+    "gzipSHA256": "ba87c3d916ded8fc6ce96b7c6932fe912d8ced24ade8ecf3c9c3221ae6a74348"
+  },
+  {
+    "file": "DOMAIN_CLASSIFICATION.csv.gz",
+    "uncompressedSHA256": "66a1264772653be12c098f8fbe38c11946a1248527533182fee65ba7c0990411",
+    "gzipSHA256": "c16eadabf51ff678773941e3c117c5893ea909fb99116e846da2965b5dd20013"
+  },
+  {
+    "file": "FILE_COVERAGE.csv.gz",
+    "uncompressedSHA256": "de5e908460760077813a409cf42f85fe63e786d6ab4b1e4d971444d541a5f48d",
+    "gzipSHA256": "cfde6dac05fcbb8cfb8af8057ac631ec3bc56bce9a2d5b17bd18a706ff9d0a6e"
+  },
+  {
+    "file": "IP_LITERAL_INVENTORY.csv.gz",
+    "uncompressedSHA256": "b639224af177bcce399572962a6730d9cb491aef2a00ba6be6ce5df73bf38717",
+    "gzipSHA256": "8e84375275c6b8f15fdbcac507da2ec829baf239ae4d65af83b65c51319cc8bd"
+  },
+  {
+    "file": "MARUFYT_COMPONENT_URLS.csv.gz",
+    "uncompressedSHA256": "556e17446af6ec494ce74072762a5be4e9e2013f7d51994e8e707f06e78e6b6f",
+    "gzipSHA256": "b33729cc4ed1fecc910e4f0d1d9afa100e6108529b96a18dab38ae1163de838d"
+  },
+  {
+    "file": "OCCURRENCES.csv.gz",
+    "uncompressedSHA256": "44cd5df58b14fc2b2af3a3337902cc5f52892066734e3259e4e4f7ce23f851aa",
+    "gzipSHA256": "b4e7f9a9eab1d3b1441cf6b84401cbe0157f64454ce1048095fb2db80cc6a1ca"
+  },
+  {
+    "file": "SCHEME_INVENTORY.csv.gz",
+    "uncompressedSHA256": "c478306786d73806bac2ed200e9b5718f41081119f06d3387ea76d806d25cfd3",
+    "gzipSHA256": "6c3bdf349b77b9f879ec37ca12eb2048cc80132942b22130df5f0bf1aa2bdd44"
+  },
+  {
+    "file": "URL_AUTHORITY_DOMAINS.csv.gz",
+    "uncompressedSHA256": "4f0a3c5083ba2ff244900f427f99a2df209e0ab3dac9c69d3e81ba582770eb61",
+    "gzipSHA256": "bfac16071a32c586b58f727cf0da271edd3eab311c5dc2cb9ee7b2f75e220346"
+  },
+  {
+    "file": "VERSION_ONLY_URLS.csv.gz",
+    "uncompressedSHA256": "f13b9f9457c1f7a95b504b47d374d66798540d603d0db0d846ed70631e726fb2",
+    "gzipSHA256": "ad4942218555f4f376770cd53217ff951c1baa41f78ecf587cb2298af3e73619"
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "checks": 65,
+  "requests": 63,
+  "networkScope": "127.0.0.1 only",
+  "certificateValidation": "enabled; temporary CA trusted only by this client",
+  "credentials": "synthetic markers only",
+  "mockRedirectFollowing": "manual safe/unsafe logger calibration",
+  "media": "intentionally nonplayable transport bytes; not a playback test",
+  "applicationExecuted": false,
+  "MarufYTPolicyExecuted": false,
+  "iPhoneTested": false,
+  "keysAndCertificates": "temporary directory removed after run"
+}

@@ -1,0 +1,131 @@
+{
+  "sourceCommit": "743f307b816d275fef88d34a36ba546415015753",
+  "branch": "fix/hls-manifest-validation",
+  "existingCI": {
+    "url": "https://github.com/arifular1f/MarufYT/actions/runs/41553403138",
+    "conclusion": "success",
+    "headSha": "743f307b816d275fef88d34a36ba546415015753",
+    "reusedNotRerun": true
+  },
+  "manifests": {
+    "MarufYT-FinalUpdate-1.1.4+marufyt.8": {
+      "verifiedFiles": 142,
+      "allMatch": true,
+      "manifestSHA256": "4d343b214c9d1267d43460ba9a091ee338c556d690d699acad4aad45618316d3"
+    },
+    "MarufYT-U01-HLS-743f307": {
+      "verifiedFiles": 25,
+      "allMatch": true,
+      "manifestSHA256": "e439a6dbb8f2365bb4f6027f35fe52a0fabbdeade47d0b6514811efa2816f9b8"
+    }
+  },
+  "packages": {
+    "Latest": {
+      "path": "C:\\Users\\oriyan\\Desktop\\ios App\\release\\MarufYT-U01-HLS-743f307\\Latest-YouTube-21.43.5\\MarufYT-1.1.4+marufyt.8-U01-HLS-YouTube-21.43.5-ROOTLESS-signing-required.ipa",
+      "sha256": "194fc44cd9d0449d185a46943a5754a9171c6e625c3cd062b6de5a47c7a8d670",
+      "ZIPCRC": "PASS",
+      "hostVersion": "21.43.5",
+      "bundleID": "com.google.ios.youtube",
+      "dylibSHA256": "da1f68a97957076d21816c6ed488db7e352487ae906e1263f49d29feafbdae2d",
+      "dylibArchitecture": "arm64",
+      "onlyChangedMemberFromOriginal8": [
+        "Payload/YouTube.app/Frameworks/MarufYT.dylib"
+      ],
+      "dependencyLoadsUnchanged": true,
+      "usageDescriptions": {
+        "NSCameraUsageDescription": "This lets you create videos using the app.",
+        "NSUserTrackingUsageDescription": "To personalize ads and provide ad measurement, YouTube will link activity from this app with activity from non-Google apps and websites.",
+        "NSBluetoothPeripheralUsageDescription": "YouTube needs bluetooth access to scan for nearby Cast devices.",
+        "NSLocalNetworkUsageDescription": "Access to your network allows YouTube to discover and connect to devices such as your TV.",
+        "NSAppleMusicUsageDescription": "This lets you add your own audio files to your videos.",
+        "NSMicrophoneUsageDescription": "This lets you include audio with your videos and search using your voice.",
+        "NSLocationWhenInUseUsageDescription": "This enables local content discovery, improved recommendations, and enhanced search results.",
+        "NSContactsUsageDescription": "Your contacts will be sent to YouTube servers to help you find friends to share videos with.",
+        "NSPhotoLibraryUsageDescription": "This lets you upload media you've already created."
+      },
+      "ATS": {
+        "NSAllowsLocalNetworking": true,
+        "NSExceptionDomains": {
+          "vaspbon-int.msg.t-mobile.com": {
+            "NSExceptionAllowsInsecureHTTPLoads": true
+          },
+          "cpid.ddt.telenor.io": {
+            "NSExceptionAllowsInsecureHTTPLoads": true
+          },
+          "nwp.t-mobile.com": {
+            "NSExceptionAllowsInsecureHTTPLoads": true
+          },
+          "vaspbonstg-int.msg.t-mobile.com": {
+            "NSExceptionAllowsInsecureHTTPLoads": true
+          }
+        }
+      },
+      "backgroundModes": [
+        "remote-notification",
+        "audio",
+        "fetch",
+        "external-accessory"
+      ],
+      "runtime": "NOT TESTED",
+      "signing": "Signing required; no signed installation tested"
+    },
+    "Stable": {
+      "path": "C:\\Users\\oriyan\\Desktop\\ios App\\release\\MarufYT-U01-HLS-743f307\\Stable-YouTube-21.39.4\\MarufYT-1.1.4+marufyt.8-U01-HLS-YouTube-21.39.4-ROOTLESS-signing-required.ipa",
+      "sha256": "bce8cc2679e0a223fdb5fc20d5342005d74dac437631cacbf4dc146a4838d2cf",
+      "ZIPCRC": "PASS",
+      "hostVersion": "21.39.4",
+      "bundleID": "com.google.ios.youtube",
+      "dylibSHA256": "da1f68a97957076d21816c6ed488db7e352487ae906e1263f49d29feafbdae2d",
+      "dylibArchitecture": "arm64",
+      "onlyChangedMemberFromOriginal8": [
+        "Payload/YouTube.app/Frameworks/MarufYT.dylib"
+      ],
+      "dependencyLoadsUnchanged": true,
+      "usageDescriptions": {
+        "NSAppleMusicUsageDescription": "This lets you add your own audio files to your videos.",
+        "NSBluetoothPeripheralUsageDescription": "YouTube needs bluetooth access to scan for nearby Cast devices.",
+        "NSCameraUsageDescription": "This lets you create videos using the app.",
+        "NSContactsUsageDescription": "Your contacts will be sent to YouTube servers to help you find friends to share videos with.",
+        "NSLocalNetworkUsageDescription": "Access to your network allows YouTube to discover and connect to devices such as your TV.",
+        "NSLocationWhenInUseUsageDescription": "This enables local content discovery, improved recommendations, and enhanced search results.",
+        "NSMicrophoneUsageDescription": "This lets you include audio with your videos and search using your voice.",
+        "NSPhotoLibraryUsageDescription": "This lets you upload media you've already created.",
+        "NSUserTrackingUsageDescription": "To personalize ads and provide ad measurement, YouTube will link activity from this app with activity from non-Google apps and websites."
+      },
+      "ATS": {
+        "NSAllowsLocalNetworking": true,
+        "NSExceptionDomains": {
+          "cpid.ddt.telenor.io": {
+            "NSExceptionAllowsInsecureHTTPLoads": true
+          },
+          "nwp.t-mobile.com": {
+            "NSExceptionAllowsInsecureHTTPLoads": true
+          },
+          "vaspbon-int.msg.t-mobile.com": {
+            "NSExceptionAllowsInsecureHTTPLoads": true
+          },
+          "vaspbonstg-int.msg.t-mobile.com": {
+            "NSExceptionAllowsInsecureHTTPLoads": true
+          }
+        }
+      },
+      "backgroundModes": [
+        "remote-notification",
+        "audio",
+        "fetch",
+        "external-accessory"
+      ],
+      "runtime": "NOT TESTED",
+      "signing": "Signing required; no signed installation tested"
+    }
+  },
+  "nonDylibDEBPayloadUnchanged": true,
+  "preservation": {
+    "HEADUnchanged": true,
+    "branchAndAllLocalRemoteRefsUnchanged": true,
+    "trackedFilesChanged": [],
+    "rebuildPerformed": false,
+    "newWorkflowTriggered": false,
+    "networkCapturePerformed": false
+  }
+}

@@ -1,0 +1,1 @@
+build,scenarioID,relativeSeconds,foregroundOrBackground,captureMethod,destinationDomain,protocol,method,pathTemplateWithoutSecrets,HTTPStatus,redirectDomainOnly,sensitiveHeaderPresentYesNoUnknown,attributionConfidence,evidenceFile,notes

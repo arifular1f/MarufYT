@@ -1,0 +1,299 @@
+diff --git "a/C:\\Users\\oriyan\\Desktop\\ios App\\MarufYT\\Documentation\\FINAL_UPDATE\\URL_NETWORK_AUDIT.md" "b/C:\\Users\\oriyan\\Desktop\\ios App\\MarufYT\\Documentation\\FINAL_UPDATE\\URL_NETWORK_AUDIT.md"
+new file mode 100644
+index 0000000..a8cc197
+--- /dev/null
++++ "b/C:\\Users\\oriyan\\Desktop\\ios App\\MarufYT\\Documentation\\FINAL_UPDATE\\URL_NETWORK_AUDIT.md"	
+@@ -0,0 +1,293 @@
++# MarufYT .8 — IPA URL and network endpoint audit
++
++Date: 2026-11-03, Asia/Kuala_Lumpur. Audit only; no application changes, rebuild,
++release replacement, branch change, commit or push. Repository revision:
++`81c31676d91c94e47c905ebe31b1cf6fcb1b62ba`, branch `final-update-security`.
++The existing release report identifies compiled source as
++`c5f3dc3f8aa2205053b27029f2e73552d80fae28`.
++
++## 1. Executive conclusion
++
++**Findings identified: one Low conditional URL-validation gap and three
++Informational observations**, with evidence below. No Critical or High issue was
++demonstrated by this audit. This is not a runtime safety certification.
++
++Every outer IPA file was scanned. The retained inventory contains **818 HTTP(S)/WS
++literal records**, not 818 active connections: **795 common, 8 Latest-only and 15
++Stable-only**. Some records are templates, metadata, examples, regular expressions,
++or decoder artifacts. There are 221 HTTP, 596 HTTPS and one WS record; no WSS
++literal was recovered. **39 URL records occur in MarufYT components, all common**
++to both packages. This includes dependency documentation strings and shared Google
++destinations, not just MarufYT-added requests. The injected MarufYT dylib is
++byte-identical between builds.
++
++No iPhone capture or signed-app execution was available. Five credential-free
++public-fixture GET probes ran from Windows; these do not establish app traffic.
++No malicious destination or unexpected credential-upload path was established
++within the examined MarufYT source paths. Original YouTube's complete compiled
++network call graph and all dynamically supplied destinations remain unresolved.
++
++## 2. Exact packages and preservation
++
++Paths below are relative to `C:\Users\oriyan\Desktop\ios App\`.
++
++| Build | Exact IPA path | SHA-256 |
++| --- | --- | --- |
++| Latest 21.43.5 | `release/MarufYT-FinalUpdate-1.1.4+marufyt.8/Latest-YouTube-21.43.5/MarufYT-1.1.4+marufyt.8-YouTube-21.43.5-ROOTLESS-signing-required.ipa` | `576ca959641e5ba1c285c422d19b1e545d5f838b36a8be7109564b22b2cb46e8` |
++| Stable 21.39.4 | `release/MarufYT-FinalUpdate-1.1.4+marufyt.8/Stable-YouTube-21.39.4/MarufYT-1.1.4+marufyt.8-YouTube-21.39.4-ROOTLESS-signing-required.ipa` | `05a13cb11f555a64889a19a702028b235a363e50dc489e1dd7728942f7ddeaf7` |
++
++Latest: 144,600,242 bytes, 7,565 files. Stable: 133,433,175 bytes, 6,893 files.
++Both ZIP CRC checks pass; before/after package hashes match. Bundle identifier is
++`com.google.ios.youtube`. `Payload/YouTube.app/Frameworks/MarufYT.dylib` is 5,591,664
++bytes in each, SHA-256
++`eddb035be134a3ee7f0d679feb1127908ae1b5ada4ae186eaef43f0c68895108`.
++See [final verification](URL_NETWORK_EVIDENCE/FINAL_VERIFICATION.json).
++
++## 3. Complete extracted inventory and domain classification
++
++The following annexes are part of this report. CSVs are losslessly gzip-compressed
++to keep the full per-file evidence practical; they are not truncated summaries.
++Credential-shaped URL query values/userinfo are redacted; raw-literal SHA-256 and
++locations remain. Redaction does not mean a credential was valid or secret.
++
++| Evidence | Contents |
++| --- | --- |
++| [Complete inventory](URL_NETWORK_EVIDENCE/COMPLETE_INVENTORY.csv.gz) | All 38,853 lexical records, IDs, values, raw hashes, build comparison, component origin, files, source mapping where known, reachability, possible data and authentication |
++| [Occurrences](URL_NETWORK_EVIDENCE/OCCURRENCES.csv.gz) | 444,437 retained build/file occurrences, offsets, encoding/container/section and confidence |
++| [Coverage](URL_NETWORK_EVIDENCE/FILE_COVERAGE.csv.gz) | Every one of 14,458 outer files, including files with zero findings, hash and scan status; 8,318 unique member hashes |
++| [URL authorities](URL_NETWORK_EVIDENCE/URL_AUTHORITY_DOMAINS.csv.gz) | 278 distinct parsed URL host candidates, linked record IDs and component ownership; parsing is not DNS/operator verification |
++| [Domain candidates](URL_NETWORK_EVIDENCE/DOMAIN_CLASSIFICATION.csv.gz) | All 37,705 DNS-shaped candidates; includes many code/property/reverse-DNS identifiers, **not** 37,705 destinations |
++| [IP literals](URL_NETWORK_EVIDENCE/IP_LITERAL_INVENTORY.csv.gz) | 22 IPv4 and 125 IPv6-shaped records, with file evidence; versions, masks and syntax coincidences remain candidates |
++| [Schemes](URL_NETWORK_EVIDENCE/SCHEME_INVENTORY.csv.gz) | 129 custom-URI records and 54 declared inbound/query scheme records; declarations do not prove outbound use |
++| [Version-only URLs](URL_NETWORK_EVIDENCE/VERSION_ONLY_URLS.csv.gz) | Exact 8 Latest-only and 15 Stable-only values and files |
++| [MarufYT-component URLs](URL_NETWORK_EVIDENCE/MARUFYT_COMPONENT_URLS.csv.gz) | All 39 HTTP(S) URL records in the injected dylib/resources, including bundled dependencies |
++| [Comparison](URL_NETWORK_EVIDENCE/LATEST_STABLE_COMPARISON.json) / [summary](URL_NETWORK_EVIDENCE/SUMMARY.json) | Common/version-only record IDs, counts and limitations |
++
++Example reading an annex without extracting it: Python
++`csv.DictReader(gzip.open(path, 'rt', encoding='utf-8-sig'))`.
++The files can also be decompressed with a standard gzip-compatible archive tool.
++
++Methods: scan all uncompressed member bytes, printable ASCII/UTF-8-compatible
++strings, raw UTF-8 URIs, ASCII-range UTF-16 LE/BE views, complete Mach-O `__ustring`
++sections; decode supported plist/JSON/text, percent/HTML/escaped-slash forms,
++recognizable URL/base64 patterns and PEM certificate DER strings. One bounded
++nested ZIP/gzip layer is inspected. All injected dylibs, host/framework Mach-O files,
++plists, readable scripts/configurations and resources are included in outer coverage.
++Scanner and classifier are retained beside the evidence for review/reproduction.
++
++Offsets generally identify the enclosing string/container, not necessarily the
++exact token byte; heuristic occurrence counts may duplicate alternate decoding
++views. Raw certificate DER can append printable bytes such as `0` to a URL.
++Opposite-alignment UTF-16, format specifiers and percent decoding of `%%` templates
++also produce artifacts. Preserve evidence, but do not resolve/probe these as real
++hosts. Source functions for opaque original-host strings remain explicitly UNKNOWN;
++no fictional function-level attribution or runtime data flow is asserted.
++
++Domain classification is by recognizable service family and containing component,
++not an independently verified registrant lookup. Google/YouTube families include
++`youtube.com`, `youtubei.googleapis.com`, `googlevideo.com`, `ytimg.com`,
++`googleusercontent.com`, `accounts.google.com` and related Google services.
++Advertising/telemetry-shaped host strings include `googleadservices.com`,
++`doubleclick.net`, `app-analytics-services.com`, `app-ads-services.com` and
++`firebaseinstallations.googleapis.com`. Other records include Apple/PKI certificate
++locations, XML/XMP namespaces, dependency documentation and unknown candidates.
++Their occurrence alone proves neither tracking nor malicious behavior.
++
++## 4. Endpoint-to-feature and data mapping
++
++Paths in this table are repository paths under `Tweak/Features/` unless specified.
++“Conditional” establishes an inspected source path, not a runtime observation.
++Headers listed are explicit code behavior; session-generated cookies and original
++YouTube's internal requests still require capture. Every remote server can ordinarily
++observe source IP, timing and transport/client metadata.
++
++| Destination / dynamically constructed route | Component, feature and source evidence | Reachability / possible transmitted data / authentication |
++| --- | --- | --- |
++| `https://sponsor.ajay.app/api/skipSegments?videoID=…&categories=…` | MarufYT SponsorBlock, `SponsorBlock/SponsorClient.mm:73–100` | Conditional normal lookup; full video ID and selected categories. No explicit Google bearer/Cookie copy at this site. SponsorBlock defaults off |
++| `https://sponsor.ajay.app/api/skipSegments/{4hex}?categories=…` | Same client; SHA-256 of video ID, first four lowercase hex characters | Private Lookup defaults off. Sends 16-bit prefix/categories, receives matching bucket and filters locally. Reduces direct ID disclosure; does not guarantee anonymity against inference |
++| `https://sponsor.ajay.app/api/voteOnSponsorTime`, `/api/skipSegments` | `SponsorBlock/SponsorMenu.mm:88–175`, `YTKACESponsorPost`, vote/submit | Explicit user actions; persistent contributor ID, segment UUID/vote or video ID/times/category. Private Lookup does not anonymize these operations |
++| `https://sponsor.ajay.app/api/branding?videoID=…` | `SponsorBlock/DeArrow.mm:378–387`, `YTKACEFetchBranding` | Conditional DeArrow metadata; full video ID, receives branding/title metadata. No explicit Google auth attached |
++| `https://dearrow-thumb.ajay.app/api/v1/getThumbnail?videoID=…&time=…` | `SponsorBlock/DeArrow.mm:254`, thumbnail construction | Conditional replacement; full video ID/time, image response. Titles/thumbnail replacement default off; persisted user choices can enable them |
++| `https://raw.githubusercontent.com/Override92/AiSList/main/AiSList/aislist_blocklist.txt` and `aislist_warnlist.txt` | `Interface/AiSList.mm:8–10,54–100`; `YTKACEAiSListDownload`, `YTKACEAiSListRefreshIfStale` | Conditional AI-filter refresh, four-hour stale cache, public GET without explicit account headers. Receives channel lists. AI-filter booleans absent/false by default; refresh can occur without a separate confirmation once enabled |
++| `https://api.aisloplist.com` | `Interface/AiSListReport.mm:81–115`, `YTKACEAiSListSubmit` | Report confirmation then JSON POST: channel handle, video URL, reporter name (default MarufYT). No explicit Google auth. oEmbed metadata lookup can precede confirmation |
++| `https://youtubei.googleapis.com/youtubei/v1/{guide,player,browse}` plus query variants | `Streaming/TVClient.mm:87`, `Streaming/HLSPlayback.mm:87`, `Downloads/DirectDownloader.mm:166`, `Downloads/PlaylistDownloader.mm:621–661` | MarufYT requests to first-party Google, not third-party tracking by that fact alone. Video/playlist IDs, continuation, visitor/client/device context; receives streams/playlist data. Playlist browse may attach host Google Authorization bearer and on-behalf-of context to fixed Google origin; its ephemeral configuration disables cookies |
++| `https://www.youtube.com/iframe_api`, `/s/player/{id}/player_ias.vflset/en_US/base.js` | `Streaming/TVClient.mm:129–164`, `YTKACETVPlayer` / `YTKACETVFetch` | Conditional player-script retrieval, ID extracted from script; receives JavaScript for local player/solver processing. No explicit Google auth copy here |
++| `https://www.youtube.com/oembed?url=…&format=json` | `Queue/QueueHooks.mm:282–290`, `YTKACEQueueFetchFromOEmbed`; `Interface/AiSListReport.mm:41` | Conditional public metadata lookup: video URL/ID, receives title/channel information. No explicit Google account token here |
++| `https://i.ytimg.com/vi/{videoID}/{size}.jpg` | `Queue/QueueHooks.mm:558`; `Downloads/PlaylistDownloader.mm:502,530,554,955` | Queue/playlist image construction/fetch; selected video IDs and image size, no explicit Google Authorization |
++| Runtime `https://*.googlevideo.com/…` signed media URLs | `Downloads/SABRDownloader.mm:968–992,1419–1428`; `Tweak/Runtime/NetworkRules.h` | Conditional download/media, signed query, protobuf request context including visitor/PoToken/device information as available. Explicit media replay allowlist excludes Authorization/Cookie; does not remove all identifying data from bodies or signed URLs |
++| Runtime HLS manifest and child media URLs | `Streaming/HLSPlayback.mm:139–177,220–247` and original host playback stack | Conditional mode 2; Google response/native object supplies URL. Parent URL locally only checked for nonempty string at handoff. Later host validation, headers, redirects and child URLs unknown: finding U-01 |
++| Runtime image/caption/post/profile URLs | `Tweak/Runtime/URLPolicy.h/.mm`; image/download consumers | Object-provided destinations require HTTPS for guarded MarufYT requests, but generic hosts are not restricted to Google. Exact destinations/query values arrive at runtime; no complete host list can be statically recovered |
++| `https://youtube.com/{watch,shorts,clip,post,channel,playlist}…`, `https://youtu.be/…` | `Interface/NativeShareHooks.mm:117–129` | Generated share/copy/report links, not requests just by construction. External browser/app may use its own Google session |
++| `https://github.com/arifular1f`, `/MarufYT` | `Tweak/MarufYT/Branding/MarufYTBranding.mm:15–17,48` | Explicit developer/project external navigation; external browser session applies |
++
++Other component strings such as `streams.videolan.org/upload/`, `github.com/yt-dlp/ejs`,
++parser-library GitHub documentation, W3C SMIL/TTML and AOMedia metadata identifiers
++have no corresponding upload/request path established by this audit. They remain
++in the full inventory; an `upload` substring is not proof of uploading user data.
++
++For original host URLs, the annex provides containing binary/resource, section or
++offset, and literal query field names. The actual runtime body, auth headers and
++calling function are UNKNOWN unless independently shown above. Google sign-in,
++account switching, ads, crash/analytics reporting and casting are original host
++capabilities; static strings cannot establish which occurred on this device.
++
++## 5. Transport, redirects, addresses and schemes
++
++MarufYT's inspected fixed remote request URLs use HTTPS. `URLPolicy.h:9–13` requires
++HTTPS, nonempty host, no URL username/password and nil/443 port. Its guarded client
++rejects invalid initial URLs; local file imports are separate filesystem paths.
++`URLPolicy.mm:10–28` validates previous and next redirect URLs, rejects generic
++cross-origin body/stream replay and removes headers except a small public allowlist.
++Media redirects also require trusted `googlevideo.com` exact/suffix hosts and a
++media header allowlist. Same-origin legitimate auth is preserved. SABR's custom
++protobuf redirect is checked separately. A redirect policy does not validate
++arbitrary sensitive query parameters that a caller deliberately includes in a URL.
++
++No custom trust-all/invalid-certificate acceptance handler was identified in the
++inspected MarufYT request layer; Foundation system trust applies there. This is
++not proof of pinning, original-host TLS internals, dependency-wide trust behavior
++or all AVFoundation child requests. HLS handoff is outside this guarded client.
++
++221 HTTP records include schema/DTD/XMP identifiers, PKI OCSP/CRL metadata,
++examples and original-host strings. They are not 221 demonstrated cleartext calls.
++Both host Info.plists permit local networking and insecure HTTP for these inherited
++carrier domains: `cpid.ddt.telenor.io`, `nwp.t-mobile.com`,
++`vaspbon-int.msg.t-mobile.com`, `vaspbonstg-int.msg.t-mobile.com`.
++No global arbitrary-load permission was identified in these ATS dictionaries.
++
++The sole WS record, `N000965`, is an original executable format template, rendered
++as `ws://[userinfo-redacted]@:%d/%@`; it is not a usable observed destination.
++No WSS literal was extracted; runtime WebSocket construction is still possible.
++Inbound schemes and allowed query schemes may open/receive callbacks from another
++app rather than contact a network server. All are listed in the scheme annex.
++
++IPv4 candidates include loopback `127.0.0.1`, private/link-local ranges, masks,
++`224.0.0.251` and `239.255.255.250` discovery addresses, `8.8.8.8`, and version-like
++tuples. Their exact files are in the IP annex. No hardcoded-IP MarufYT exfiltration
++request was established. IPv6-shaped text also includes syntax coincidences.
++None of these addresses was probed. Integer sockaddr values, DNS answers and
++runtime LAN peer addresses are outside literal extraction.
++
++## 6. Latest versus Stable
++
++| Record type | Common | Latest-only | Stable-only |
++| --- | ---: | ---: | ---: |
++| HTTP(S)/WS URLs | 795 | 8 | 15 |
++| DNS-shaped candidates | 35,461 | 1,345 | 899 |
++| IPv4 candidates | 22 | 0 | 0 |
++| IPv6 candidates | 104 | 5 | 16 |
++| Custom URI strings | 120 | 9 | 0 |
++| Declared schemes | 32 | 0 | 22 |
++
++The exact 23 version-only URL records are in the linked annex. Latest-only includes
++`ddl.app-ads-services.com/pagead/conversion/app/deeplink`,
++`odf.app-ads-services.com/odf/psmappid`, Google MediaReview help,
++`youtubei.googleapis.com/youtubei/v1/asset/get_asset?alt=proto`, a watch template
++and Apple certificate/DER-noise variants. Stable-only includes
++`www.googleadservices.com/pagead/conversion/app/deeplink`, Google embedded kid-signup
++(production/sandbox), families sandbox, terms, Photos share patterns/example,
++Cardboard help, Adobe XMP namespaces and SecureTrust/SwissSign certificate strings.
++
++The conversion templates expose field names `rdid`, `id_type=idfa`, `bundleid`,
++`sdk_version`, `retry`; this indicates possible advertising-ID attribution data,
++not a captured real IDFA. The newer advertising-domain strings warrant runtime
++comparison but were not introduced by the byte-identical MarufYT dylib. Sandbox
++or dependency example strings need not be reachable in a production execution.
++No version-only MarufYT-component URL was recovered. Absence of a string difference
++does not prove identical original-host networking or runtime configuration.
++
++## 7. Findings and privacy implications
++
++### U-01 — HLS manifest handoff lacks local secure-URL validation — Low
++
++Both builds. `Tweak/Features/Streaming/HLSPlayback.mm`,
++`YTKACEHLSFetchVisionThen:173–177` caches `streamingData.hlsManifestUrl` when nonempty;
++`YTKACEHLSSwap:232–237` selects cached/native text and calls `setHlsManifestURL:`
++without `MarufYTIsSecureURL` at that boundary. `YTKACEHLSEnabled:45` requires playback
++fix mode 2; it is not the default. The binary contains the manifest key/setter and
++HLS diagnostic literals; exact offsets are recorded in final verification.
++
++This is a confirmed local hardening gap, **not a demonstrated remote exploit or
++observed HTTP request**. An unsafe upstream/modified/native URL is a prerequisite;
++the normal player response arrives over HTTPS. The original host may independently
++validate/block it or ATS may prevent cleartext. If accepted, the chosen host could
++learn IP/request metadata; whether tokens/cookies are attached is unknown. No
++contacts/photos/files exposure was demonstrated. Recommended future fix: validate
++the selected URL before cache insertion and native handoff, with safe fallback;
++also test manifest child URLs/redirects on device. No code was changed.
++
++### U-02 — Inherited carrier HTTP exceptions — Informational
++
++Both `Payload/YouTube.app/Info.plist`, `NSAppTransportSecurity`; four domains listed
++in section 5. These allow specific insecure host loads, not proof such requests
++occur. If used, data on HTTP could be observable/modifiable in transit; exact
++payload/auth is unknown. Recommendation: capture the native carrier flows before
++considering narrower exceptions; do not remove host compatibility policy blindly.
++
++### U-03 — Optional integrations and host attribution can disclose activity — Informational
++
++Evidence: SponsorClient, SponsorMenu, DeArrow, AiSList and host conversion templates
++in sections 4/6 and occurrence annex. Normal lookup/DeArrow can disclose full video
++IDs; reporting/submissions disclose selected content and contributor/reporter data;
++private prefix lookup is not universal privacy protection. Host attribution strings
++suggest possible IDFA-related fields, without proving collection or transmission.
++No unauthorized sensitive upload was confirmed. Recommendation: explain integration
++data flows, retain opt-in controls and verify actual ATT/telemetry behavior by capture.
++
++### U-04 — Opaque host and dynamic destinations remain unverified — Informational
++
++Evidence: unknown function/reachability/auth fields in the inventory, runtime
++signed media URLs, HLS, generic object-provided image/caption URLs and host binaries.
++Not every string has a recoverable original-source function. Native DNS/config,
++protobuf, redirects, JS-built URLs, encryption/obfuscation and runtime account
++state prevent a closed static destination list. Recommendation: controlled signed
++device capture with disposable test account, service toggles and redirect scenarios.
++This limitation is not itself proof of a vulnerability or hidden connection.
++
++## 8. Tests and actual network observations
++
++Both package SHA-256/ZIP CRC checks passed; all members received lexical scanning.
++Binary parse/section evidence and unchanged repository branch/HEAD/tracked diff are
++recorded in final verification. **Four existing security source-contract tests
++passed** ([log](URL_NETWORK_EVIDENCE/SOURCE_CONTRACT_TESTS.txt)); these inspect source
++contracts and do not execute Foundation/iPhone networking or prove full coverage.
++No application binary was executed and no app rebuild was performed.
++
++Controlled public-fixture probes used Python urllib on Windows with default
++certificate/hostname validation, no proxies, cookies, Authorization, API key or
++account credentials. Redirects were restricted to same-host HTTPS/443; none occurred.
++The fixture video ID `dQw4w9WgXcQ` is public test content, not personal watch history.
++
++| GET fixture | Observed result |
++| --- | --- |
++| SponsorBlock normal lookup, public ID, sponsor category | HTTP 404; response alone does not show a client defect or security issue |
++| SponsorBlock private lookup, SHA-256 prefix `5f6b` | HTTP 200, JSON list of 43 entries |
++| YouTube oEmbed for same public ID | HTTP 200 |
++| AiSList GitHub blocklist | HTTP 200 |
++| AiSList GitHub warnlist | HTTP 200 |
++
++Exact request URLs, response metadata and bounded body hashes/shapes are in
++[controlled observations](URL_NETWORK_EVIDENCE/CONTROLLED_NETWORK_OBSERVATIONS.json).
++Bodies were not retained. Services could see the audit PC's public IP/timing.
++No DeArrow request, POST/report/vote, suspicious candidate probe or credential test
++was sent. These are **five PC observations**, not app/iPhone traffic, TLS pinning
++validation or runtime redirect-policy tests.
++
++## 9. Remaining device tests and exact limitations
++
++NOT TESTED: signed launch and Google login/account switching; per-feature traffic
++with toggles off/on; cookies/Authorization on real redirects; mode-2 HLS parent,
++child manifests and segments; background requests; Cast/LAN/IPv6; actual telemetry,
++ATT/IDFA, WS/WSS and server-selected routes. Use a disposable authorized test
++account and redact captures; never upload real credentials into audit artifacts.
++
++The inventory is complete for the scanner's retained lexical output over every
++outer member, **not a claim that every possible runtime endpoint was recovered**.
++Proprietary compressed formats, encrypted strings, arbitrary encodings, executable
++control flow and dynamically returned URLs are not exhaustively decoded. Raw
++string matches do not establish DNS ownership, active connections, permission use,
++request bodies or exploitability. No 100% security claim is made.
++
++**Conclusion: findings identified — one Low conditional HLS validation gap and
++three Informational observations. Both IPAs and application source remain unchanged;
++actual iPhone network behavior remains untested.**

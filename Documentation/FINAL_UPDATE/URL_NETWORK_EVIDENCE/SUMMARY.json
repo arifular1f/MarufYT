@@ -1,0 +1,120 @@
+{
+  "inputs": {
+    "Latest": {
+      "path": "release/MarufYT-FinalUpdate-1.1.4+marufyt.8/Latest-YouTube-21.43.5/MarufYT-1.1.4+marufyt.8-YouTube-21.43.5-ROOTLESS-signing-required.ipa",
+      "sha256": "576ca959641e5ba1c285c422d19b1e545d5f838b36a8be7109564b22b2cb46e8",
+      "bytes": 144600242,
+      "zipCRCValid": true,
+      "fileCount": 7565,
+      "afterSHA256": "576ca959641e5ba1c285c422d19b1e545d5f838b36a8be7109564b22b2cb46e8"
+    },
+    "Stable": {
+      "path": "release/MarufYT-FinalUpdate-1.1.4+marufyt.8/Stable-YouTube-21.39.4/MarufYT-1.1.4+marufyt.8-YouTube-21.39.4-ROOTLESS-signing-required.ipa",
+      "sha256": "05a13cb11f555a64889a19a702028b235a363e50dc489e1dd7728942f7ddeaf7",
+      "bytes": 133433175,
+      "zipCRCValid": true,
+      "fileCount": 6893,
+      "afterSHA256": "05a13cb11f555a64889a19a702028b235a363e50dc489e1dd7728942f7ddeaf7"
+    }
+  },
+  "allInputsUnchanged": true,
+  "uniqueFilesScanned": 8318,
+  "fileCoverageRows": 14458,
+  "records": 38853,
+  "occurrenceRows": 444437,
+  "counts": [
+    {
+      "kind": "IPv4-candidate",
+      "comparison": "Common",
+      "count": 22
+    },
+    {
+      "kind": "IPv6-candidate",
+      "comparison": "Common",
+      "count": 104
+    },
+    {
+      "kind": "IPv6-candidate",
+      "comparison": "Latest-only",
+      "count": 5
+    },
+    {
+      "kind": "IPv6-candidate",
+      "comparison": "Stable-only",
+      "count": 16
+    },
+    {
+      "kind": "URL",
+      "comparison": "Common",
+      "count": 795
+    },
+    {
+      "kind": "URL",
+      "comparison": "Latest-only",
+      "count": 8
+    },
+    {
+      "kind": "URL",
+      "comparison": "Stable-only",
+      "count": 15
+    },
+    {
+      "kind": "custom-URI",
+      "comparison": "Common",
+      "count": 120
+    },
+    {
+      "kind": "custom-URI",
+      "comparison": "Latest-only",
+      "count": 9
+    },
+    {
+      "kind": "declared-custom-scheme",
+      "comparison": "Common",
+      "count": 32
+    },
+    {
+      "kind": "declared-custom-scheme",
+      "comparison": "Stable-only",
+      "count": 22
+    },
+    {
+      "kind": "domain-candidate",
+      "comparison": "Common",
+      "count": 35461
+    },
+    {
+      "kind": "domain-candidate",
+      "comparison": "Latest-only",
+      "count": 1345
+    },
+    {
+      "kind": "domain-candidate",
+      "comparison": "Stable-only",
+      "count": 899
+    }
+  ],
+  "encodedRows": 187,
+  "redactedRecords": 28,
+  "networkRequestsSent": 0,
+  "payloadsExecuted": 0,
+  "limits": [
+    "Lexical candidates are not DNS ownership/connection/reachability proof.",
+    "First byte offset is the enclosing printable string/container, not necessarily the exact token byte.",
+    "UTF16 raw scanning covers ASCII-range text (both alignments can create noisy/truncated candidates); complete Mach-O Unicode sections and decoded plist/JSON values are traversed as Unicode.",
+    "One bounded nested ZIP/gzip layer; no script execution, arbitrary deobfuscation, proprietary asset decompression or encrypted-string recovery.",
+    "Any member/encoding that cannot be decoded remains covered by raw string scanning only."
+  ],
+  "URLSchemeCounts": {
+    "http": 221,
+    "https": 596,
+    "ws": 1
+  },
+  "URLAuthorityHostCount": 278,
+  "versionOnlyURLCount": 23,
+  "MarufYTComponentURLCount": 39,
+  "redactedRecordsAfterDecodedQueryNameProtection": 28,
+  "dataSafety": "Credential-shaped URL values redacted, including percent-encoded query names. Raw hashes retained; no surrounding binary strings dumped.",
+  "functionMapping": "Known tweak call sites annotated; original host/library function attribution remains UNKNOWN unless source evidence exists.",
+  "observationNote": "Extractor sent zero requests. Separate CONTROLLED_NETWORK_OBSERVATIONS.json records exactly five GET public-fixture probes, not app traffic."
+}

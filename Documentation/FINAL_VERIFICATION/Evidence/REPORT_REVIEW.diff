@@ -1,0 +1,360 @@
+diff --git "a/Documentation\\FINAL_VERIFICATION\\FINAL_VERIFICATION_REPORT.md" "b/Documentation\\FINAL_VERIFICATION\\FINAL_VERIFICATION_REPORT.md"
+new file mode 100644
+index 0000000..881524b
+--- /dev/null
++++ "b/Documentation\\FINAL_VERIFICATION\\FINAL_VERIFICATION_REPORT.md"
+@@ -0,0 +1,354 @@
++# MarufYT — final security and runtime verification status
++
++Date: 2026-11-03, Asia/Kuala_Lumpur. Developer: arifular1f.
++Version: `1.1.4+marufyt.8`, separate **U01-HLS** rebuild.
++Branch: `fix/hls-manifest-validation`.
++Commit: `743f307b816d275fef88d34a36ba546415015753`.
++
++**Source/fixture and package verification passed. Physical iPhone runtime acceptance
++is NOT TESTED.** No device capture was performed, no new workflow/build was started,
++and no source, version, branch/ref or release file was changed. This report and its
++supporting evidence are new documentation only. No claim of 100% security is made.
++
++## 1. Evidence and completed checks
++
++| Check | Actual result and scope |
++| --- | --- |
++| Existing local test suite rerun | 31 cases: **29 passed, 2 native C cases skipped** because no Windows C compiler is available; [log](Evidence/REGRESSION_TESTS.txt) |
++| Source/static checks rerun | Passed, zero failures; [log](Evidence/SOURCE_CHECKS.txt) |
++| U-01 / F-01–F-04 source contracts | All five security source-contract tests passed within that suite; checks include guard placement and prior security controls |
++| Existing native CI evidence reused | [Run 41553403138](https://github.com/arifular1f/MarufYT/actions/runs/41553403138), exact commit above: **31 tests passed**, required native C tests ran; **88 Foundation checks, zero failures**; source/secret checks and ROOTLESS compilation passed. This run was not repeated for this task |
++| Secret scan rerun | Zero findings across 35 refs, 203 commits and 1,795 blobs; [result](Evidence/SECRET_SCAN.json). Pattern scanning is not a guarantee every possible secret is absent |
++| Latest and Stable IPA verification | SHA-256, ZIP CRC, unique member lists, host identity/version, arm64 replacement, injection load and dependency loads passed independently |
++| Preservation | All **142** old .8 manifest entries and **25** U01-HLS manifest entries still match; tracked file hashes and every local/remote-tracking branch ref match the starting snapshot |
++| Network capture / device execution | **Not performed**. No capture file was located in the repository's indexed/unignored file search; that is not an exhaustive search of the computer or conversation attachments |
++
++Details: [artifact/state verification](Evidence/ARTIFACT_AND_STATE_VERIFICATION.json),
++[starting state](Evidence/STATE_BEFORE.json). Native CI logs/results are preserved
++under `Documentation/FINAL_UPDATE/U01_FIX_EVIDENCE/` and in the existing U01 release's
++`Evidence/`. These are macOS fixtures, not tests of the YouTube process on an iPhone.
++
++The test suite runs once against the common source. Each IPA is then verified
++separately; this is not two independent device executions of the suite.
++
++## 2. Latest versus Stable and exact artifacts
++
++Output root, unchanged:
++`C:\Users\oriyan\Desktop\ios App\release\MarufYT-U01-HLS-743f307\`.
++
++| Build | IPA path relative to output root | SHA-256 |
++| --- | --- | --- |
++| Latest 21.43.5 | `Latest-YouTube-21.43.5/MarufYT-1.1.4+marufyt.8-U01-HLS-YouTube-21.43.5-ROOTLESS-signing-required.ipa` | `194fc44cd9d0449d185a46943a5754a9171c6e625c3cd062b6de5a47c7a8d670` |
++| Stable 21.39.4 | `Stable-YouTube-21.39.4/MarufYT-1.1.4+marufyt.8-U01-HLS-YouTube-21.39.4-ROOTLESS-signing-required.ipa` | `bce8cc2679e0a223fdb5fc20d5342005d74dac437631cacbf4dc146a4838d2cf` |
++
++Both use the same injected dylib, SHA-256
++`da1f68a97957076d21816c6ed488db7e352487ae906e1263f49d29feafbdae2d`.
++They retain `com.google.ios.youtube`, their respective host versions and one
++`@rpath/MarufYT.dylib` load. The **only member changed from each original .8 IPA**
++is `Payload/YouTube.app/Frameworks/MarufYT.dylib`. Host executables, settings/resources,
++frameworks, Info.plists and embedded signing metadata remain byte-identical.
++All non-dylib DEB payload files also match the previous package.
++
++This supports **structural compatibility** with both hosts. Signing, launch,
++Google sessions, playback and feature compatibility remain device tests. Effective
++entitlements may change when the unsigned IPA is signed; inspecting old embedded
++metadata does not validate the eventual signing profile or granted permissions.
++
++## 3. HLS validation results
++
++| Requirement | Source / fixture evidence | Device status |
++| --- | --- | --- |
++| Valid HTTPS accepted | `Tweak/Features/Streaming/HLSURLPolicy.h:8`, shared `MarufYTIsSecureURL`; Foundation fixtures cover DNS, IPv4, IPv6 and explicit 443 | NOT TESTED |
++| HTTP and other schemes rejected | HTTP, file, JavaScript, relative/schemeless fixture cases; HTTPS is mandatory | NOT TESTED |
++| Invalid hosts rejected | Original authority checked before trusting normalized `NSURL.host`; bad/empty labels, underscore, hyphens, encoded ambiguity, bad IPs, invalid bracketed IPv6 and overlong label fixtures | NOT TESTED |
++| Embedded credentials rejected | Shared policy plus raw-authority check; username-only and username/password fixtures | NOT TESTED |
++| Ports restricted | Absent port or decimal 443 only; source rejects empty/nondecimal/unacceptable explicit ports; fixtures include accepted 443 and rejected 80/444 | NOT TESTED |
++| Empty/malformed input rejected | Empty/nil, missing host, malformed examples and non-string objects covered; not exhaustive proof of every conceivable URL representation | NOT TESTED |
++| Validate before cache insertion | `HLSPlayback.mm:178–182`, invalid input becomes nil before cache write/readiness; source contract verifies order | NOT TESTED |
++| Validate cached entries | `:126–128` evicts invalid/expired entries; `:143` requires a valid URL for ready fast path | NOT TESTED |
++| Validate before player mutation | `:238–245`: select, recheck, then original-response retention, `setHlsManifestURL:` and flags; source contract verifies ordering | NOT TESTED |
++| Fallback | `MarufYTSelectHLSManifestURL` prefers valid replacement, otherwise valid native URL, otherwise nil. Foundation fixtures exercise all selection outcomes. Early return precedes player mutations | Native playback behavior NOT TESTED |
++
++If no acceptable URL exists, MarufYT declines its replacement and leaves the host's
++streaming state untouched. This does not prohibit the original host from handling
++its own data. Hostname syntax validation is **not** a Google-only allowlist,
++DNS/ownership check, private-address block or proof that an HTTPS host is trustworthy.
++
++### Downstream inspection
++
++`HLSPlayback.mm:285–313`, `YTKACEHLSFilterManifest` / `YTKACEHLSParseString`, inspect
++manifest text to omit unsupported VP9 variants. They do **not** enforce URL policy
++on child playlists, segment URIs, HLS key/map URIs or native-player redirects.
++The native host/AVFoundation transport receives the selected manifest. Its later
++URL resolution, credentials, cookie behavior and redirects are **unverified**.
++
++`Tweak/Runtime/URLPolicy.mm:10–28` and SABR/DirectDownloader/DownloadCoordinator
++delegates do validate their own redirects. SABR also checks its protobuf redirect
++at `SABRDownloader.mm:1421`. These are separate paths: their tests cannot establish
++that native HLS children or redirects use the same delegate. **No downstream
++security fix or runtime pass is claimed.**
++
++## 4. F-01–F-04 regression disposition
++
++| Control | Preserved source evidence and existing fixtures | Remaining device question |
++| --- | --- | --- |
++| F-01: request-state storage/cleanup | `Runtime/SecurityLifecycle.mm:15–55`, exact legacy-file cleanup, request-state clearing and lazy 900-second inactivity expiry; native fixture tests cleanup/expiry/account wrappers. No authenticated seed restoration/raw request dump in download source | Do actual logout/switch paths invoke the hooks, cancel live state, delete legacy files and avoid stale cross-account reuse? Native Google Keychain/server credentials are outside this deletion; backups and old exports are not recalled |
++| F-02: routing/credentials | `Runtime/URLPolicy.mm:10–28`, `NetworkRules.h`; generic cross-origin body replay refused, headers filtered; SABR trusted HTTPS Google video host boundary; default TLS trust not disabled | Observe real redirects and whether native HLS/host paths forward sensitive data; same-origin legitimate authentication remains allowed |
++| F-03: remote HTTPS | Guarded initial task checks, fixed HTTPS APIs and guarded download paths; local filesystem imports remain separate | Original host/AVFoundation traffic is not globally hooked; four inherited carrier HTTP exceptions remain |
++| F-04: diagnostics | `Downloads/DownloadLog.mm:68–159`, opt-in logging, object/template handling and redaction; lifecycle migrates old log format | Inspect actual diagnostics privately, using synthetic markers; redaction does not guarantee every arbitrary string or historical export is clean |
++
++Only the HLS source/header and focused tests differ from the audited base. The
++runtime URL policy, lifecycle, logging source and the above security fixes were not
++edited for U-01 or this verification. No additional source changes were made here.
++
++## 5. Network destination inventory and privacy checklist
++
++Complete original extraction and file/function mapping:
++[URL_NETWORK_AUDIT.md](../FINAL_UPDATE/URL_NETWORK_AUDIT.md) and its compressed
++annexes. All other IPA members are identical. A new limited raw-URI comparison
++of the changed dylib found **31 literal HTTP(S)/WS strings in each, no additions or
++removals** ([evidence](Evidence/DYLIB_URL_DELTA.json)); this does not re-run every
++decoder or prove identical dynamically selected traffic. The original scanner's
++39 component URL records include alternate decodings and dependency resources.
++
++The following are source-derived **expected/possible** destinations, not captured
++connections. Servers can see source IP/timing/client metadata. Defaults can differ
++from saved user settings; record actual toggles for each run.
++
++| Scenario | Destinations and request types | Possible data / checks |
++| --- | --- | --- |
++| Normal playback | Native YouTube/Google APIs, `*.googlevideo.com`, `*.ytimg.com`, Google image hosts; GET/POST/streaming, possibly HTTP/3 | Video IDs, visitor/client context, signed media URLs; Google account state may be used by native host. Inventory is not a closed list |
++| Login / switching | Google account/YouTube services, e.g. `accounts.google.com`; HTTPS native authentication | Credentials/session tokens are sensitive. Use test accounts A/B, keep login transport unmodified and record only outcome; domains alone do not identify a MarufYT request |
++| Downloads | `youtubei.googleapis.com/youtubei/v1/{player,browse,guide}`, media CDN, images/captions; POST API/protobuf, GET/range media | Video/playlist/continuation, visitor/device context, possible PoToken/signed query; playlist browse can attach a Google bearer header to fixed Google origin. Never export values |
++| SponsorBlock normal | GET `sponsor.ajay.app/api/skipSegments?videoID=…&categories=…` | Full video ID/categories. Enable only this integration; default is off |
++| SponsorBlock Private Lookup | GET same service `/api/skipSegments/{4hex}?categories=…` | First four hex characters of SHA-256(video ID), not full ID in lookup parameter. Private lookup defaults off; other enabled features can still send full video IDs |
++| SponsorBlock submission/vote | Explicit POST `/api/skipSegments` / `/api/voteOnSponsorTime` | Contributor ID, video/time/category or segment UUID/vote; privacy lookup mode does not anonymize submissions. Do not send live test submissions without a legitimate intended report |
++| DeArrow | GET `sponsor.ajay.app/api/branding`, `dearrow-thumb.ajay.app/api/v1/getThumbnail` | Full video ID and thumbnail timestamp; title/thumbnail replacements default off |
++| AiSList | GET `raw.githubusercontent.com/Override92/AiSList/main/AiSList/{aislist_blocklist,aislist_warnlist}.txt`; explicit POST `api.aisloplist.com` | Refresh receives lists; report sends channel handle/video URL/reporter name. Refresh can occur after opt-in without a per-request prompt; reporting may first use YouTube oEmbed |
++| Background audio | Native media/YouTube connections; optional enabled integrations | Compare foreground, background-playing, background-idle and force-quit separately; OS traffic continues independently |
++| HLS fix mode 2 | POST `youtubei.googleapis.com/.../player?prettyPrint=false`, then response-selected manifest/children | Video/visitor/client/device context. Parent guarded at cache/handoff; native redirect/child handling unknown |
++| Invalid URL fallback | No known public UI entry to supply arbitrary manifest strings | Fixture selection is verified. Actual invalid URL injection and branch execution are NOT TESTED; follow controlled-case instructions below |
++
++Both hosts retain original advertising/analytics-shaped strings, including Google
++ads/analytics/Firebase families. Latest has `ddl.app-ads-services.com` and
++`odf.app-ads-services.com` literals where Stable has an older Google conversion
++template; IDFA-related field names do not establish actual collection. Treat new
++observed domains as unresolved until tied to a call site/service, not automatically
++malicious. Inherited HTTP exceptions are `cpid.ddt.telenor.io`, `nwp.t-mobile.com`,
++`vaspbon-int.msg.t-mobile.com`, `vaspbonstg-int.msg.t-mobile.com`; use requires capture.
++
++## 6. Device execution procedure — NOT YET PERFORMED
++
++Target supplied by the user: iPhone 15 Pro Max / iOS 27.2. No device/OS was detected
++or validated here. Record actual model/OS, signing method, host build, settings and
++tool versions locally before testing. Verify unsigned IPA hashes above before
++signing; a signed IPA will have a different hash. Do not share signing credentials.
++
++Both apps have the same bundle ID and cannot be assumed to coexist independently.
++Test Latest and Stable sequentially. Record whether installation replaced an app or
++required removal; account/Keychain state may persist differently from app files.
++Use an owned test device and disposable authorized Google test accounts, with
++synthetic/nonpersonal content. Keep captures outside this repository in protected
++local storage. No UDID, account address, private key, token, cookie, visitor data,
++signed query or full response body belongs in the report.
++
++For **each build**, create timestamped cases N00–N11. Before each case record toggles
++and account alias A/B (never Gmail address), cold/warm cache and capture method.
++Use the same public video for comparisons and only downloadable content you may
++legitimately download. Record observed outcome and evidence; leave unexecuted cases
++NOT TESTED. All cases below currently have that status.
++
++| Case | Action and acceptance evidence |
++| --- | --- |
++| N00 baseline | Capture 2 min device idle, then 2 min app foreground with master/integrations off. Record OS/background noise and domains; master off is not identical to an unmodified app |
++| N01 playback | Play 5 min, seek, change quality/speed and reopen video; playback remains usable, capture media destinations/transport |
++| N02 accounts | With TLS interception off: sign in A, switch B, switch back, sign out; verify correct visible account/channel and absence of stale account-dependent results |
++| N03 downloads | One authorized video/audio/playlist attempt, cancel and retry; inspect destination/header-presence metadata privately; no crash or stale-account continuation after logout |
++| N04 SponsorBlock normal | Other integrations off; enable normal lookup, play a test video; record full-ID route only if actually visible. Cached absence of requests is inconclusive |
++| N05 Private Lookup | Enable private lookup, repeat a comparable uncached case; verify four-hex route/categories locally. Do not infer failure from unrelated video IDs sent to Google or another enabled feature |
++| N06 DeArrow | Test titles then thumbnails separately; verify branding/thumbnail service and intended displayed result; compare against toggle-off baseline |
++| N07 AiSList | Enable relevant filter with documented cache state; observe refresh or acknowledge warm cache. Open/cancel reporting to check metadata lookup; do not post false reports |
++| N08 background | 5 min background playback, 5 min background idle, then force-quit/2 min idle; record timestamps, audio outcome and connections without attributing all OS traffic to app |
++| N09 HLS mode 2 | Enable mode 2, play/seek/change quality for VOD; identify actual HLS parent/children if decryptable and correlate requests, flags/log events and playback |
++| N10 invalid fallback | Use only an authorized controlled fixture method described below. Require proof the invalid response reached the U-01 path plus playback/no invalid outbound request; otherwise NOT TESTED |
++| N11 lifecycle | After activity, idle over 15 min, access feature to trigger lazy expiry; logout/switch/restart and retry. Check scoped cleanup, preserved settings/media and no stale request reuse |
++
++### A. Passive iPhone packet capture on a Mac
++
++Connect the unlocked phone by USB, trust the Mac and use compatible Xcode device
++support. Get its UDID locally from Xcode's Devices and Simulators window. Apple
++documents RVI capture of the device's full network stack; it is not per-app capture.
++[Apple packet-trace instructions](https://developer.apple.com/documentation/network/recording-a-packet-trace).
++
++```sh
++# Run on the capture Mac, not this Windows workspace. Replace the placeholder locally.
++DEVICE_UDID="REPLACE_WITH_LOCAL_UDID"
++mkdir -p "$HOME/MarufYT-private-captures"
++chmod 700 "$HOME/MarufYT-private-captures"
++rvictl -s "$DEVICE_UDID"
++# Use the interface printed above; rvi0 is an example, not a guaranteed index.
++sudo tcpdump -i rvi0 -n -s 0 -w "$HOME/MarufYT-private-captures/Latest-N01.pcap"
++# Perform only N01, then Ctrl-C. Repeat with a separate name per case/build.
++rvictl -x "$DEVICE_UDID"
++```
++
++If `rvictl`/pairing is unavailable, mark capture blocked and use compatible Apple
++tools; do not infer device results from this document. No capture commands were run
++here. On Windows, a Wi-Fi proxy below cannot replace RVI's all-stack visibility.
++
++Analyze a local copy in Wireshark. These read-only `tshark` examples export limited
++metadata, not raw URLs/headers/bodies; verify available fields with your installed
++tool. The TLS SNI field and QUIC dissector are documented by
++[Wireshark TLS reference](https://www.wireshark.org/docs/dfref/t/tls.html) and
++[QUIC reference](https://www.wireshark.org/docs/dfref/q/quic.html).
++
++```sh
++tshark -r Latest-N01.pcap -Y 'dns.flags.response == 0 && dns.qry.name' -T fields -e frame.time_relative -e dns.qry.name
++tshark -r Latest-N01.pcap -Y 'tls.handshake.type == 1' -T fields -e frame.time_relative -e tls.handshake.extensions_server_name
++tshark -r Latest-N01.pcap -Y 'quic || udp.port == 443' -T fields -e frame.time_relative -e ip.dst -e ipv6.dst -e udp.dstport
++tshark -r Latest-N01.pcap -Y 'http.request || http.response.code' -T fields -e frame.time_relative -e tcp.stream -e http.host -e http.request.method -e http.response.code
++tshark -r Latest-N01.pcap -Y 'websocket || http.response.code == 101' -T fields -e frame.time_relative -e tcp.stream
++```
++
++DNS caching/encrypted DNS can hide queries; ECH can hide the actual TLS hostname;
++QUIC/HTTP3 may evade TCP-only analysis. IP ownership, shared CDNs and SNI alone
++cannot identify a feature or its payload. WSS/HTTP2 extended CONNECT, HTTPS paths,
++status codes and redirects require decryptable traffic or other authorized
++instrumentation. No visible 101 or DNS query does not prove absence.
++
++### B. Optional selective Wi-Fi HTTPS inspection on Windows or Mac
++
++Use a locally installed mitmweb with its version/options recorded. On an isolated
++test Wi-Fi, bind the proxy to the PC's actual private LAN address and allow that
++port only from the test phone. Keep the web UI on loopback. Inspect optional-service
++TLS only at first; Google authentication remains pass-through. Regular mode and
++host-selection settings follow the official
++[proxy modes](https://docs.mitmproxy.org/stable/concepts/modes/) and
++[options](https://docs.mitmproxy.org/stable/concepts/options/) documentation.
++
++```powershell
++# Replace <PC_LAN_IP> locally; do not run with this literal placeholder.
++mitmweb --mode regular --listen-host <PC_LAN_IP> --listen-port 8080 --web-host 127.0.0.1 --web-port 8081 --set 'allow_hosts=^(sponsor\.ajay\.app|dearrow-thumb\.ajay\.app|raw\.githubusercontent\.com|api\.aisloplist\.com)(:443)?$'
++```
++
++On iPhone, select the test Wi-Fi's information page → Configure Proxy → Manual;
++enter that PC address/8080. Visit `http://mitm.it` in Safari and install only this
++test proxy's CA profile. Enable full trust under Settings → General → About →
++Certificate Trust Settings. UI labels may vary on the actual OS. These steps and
++the certificate/pinning limits are described in the official
++[mitmproxy certificate guide](https://docs.mitmproxy.org/stable/concepts/certificates/).
++Keep the proxy CA private key/configuration local and out of GitHub and reports.
++
++Keep normal upstream certificate validation enabled. Do not use trust-all options,
++patch pinning, alter Google security checks or modify the IPA. Do not save raw HAR,
++flow dumps or screenshots containing headers. Inspect locally and report only
++domain/path template, method/status, and sensitive-header **presence yes/no/unknown**.
++Proxy bypass/QUIC and certificate rejection mean partial coverage, not an app pass.
++For login/switching, turn the proxy off and retain passive capture only.
++
++### C. Redirect chains, HLS children and controlled fallback
++
++For decryptable flows, inspect each 3xx response's Location locally; record only
++scheme, destination domain and redacted path template. Correlate requests across
++connections, HTTP/2 streams and time. Record whether a body, Authorization or Cookie
++was forwarded, never its value. A TLS/SNI change alone is not proof of a redirect.
++Include HTTP/HTTPS downgrade, cross-origin and same-origin cases where observable.
++
++For an accessible HLS master, enumerate URI lines and URI attributes in
++`EXT-X-MEDIA`, `EXT-X-I-FRAME-STREAM-INF`, `EXT-X-KEY`, `EXT-X-MAP` and related tags;
++resolve relatives against each final parent URL. Record parent → child → segment/
++key domains and every redirect. Cache hits, adaptive selection and live playlists
++mean a single watch does not exercise every listed child. Test seek/quality change.
++
++There is **no verified normal UI input** for arbitrary manifest URLs. Do not claim
++an invalid test by merely opening a URL elsewhere. If a separately authorized,
++non-pinned anonymous player response can be intercepted, a fixture proxy may replace
++only its `streamingData.hlsManifestUrl` with an HTTP, malformed-host, credential,
++bad-port or empty fixture; use reserved `.invalid`/documentation addresses and no
++real credentials. This modifies test traffic, not source, but has **not been done**.
++Keep this separate from the natural-traffic baseline; limit any expanded TLS
++inspection to the exact test origin and use no personal account. Never bypass
++pinning if it prevents the case. Require evidence that mode 2/path was exercised;
++playback success alone is insufficient. If this cannot be established within the
++unchanged release, leave N10 NOT TESTED; existing Foundation fixtures remain the
++only executed invalid-URL/fallback evidence.
++
++If decrypting actual native HLS is impossible, record parent/child/redirect and
++credential behavior as **unknown**. Browser/curl tests of a copied manifest URL
++exercise those clients, not the signed iPhone app. After testing, disable the proxy,
++remove the test CA profile/full trust, stop the proxy/RVI and restore recorded
++settings. Keep raw captures private; export only sanitized observations using the
++[empty template](Evidence/NETWORK_OBSERVATIONS_TEMPLATE.csv).
++
++## 7. iPhone security checklist — all device checks NOT TESTED
++
++- **Permissions:** review Settings → Privacy & Security and the app's settings;
++  record allowed/denied states and repeat relevant features with denial. Both hosts
++  declare camera, microphone, when-in-use location, contacts, photo library, Apple
++  Music, Bluetooth, local network and tracking usage descriptions. A declaration
++  is not evidence permission was granted or data accessed. Test notification and
++  clipboard prompts where applicable; a clipboard capability is not a blanket
++  entitlement to read every other app's data.
++- **Privacy:** inspect App Privacy Report, if available/enabled, for app-attributed
++  sensor/network activity. Treat it as supporting metadata, not payload/redirect
++  evidence. Record ATT choice and background/cellular settings without claiming
++  tracker behavior from a settings switch alone.
++- **Files/cache:** inspect visible app Files locations without exporting personal
++  media. In an authorized accessible container, check Documents/Application Support/
++  Caches `YTKACE` roots for old `sabr-seed.plist` and `player-request.pb`, and temp
++  `ytkace-outgoing.pb` after launch/logout. Ordinary Files UI does not expose the
++  entire sandbox; inaccessible paths are NOT VERIFIED, not proven empty.
++- **Logout/expiry:** run N11; confirm signed-out UI, preserved legitimate media and
++  settings, no stale request reuse. Lazy expiry needs a getter/feature access after
++  inactivity. Native Google credentials, server revocation, backup copies and all
++  account-transition variants are outside fixture coverage.
++- **Diagnostics:** default logging off; briefly enable only for a controlled case,
++  inspect privately for synthetic marker leakage and URL/account/token-shaped text,
++  then disable/clear the log. Never include an actual secret in shared evidence.
++- **Background:** test audio allowed/denied, screen lock, idle and force quit;
++  distinguish active downloads/audio from optional API refresh and unrelated OS
++  traffic. Declared background modes are audio, fetch, external-accessory and
++  remote-notification; declaration is not actual scheduling evidence.
++- **Accounts/restart:** A → B → A, sign-out and cold restart; verify channel/account
++  identity locally, reauthentication and no inherited stale download authorization.
++  No jailbreak/container extraction, Keychain dump or private credential export is
++  required by this plan. Record inaccessible internals as unknown.
++- **Keychain/signing:** there is no ordinary per-app Keychain permission toggle to
++  use as an access test. Review the actual signed keychain-access groups locally
++  when tooling permits; session persistence alone does not identify which tokens
++  exist or prove their deletion. Do not export stored credentials.
++
++## 8. Attribution and evidence rules
++
++Compare identical cases with integrations off, then one on, with baseline idle and
++time markers. Distinct SponsorBlock/DeArrow/AiSList route families plus inspected
++call sites support attribution. Google domains are shared: MarufYT's player/browse,
++oEmbed and thumbnail requests can use the same hosts as native YouTube. Master-off
++still loads the tweak and does not isolate every helper. HTTP2/QUIC multiplexing,
++caches, prefetch and system traffic limit timing-only conclusions.
++
++Classify each observation as **native-likely**, **MarufYT-source-matched**,
++**system/other**, or **unresolved**, with confidence and evidence. Escalate an
++unexpected destination for source/response-chain review before labeling it
++malicious. Raw host strings and optional requests are not proof of exfiltration.
++Redact identifying hostname labels as well as URL/query/header values before any
++observation is shared. Keep raw PCAPs and decrypted data outside the repository.
++
++## 9. Final release status and limitations
++
++The two existing unsigned U01-HLS IPAs remain unchanged and are ready for the user's
++signing/device acceptance process. **They are not runtime-verified releases.** U-01
++cache/handoff remediation is supported by source order, native Foundation fixtures,
++matching compiled artifacts and independent per-IPA structure/integrity checks.
++F-01–F-04 remain intact within their tested source/fixture scope. No new confirmed
++vulnerability was established by these checks; this is not proof none exists.
++
++U-02 carrier HTTP policy, U-03 integration/privacy observations and U-04 opaque/
++dynamic destination limitations remain. Physical playback, Google login/switching,
++logout coverage, permissions, effective entitlements, background behavior, native
++HLS child/redirect security, real header forwarding and actual telemetry remain
++**NOT TESTED or unresolved**. There are no device capture results to report.
++
++No application source or version changes, rebuilds, merges, pushes or protected
++branch modifications were performed during this final verification. Only the new
++`Documentation/FINAL_VERIFICATION/` report/evidence was written.

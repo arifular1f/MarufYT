@@ -1,0 +1,215 @@
+diff --git a/Tests/native/test_security_foundation.mm b/Tests/native/test_security_foundation.mm
+index b899b5c..0492054 100644
+--- a/Tests/native/test_security_foundation.mm
++++ b/Tests/native/test_security_foundation.mm
+@@ -8,6 +8,7 @@
+ #import "SecurityLifecycle.h"
+ #import "Hooking.h"
+ #import "DownloadLog.h"
++#import "../../Tweak/Features/Streaming/HLSURLPolicy.h"
+ #include <stdio.h>
+ #include <initializer_list>
+ static unsigned checks, failures, cleared, signedOut;
+@@ -35,6 +36,38 @@ static NSMutableURLRequest *Request(NSString *url) {
+     return [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+ }
+ int main(void) { @autoreleasepool {
++    // U-01: execute the exact cache/handoff helper, without UIKit or network I/O.
++    for (NSString *url in @[@"https://manifest.googlevideo.com/api/manifest/hls_playlist/id/fixture",
++                            @"HTTPS://rr1.googlevideo.com:443/a?fixture=1",
++                            @"https://media.example.invalid/playlist.m3u8",
++                            @"https://192.0.2.1:443/a.m3u8",
++                            @"https://[2001:db8::1]:443/a.m3u8"])
++        CHECK(MarufYTIsValidHLSManifestURL(url));
++    NSUInteger invalidHLSFixture = 0;
++    for (id url in @[@"", @"http://media.example.invalid/a", @"file:///tmp/a.m3u8",
++                    @"javascript:fixture", @"//media.example.invalid/a", @"https:fixture",
++                    @"https:///", @"https://user:pass@media.example.invalid/a",
++                    @"https://user@media.example.invalid/a", @"https://media.example.invalid:80/a",
++                    @"https://media.example.invalid:444/a", @"https://bad_host.invalid/a",
++                    @"https://bad..invalid/a", @"https://-bad.invalid/a", @"https://bad-.invalid/a",
++                    @"https://bad%00.invalid/a", @"https://bad%20host.invalid/a",
++                    @"https://999.999.999.999/a", @"https://[not-an-ip]/a", @42, NSNull.null])
++    {
++        BOOL accepted = MarufYTIsValidHLSManifestURL(url);
++        if (accepted) fprintf(stderr, "Unexpected accepted HLS fixture index %lu\n", (unsigned long)invalidHLSFixture);
++        CHECK(!accepted);
++        ++invalidHLSFixture;
++    }
++    NSString *longLabel = [@"a" stringByPaddingToLength:64 withString:@"a" startingAtIndex:0];
++    CHECK(!MarufYTIsValidHLSManifestURL([NSString stringWithFormat:@"https://%@.invalid/a", longLabel]));
++    CHECK(!MarufYTIsValidHLSManifestURL(nil));
++    NSString *nativeHLS = @"https://manifest.googlevideo.com/native.m3u8";
++    NSString *visionHLS = @"https://manifest.googlevideo.com/vision.m3u8";
++    CHECK([MarufYTSelectHLSManifestURL(visionHLS, nativeHLS) isEqual:visionHLS]);
++    CHECK([MarufYTSelectHLSManifestURL(@"http://untrusted.invalid/a", nativeHLS) isEqual:nativeHLS]);
++    CHECK([MarufYTSelectHLSManifestURL(nil, nativeHLS) isEqual:nativeHLS]);
++    CHECK(!MarufYTSelectHLSManifestURL(@"http://untrusted.invalid/a", @"file:///tmp/a"));
++    CHECK(!MarufYTSelectHLSManifestURL(nil, nil));
+     for (NSString *url in @[@"https://example.invalid/a", @"HTTPS://example.invalid:443/a"]) CHECK(MarufYTIsSecureURL([NSURL URLWithString:url]));
+     for (NSString *url in @[@"http://example.invalid", @"//example.invalid/path", @"https:example.invalid", @"file:///tmp/test", @"https://u:p@example.invalid", @"https://example.invalid:444"]) CHECK(!MarufYTIsSecureURL([NSURL URLWithString:url]));
+     CHECK(!MarufYTIsTrustedMediaURL([NSURL URLWithString:@"https://googlevideo.com%00.attacker.invalid"]));
+diff --git a/Tests/test_security_fixes.py b/Tests/test_security_fixes.py
+index 635cc9a..b7a53b3 100644
+--- a/Tests/test_security_fixes.py
++++ b/Tests/test_security_fixes.py
+@@ -10,6 +10,22 @@ def read(name):
+ 
+ 
+ class SecurityFixContracts(unittest.TestCase):
++    def test_hls_validation_precedes_cache_and_native_mutations(self):
++        source = read("Tweak/Features/Streaming/HLSPlayback.mm")
++        self.assertIn('!MarufYTIsValidHLSManifestURL(entry[@"url"])', source)
++        self.assertIn('MarufYTIsValidHLSManifestURL(YTKACEHLSCache[videoID][@"url"])', source)
++        fetch = source[source.index('static void YTKACEHLSFetchVisionThen(NSString *videoID, void (^done)(BOOL ready)) {'):]
++        self.assertLess(fetch.index('if (!MarufYTIsValidHLSManifestURL(hls)) hls = nil;'),
++                        fetch.index('YTKACEHLSCache[videoID] ='))
++        swap = source[source.index('static void YTKACEHLSSwap(id data) {'):]
++        self.assertIn('MarufYTSelectHLSManifestURL(vision, ios)', swap)
++        guard = swap.index('if (!MarufYTIsValidHLSManifestURL(chosen)) return;')
++        for mutation in ('YTKACEHLSKeepOriginal(videoID, data);', ')(streaming, setHLS, chosen)',
++                         ')(streaming, setSABR, NO)', ')(streaming, setOnesie, NO)'):
++            self.assertLess(guard, swap.index(mutation))
++        policy = read('Tweak/Features/Streaming/HLSURLPolicy.h')
++        self.assertIn('MarufYTIsSecureURL(url)', policy)
++
+     def test_no_authenticated_seed_persistence_or_raw_protobuf_dump(self):
+         sabr = read("Tweak/Features/Downloads/SABRDownloader.mm")
+         hooks = read("Tweak/Features/Downloads/DownloadHooks.mm")
+diff --git a/Tweak/Features/Streaming/HLSPlayback.mm b/Tweak/Features/Streaming/HLSPlayback.mm
+index 0567841..e4d9924 100644
+--- a/Tweak/Features/Streaming/HLSPlayback.mm
++++ b/Tweak/Features/Streaming/HLSPlayback.mm
+@@ -1,4 +1,5 @@
+ #import "../../Runtime/URLPolicy.h"
++#import "HLSURLPolicy.h"
+ #import "../../YTKACE.h"
+ #import "../../Runtime/Hooking.h"
+ #import "../../Runtime/Preferences.h"
+@@ -122,7 +123,8 @@ static NSString *YTKACEHLSCachedURL(NSString *videoID) {
+     @synchronized (YTKACEHLSCache) {
+         NSDictionary *entry = YTKACEHLSCache[videoID];
+         if (entry == nil) return nil;
+-        if (NSDate.date.timeIntervalSince1970 - [entry[@"time"] doubleValue] > YTKACEHLSCacheLifetime) {
++        if (!MarufYTIsValidHLSManifestURL(entry[@"url"]) ||
++            NSDate.date.timeIntervalSince1970 - [entry[@"time"] doubleValue] > YTKACEHLSCacheLifetime) {
+             [YTKACEHLSCache removeObjectForKey:videoID];
+             return nil;
+         }
+@@ -138,7 +140,7 @@ static void YTKACEHLSFetchVision(NSString *videoID) {
+ 
+ static void YTKACEHLSFetchVisionThen(NSString *videoID, void (^done)(BOOL ready)) {
+     @synchronized (YTKACEHLSCache) {
+-        const BOOL cached = YTKACEHLSCache[videoID] != nil;
++        const BOOL cached = MarufYTIsValidHLSManifestURL(YTKACEHLSCache[videoID][@"url"]);
+         if (cached) {
+             if (done != nil) done(YES);
+             return;
+@@ -171,6 +173,9 @@ static void YTKACEHLSFetchVisionThen(NSString *videoID, void (^done)(BOOL ready)
+             NSDictionary *streaming = [root[@"streamingData"] isKindOfClass:NSDictionary.class]
+                 ? root[@"streamingData"] : @{};
+             NSString *hls = [streaming[@"hlsManifestUrl"] isKindOfClass:NSString.class] ? streaming[@"hlsManifestUrl"] : nil;
++            // Treat an invalid manifest like a missing result, including the
++            // fallback completion. Never cache or announce it as available.
++            if (!MarufYTIsValidHLSManifestURL(hls)) hls = nil;
+             @synchronized (YTKACEHLSCache) {
+                 [YTKACEHLSPending removeObject:videoID];
+                 if (hls.length != 0) {
+@@ -230,9 +235,10 @@ static void YTKACEHLSSwap(id data) {
+         ![streaming respondsToSelector:setOnesie]) return;
+     NSString *ios = YTKACEHLSGet(streaming, @"hlsManifestURL");
+     NSString *vision = YTKACEHLSCachedURL(videoID);
+-    NSString *chosen = vision.length != 0 ? vision : ([ios isKindOfClass:NSString.class] ? ios : nil);
++    NSString *chosen = MarufYTSelectHLSManifestURL(vision, ios);
+     YTKACEHLSFetchVision(videoID);
+-    if (chosen.length == 0) return;
++    // An invalid replacement must leave native streaming/flags untouched.
++    if (!MarufYTIsValidHLSManifestURL(chosen)) return;
+     YTKACEHLSKeepOriginal(videoID, data);
+     ((void (*)(id, SEL, id))objc_msgSend)(streaming, setHLS, chosen);
+     ((void (*)(id, SEL, BOOL))objc_msgSend)(streaming, setSABR, NO);
+@@ -241,9 +247,9 @@ static void YTKACEHLSSwap(id data) {
+     if ([formats respondsToSelector:@selector(removeAllObjects)]) [formats removeAllObjects];
+     @synchronized (YTKACEHLSSources) {
+         if (YTKACEHLSSources.count > 50) [YTKACEHLSSources removeAllObjects];
+-        YTKACEHLSSources[videoID] = vision.length != 0 ? @"vision" : @"ios";
++        YTKACEHLSSources[videoID] = [chosen isEqualToString:vision] ? @"vision" : @"ios";
+     }
+-    YTKACEDownloadLog(@"hls", @"swap video=%@ source=%@", videoID, vision.length != 0 ? @"vision" : @"ios");
++    YTKACEDownloadLog(@"hls", @"swap video=%@ source=%@", videoID, [chosen isEqualToString:vision] ? @"vision" : @"ios");
+ }
+ 
+ static id YTKACEHLSInitFull(id self, SEL _cmd, id data, id date, id offline, id state, BOOL trailer,
+diff --git a/Tweak/Features/Streaming/HLSURLPolicy.h b/Tweak/Features/Streaming/HLSURLPolicy.h
+new file mode 100644
+index 0000000..9929475
+--- /dev/null
++++ b/Tweak/Features/Streaming/HLSURLPolicy.h
+@@ -0,0 +1,67 @@
++// Copyright (c) 2026 arifular1f. MIT License; see LICENSE.
++#pragma once
++#import "../../Runtime/URLPolicy.h"
++#include <arpa/inet.h>
++
++// Only validates URLs MarufYT caches/injects. Does not hook the host's network
++// stack or claim to validate redirects or URLs inside a manifest.
++static inline BOOL MarufYTIsValidHLSManifestURL(id value) {
++    if (![value isKindOfClass:NSString.class] || [value length] == 0) return NO;
++    NSURL *url = [NSURL URLWithString:value];
++    if (!MarufYTIsSecureURL(url)) return NO;
++    // Validate the original authority too: Foundation may normalize malformed
++    // bracketed hosts into a valid-looking DNS name before exposing URL.host.
++    NSRange separator = [value rangeOfString:@"://"];
++    if (separator.location == NSNotFound) return NO;
++    NSUInteger start = NSMaxRange(separator);
++    NSRange end = [value rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"/?#"]
++                                       options:0 range:NSMakeRange(start, [value length] - start)];
++    NSString *authority = [value substringWithRange:NSMakeRange(start,
++        (end.location == NSNotFound ? [value length] : end.location) - start)];
++    if ([authority containsString:@"%"] || [authority containsString:@"@"]) return NO;
++    NSString *host = authority;
++    NSString *port = nil;
++    if ([host hasPrefix:@"["]) {
++        NSRange close = [host rangeOfString:@"]"];
++        if (close.location == NSNotFound) return NO;
++        NSString *tail = [host substringFromIndex:NSMaxRange(close)];
++        if (tail.length != 0) {
++            if (![tail hasPrefix:@":"]) return NO;
++            port = [tail substringFromIndex:1];
++        }
++        host = [host substringWithRange:NSMakeRange(1, close.location - 1)];
++        struct in6_addr address;
++        if (inet_pton(AF_INET6, host.UTF8String, &address) != 1) return NO;
++    } else {
++        NSArray<NSString *> *parts = [host componentsSeparatedByString:@":"];
++        if (parts.count > 2) return NO;
++        host = parts.firstObject;
++        if (parts.count == 2) port = parts.lastObject;
++    }
++    if (port != nil && (port.length == 0 || port.integerValue != 443 || [port rangeOfCharacterFromSet:
++        [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]].location != NSNotFound)) return NO;
++    if ([host containsString:@":"]) {
++        struct in6_addr address;
++        return inet_pton(AF_INET6, host.UTF8String, &address) == 1;
++    }
++    if ([host hasSuffix:@"."]) host = [host substringToIndex:host.length - 1];
++    if (host.length == 0 || host.length > 253) return NO;
++    if ([host containsString:@"."] && [host rangeOfCharacterFromSet:
++        [[NSCharacterSet characterSetWithCharactersInString:@"0123456789."] invertedSet]].location == NSNotFound) {
++        struct in_addr address;
++        return inet_pton(AF_INET, host.UTF8String, &address) == 1;
++    }
++    NSCharacterSet *invalid = [[NSCharacterSet characterSetWithCharactersInString:
++        @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-"] invertedSet];
++    for (NSString *label in [host componentsSeparatedByString:@"."]) {
++        if (label.length == 0 || label.length > 63 || [label hasPrefix:@"-"] ||
++            [label hasSuffix:@"-"] || [label rangeOfCharacterFromSet:invalid].location != NSNotFound)
++            return NO;
++    }
++    return YES;
++}
++
++static inline NSString *MarufYTSelectHLSManifestURL(id preferred, id native) {
++    if (MarufYTIsValidHLSManifestURL(preferred)) return preferred;
++    return MarufYTIsValidHLSManifestURL(native) ? native : nil;
++}
